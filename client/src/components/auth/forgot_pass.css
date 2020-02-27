@@ -1,0 +1,25 @@
+
+div.myborder {
+    outline-style: solid;
+    height:50%;
+    outline-color:rgb(16, 77, 116);
+  }
+
+  div.subhead {
+    background-color: rgb(16, 77, 116);
+    transform: skew(20deg); /* SKEW */
+    width: 35%;
+    height: 15%;
+  }
+  
+  p.lead {
+    display: block; /* block or inline-block is needed */
+    text-decoration: none;
+    padding: 5px 10px;
+    
+    font: 30px/1 sans-serif;
+    transform: skew(-20deg); /* UNSKEW */
+    color: white;
+  }
+
+  
