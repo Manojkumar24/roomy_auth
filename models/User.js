@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+
   avatar: {
     type: String
   },
@@ -23,10 +24,9 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   isVerified: { type: Boolean, default: false },
+  isOwner: { type: Boolean, default: false },
   passwordResetToken: String,
   passwordResetExpires: Date
 });
 
-
 module.exports = User = mongoose.model('user', UserSchema);
-

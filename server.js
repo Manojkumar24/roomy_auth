@@ -21,11 +21,17 @@ app.use(express.json({ extend: false }));
 //routes
 app.use('/api/users', require('./routes/api/users'));
 
+app.use('/api/users_cust', require('./routes/api/users'));
+
+
 app.use('/api/profile', require('./routes/api/profile'));
 
 app.use('/api/posts', require('./routes/api/posts'));
 
 app.use('/api/auth', require('./routes/api/auth'));
+
+
+app.use('/api/auth_cust', require('./routes/api/auth_cust'));
 
 app.use('/api/fg', require('./routes/api/fg'));
 

@@ -2,10 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
+import { register_cust } from '../../actions/auth';
 import PropTypes from 'prop-types';
-import "./register.css";
-const Register = ({ setAlert, register, isAuthenticated }) => {
+import "./register_cust.css";
+const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,7 +22,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      register({ name, email, password });
+      register_cust({ name, email, password });
     }
   };
 
@@ -32,7 +32,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   return (
     <Fragment className="bg-mypale">
       
-        <h1 className='large text-primary'>Owner Sign Up</h1>
+        <h1 className='large text-primary'>Customer Sign Up</h1>
       
       <div className='myborder'>
         <div className="subhead">
@@ -79,19 +79,19 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                 onChange={e => onChange(e)}
               />
             </div>
-            <input type='submit' className='btn btn-primary' value='Register' />
+            <input type='submit' className='btn btn-primary' value='Customer Register' />
           </form>
         </div>
       <p className='my-1'>
-        Already have an account? <Link to='/login'>Sign In</Link>
+        Already have an account? <Link to='/login_cust'>Sign In</Link>
       </p>
     </Fragment>
   );
 };
 
-Register.propTypes = {
+Register_Cust.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
+  register_cust: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
 
@@ -101,5 +101,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setAlert, register }
-)(Register);
+  { setAlert, register_cust }
+)(Register_Cust);
