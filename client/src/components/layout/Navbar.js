@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import SearchField from 'react-search-field';
 
-
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
@@ -26,6 +25,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <li>
         <Link to='/register'> Register</Link>
       </li>
+
       <li>
         <Link to='/login'>Login</Link>
       </li>
@@ -39,11 +39,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
           <i className='fas fa-code' /> Roomy
         </Link>
       </h1>
-      
-      <SearchField 
-        placeholder='Search for rooms...'
-        
-      />
+
+      <SearchField placeholder='Search for rooms...' />
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
@@ -59,7 +56,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

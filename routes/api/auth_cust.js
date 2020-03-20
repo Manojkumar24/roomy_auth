@@ -25,8 +25,8 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('email', 'please enter a valid email').isEmail(),
-    check('password', 'Enter valid password').exists()
+    check('email', 'please enter a valid email for customer').isEmail(),
+    check('password', 'Enter valid password customer').exists()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -52,26 +52,24 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
-      if (!user.isOwner){
-        console.log('customer details not allowed here ');
+      if (user.isOwner) {
+        console.log('owner details not allowed here ');
         return res
           .status(400)
-          .json({ errors: [{ msg: 'customer details not allowed here ' }] });
-
+          .json({ errors: [{ msg: 'owner details not allowed here ' }] });
       }
+
       if (!user.isVerified)
-        return res
-          .status(401)
-          .send({
-            type: 'not-verified',
-            msg: 'Your account has not been verified.'
-          });
+        return res.status(400).send({
+          type: 'not-verified',
+          msg: 'Your account has not been verified.'
+        });
+
       const payload = {
         user: {
           id: user.id
         }
       };
-
 
       jwt.sign(
         payload,
@@ -82,6 +80,9 @@ router.post(
           res.json({ token });
         }
       );
+      // if(true){
+      //   return res.redirect('http://localhost:3000/empty');
+      // }
       
     } catch (err) {
       console.error(err.message);

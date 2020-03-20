@@ -8,7 +8,7 @@ const Token = require('../../models/Token');
 const bcrypt = require('bcryptjs');
 
 const { check, validationResult } = require('express-validator/check');
-const Email = require('./send_email');
+const Email = require('./send_email_cust');
 const randomToken = require('random-token');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
@@ -153,7 +153,7 @@ function confirm_email(req, res) {
     User.findOneAndUpdate(
       { email: em },
       { isVerified: true   },
-      { isOwner: true },
+      { isOwner: false },
       function(err, doc) {
         if (err) {
           console.log(err);
