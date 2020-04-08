@@ -19,6 +19,12 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
+
+import Home from './components/owner/Home'
+import PostRoomOne from './components/owner/PostRoomOne'
+import PostRoomTwo from './components/owner/PostRoomTwo'
+import PostRoomThree from './components/owner/PostRoomThree'
+
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -36,17 +42,26 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
+          
           <Route exact path='/' component={Landing} />
           <section className='container'>
             <Alert />
             <Switch>
+              
+              {/* <Route exact path="/" component={Home} /> */}
+              <Route exact path="/details/1" component={PostRoomOne} />
+              <Route exact path="/details/2" component={PostRoomTwo} />
+              <Route exact path="/details/3" component={PostRoomThree} />
 
               <Route exact path='/register' component={Register} />
               <Route exact path='/register_cust' component={Register_Cust} />
+              
               <Route exact path='/login' component={Login} />
               <Route exact path='/login_cust' component={Login_Cust} />
+              
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />
+              
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
