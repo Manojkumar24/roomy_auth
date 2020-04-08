@@ -18,6 +18,8 @@
     const onSubmit = async e => {
       e.preventDefault();
       login(email, password);
+        console.log("******************************************************logged in");
+      return <Redirect to='/dashboard' />;
     };
 
     //Redirect if logged in

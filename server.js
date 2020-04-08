@@ -1,15 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const connectDB = require('./config/db');
+// const connectDB = require('./config/db');
 const Bcrypt = require("bcryptjs");
 
 const app = express();
 
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost:27017/roomydb';
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 app.use(bodyParser.json());
 
 //connect MongoDB
-connectDB();
+// connectDB();
 
 app.get('/', (req, res) => res.send('API running !!!'));
 
@@ -27,6 +33,8 @@ app.use('/api/users_cust', require('./routes/api/users'));
 app.use('/api/profile', require('./routes/api/profile'));
 
 app.use('/api/posts', require('./routes/api/posts'));
+
+app.use('/api/rooms', require('./routes/api/rooms'));
 
 app.use('/api/auth', require('./routes/api/auth'));
 
