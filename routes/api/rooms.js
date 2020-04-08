@@ -35,14 +35,12 @@ router.post(
         }
 
         try {
-            const user = await User.findById(req.user.id).select("-password");
             const roomdetails = {
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,
                 pincode: parseInt(req.body.pincode, 10),
                 state: req.body.state,
-                mail: user.email,
                 phonnenum: parseInt(req.body.phonnenum, 10),
                 availability: req.body.availability,
                 rent: req.body.rent,

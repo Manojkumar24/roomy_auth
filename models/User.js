@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  isVerified: { type: Boolean, default: false },
+  isVerified: { type: Boolean, default: true },
   isOwner: { type: Boolean, default: false },
   passwordResetToken: String,
   passwordResetExpires: Date

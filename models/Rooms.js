@@ -25,9 +25,6 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    mail: {
-        type: String
-    },
     phonenum: {
         type: Number,
         min: 1111111111,
