@@ -28,7 +28,7 @@ class PostRoomOne extends Component{
             window.alert('Enter a valid phone number of 10 digits!')
         }
 
-        if (this.state.pincode.length !== 6) {
+        else if (this.state.pincode.length !== 6) {
             window.alert('Enter a valid pincode of 6 digits!')
         }
 

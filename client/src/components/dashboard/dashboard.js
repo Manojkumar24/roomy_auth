@@ -1,14 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
+import RoomCard from '../rooms/roomCard';
+import axios from 'axios';
+import {Redirect} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const dashboard = props => {
-  return (
-    <div>
-    Your Dashboard
-    </div>
-  )
+class dashboard extends Component {
+
+  state = {
+    rooms: []
+  }
+
+  componentDidMount(){
+    axios.get('/api/rooms/list').then(res => {
+      console.log(res.data)
+      this.setState({
+        rooms: res.data
+      })
+     })
+  }
+  render(){
+    let { auth: { user } }= this.props; 
+    let data = user ? (
+      user.isOwner ? (
+        this.state.rooms.map(room =>{
+          return (
+            <div className="row">
+            <Link to={'/ownerroom/'+room._id}>
+            <RoomCard room={room} owner={user.name}/>
+            </Link>
+            </div>
+          )
+        })
+      ) : (
+        this.state.rooms.map(room => {
+          console.log(this.state.rooms);
+          
+          return (
+            <div className="row">
+            <RoomCard room={room} owner={this.state.rooms.user}/>
+            </div>
+          )
+        })
+      )
+    ) : (<Redirect to='/dashboard' />)
+    return (
+      <div className="container">
+      { data }
+      </div>
+    )
+  }
 }
 
 
@@ -18,13 +61,12 @@ dashboard.propTypes = {
   // profile: PropTypes.object.isRequired
 };
 
-// const mapStateToProps = state => ({
-//   auth: state.auth,
-//   profile: state.profile
-// });
-export default dashboard
+const mapStateToProps = state => ({
+  auth: state.auth,
+  // profile: state.profile
+});
 
-// export default connect(
-//   mapStateToProps,
-//   { getCurrentProfile }
-// )(dashboard);
+
+export default connect(
+  mapStateToProps,
+)(dashboard);
