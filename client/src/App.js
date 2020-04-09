@@ -24,6 +24,7 @@ import Home from './components/owner/Home'
 import PostRoomOne from './components/owner/PostRoomOne'
 import PostRoomTwo from './components/owner/PostRoomTwo'
 import PostRoomThree from './components/owner/PostRoomThree'
+import OwnerRoom from './components/rooms/OwnerRoom';
 
 // import Register_Cust from './components/auth/Register_Cust';
 
@@ -52,7 +53,7 @@ const App = () => {
               <Route exact path="/details/1" component={PostRoomOne} />
               <Route exact path="/details/2" component={PostRoomTwo} />
               <Route exact path="/details/3" component={PostRoomThree} />
-
+              <Route exact path="/ownerroom/:room_id" component={OwnerRoom}/>
               <Route exact path='/register' component={Register} />
               <Route exact path='/register_cust' component={Register_Cust} />
               

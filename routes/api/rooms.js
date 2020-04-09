@@ -5,6 +5,32 @@ const Rooms = require("../../models/Rooms");
 const User = require("../../models/User");
 const auth = require("../../middleware/auth");
 
+
+router.get("/list", auth,async (req, res) => {
+    let user = await User.findOne({_id:req.user.id});
+    if(user && user.isOwner){
+        let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
+        res.json(rooms);
+    }else{
+        let rooms = await Rooms.find().limit(10).select(["-user"]);
+        rooms.user = user.name;
+        console.log(rooms);
+        
+        res.json(rooms);
+    }
+    res.status(400).json({error:"User is not authorized"});
+});
+
+router.get("/ownerRoom/:id", auth, async (req,res) => {
+    let user = await User.findOne({ _id: req.user.id });
+    if(user && user.isOwner){
+        let room = await Rooms.find({ user: req.user.id, _id:req.params.id });
+        console.log(room);
+        res.json(room);
+    }
+    res.status(400).json({ error: "User is not authorized" });
+});
+
 router.post(
     "/create",
     [
@@ -38,6 +64,7 @@ router.post(
         try {
             console.log(req.body);
             const roomdetails = {
+                user: req.user.id,
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,
