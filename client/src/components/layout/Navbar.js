@@ -6,30 +6,12 @@ import { logout } from '../../actions/auth';
 import SearchField from 'react-search-field';
 import axios from 'axios';
 
-class Navbar extends Component{
+const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
 
-  state = {
-    user: null,
-  }
-
-
-
-  render(){
-    const { auth: { isAuthenticated, loading }, logout} = this.props;
     // console.log(isAuthenticated,loading);
-    if(isAuthenticated){
-      axios.get('/api/profile/me').then(res => {
-        this.setState({
-          user: res.data
-        })
-        console.log(res.data)
-
-      });
-    }
-  // console.log('ddsddssddsdsdssd',this.state.user);
-
-  const authLinks = this.state.user ? (
-    <ul id="nav-mobile" class="right">
+  // console.log('ddsddssddsdsdssd',this.state.user)
+  const authLinks = user && user.isOwner ? (
+    <ul id="nav-mobile" className="right">
       <li>
         <Link to="/details/1" >Create Room</Link>
       </li>
@@ -41,7 +23,7 @@ class Navbar extends Component{
       </li>
     </ul>
   ) : (
-    <ul id="nav-mobile" class="right">
+    <ul id="nav-mobile" className="right">
       <li>
         <a onClick={logout} href='#!'>
           <i className='fas fa-sign-out-alt' />{' '}
@@ -52,7 +34,7 @@ class Navbar extends Component{
   );
 
   const guestLinks = (
-    <ul id="nav-mobile" class="right">>
+    <ul id="nav-mobile" className="right">>
       {/* <li>
         <a href='#!'> Profile</a>
       </li> */}
@@ -68,7 +50,7 @@ class Navbar extends Component{
 
   return (
     <nav>
-        <div class="nav-wrapper">
+        <div className="nav-wrapper">
         <Link to="/" class="brand-logo">Logo</Link>
         {/* <div style={{ width:;}}>
           <input id="search" type="search"/>
@@ -83,7 +65,6 @@ class Navbar extends Component{
       </div>
     </nav>
   );
-  };
 };
 
 Navbar.propTypes = {
