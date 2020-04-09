@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 class PostRoomThree extends Component{
 
     state = {
-        smoking: '',
-        EarlyBird:'',
-        NightOwl:'',
-        pets: ''
+        smoker: '',
+        earlybird:'',
+        nightowl:'',
+        pets: '',
+        vegetarians : '',
+        furnished : '',
+        wifi : '',
+        parking : ''
     }
 
     handleChange = (event) => {
@@ -18,7 +23,6 @@ class PostRoomThree extends Component{
 
     handleSubmit = (event) => {
         event.preventDefault()
-        console.log(this.state)
         
         let Copystate = JSON.parse(JSON.stringify(this.state))
 
@@ -29,14 +33,20 @@ class PostRoomThree extends Component{
         }
 
         console.log(form_data)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        axios.post('/api/rooms/create',JSON.stringify(form_data),config).then(response =>{console.log(response)
+        }).catch(error => {
+        console.log(error);
+        })
 
-        localStorage.setItem('form_data', JSON.stringify(form_data))
+        // localStorage.setItem('form_data', JSON.stringify(form_data))
 
         this.setState({
-            smoking:Copystate.smoking,
-            EarlyBird:Copystate.EarlyBird,
-            NightOwl:Copystate.NightOwl,
-            pets:Copystate.pets
+            state: Copystate
         });
 
     }
@@ -47,26 +57,34 @@ class PostRoomThree extends Component{
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <div onChange={this.handleChange.bind(this)}>
-                            <label>Smoking <br></br> </label>
+                            <label>Smoker <br></br> </label>
                                 <label>
-                                    <input class= "with-gap" type="radio" value="Yes" name="smoking"/>
+                                    <input class= "with-gap" type="radio" value="Yes" name="smoker"/>
                                     <span>Yes</span>
                                 </label>
                                 <label>
-                                    <input class="with-gap" type="radio" value="No" name="smoking" />
+                                    <input class="with-gap" type="radio" value="No" name="smoker" />
                                     <span>No</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" type="radio" value="Not sure" name="smoker"/>
+                                    <span>Not sure</span>
                                 </label>
                         </div>
 
                         <div onChange={this.handleChange.bind(this)}>
                             <label>Early Bird<br></br></label>
                                 <label>    
-                                    <input class="with-gap" type="radio" value="Yes" name="EarlyBird"/>
+                                    <input class="with-gap" type="radio" value="Yes" name="earlybird"/>
                                     <span>Yes</span> 
                             </label>
                             <label>
-                                    <input class="with-gap" type="radio" value="No" name="EarlyBird"/>
+                                    <input class="with-gap" type="radio" value="No" name="earlybird"/>
                                     <span>No</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Not sure" name="earlybird" />
+                                <span>Not sure</span>
                             </label>
                             
                         </div>
@@ -74,12 +92,16 @@ class PostRoomThree extends Component{
                         <div onChange={this.handleChange.bind(this)}>
                             <label>Night Owl<br></br> </label>
                                 <label>
-                                    <input class="with-gap" type="radio" value="Yes" name="NightOwl"/>
+                                    <input class="with-gap" type="radio" value="Yes" name="nightowl"/>
                                     <span>Yes</span>
                                 </label>
                                 <label>
-                                    <input class="with-gap" type="radio" value="No" name="NightOwl"/>
+                                    <input class="with-gap" type="radio" value="No" name="nightowl"/>
                                     <span>No</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" type="radio" value="Not sure" name="nightowl"/>
+                                    <span>Not sure</span>
                                 </label>
                         </div>
                         
@@ -94,13 +116,85 @@ class PostRoomThree extends Component{
                                     <span>Cats</span>
                                 </label>
                                 <label>
+                                    <input class="with-gap" type="radio" value="Birds" name="pets" />
+                                    <span>Birds</span>
+                                </label>
+                                <label>
                                     <input class="with-gap" type="radio" value="Others" name="pets"/>
                                     <span>Others</span>
                                 </label>
                                 <label>
                                     <input class="with-gap" type="radio" value="No Pets" name="pets"/>
-                                    <span> No Pets</span>
+                                    <span>No Pets</span>
                                 </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Not sure" name="pets" />
+                                <span>Not sure</span>
+                            </label>
+                        </div>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Vegetarian<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Yes" name="vegetarians" />
+                                <span>Yes</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="No" name="vegetarians" />
+                                <span>No</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Not sure" name="vegetarians" />
+                                <span>Not sure</span>
+                            </label>
+                        </div>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Furnished<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Fully" name="furnished" />
+                                <span>Fully</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Semi" name="furnished" />
+                                <span>Semi</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Not Furnished" name="furnished" />
+                                <span>Not Furnished</span>
+                            </label>
+                        </div>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Wifi<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Yes" name="wifi" />
+                                <span>Yes</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="No" name="wifi" />
+                                <span>No</span>
+                            </label>
+                        </div>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Parking<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Four Wheeler" name="parking" />
+                                <span>Four Wheeler</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Two Wheeler" name="parking" />
+                                <span>Two Wheeler</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Both" name="parking" />
+                                <span>Both</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="No parking" name="parking" />
+                                <span>No parking</span>
+                            </label>
                         </div>
 
                         <button style={{ margin: "10px"}} type="submit" className="waves-effect waves-light btn-large" >Submit</button>

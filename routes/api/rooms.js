@@ -14,18 +14,19 @@ router.post(
             check("address", "address is needed").not().isEmpty(),
             check("city", "City is needed").not().isEmpty(),
             check("state", "State is needed").not().isEmpty(),
-            check("pincode", "Invalid pincode").isLength({min: 6, max: 6}),
-            check("phonenum", "Invalid phone Number").isLength({min: 10, max: 10}),
+            check("pincode", "Invalid pincode").isLength({ min: 6, max: 6 }),
+            check("phonenum", "Invalid phone Number").isLength({ min: 10, max: 10 }),
             check("availability", "Invalid number").isNumeric(),
+            check("sq_ft", "Invalid number").isNumeric(),
             check("rent", "Invalid rent").isDecimal(),
-            check("smoker", "Invalid option for smoker").isIn(["YES", "NO", "NOT SURE"]),
-            check("nightowl", "Invalid option for night-owl").isIn(["YES", "NO", "NOT SURE"]),
-            check("earlybird", "Invalid option for early bird").isIn(["YES", "NO", "NOT SURE"]),
-            check("pets", "Inavlid option for pets").isIn(["DOGS", "CATS", "BIRDS", "OTHERS", "NOT SURE"]),
-            check("vegetarians", "Invalid option for vegetarian").isIn(["YES", "NO", "NOT SURE"]),
-            check("furnished", "Invalid option for furnished").isIn(["FULLY", "SEMI", "NOT"]),
-            check("wifi", "Invalid option for wifi").isIn(["YES", "NO"]),
-            check("parking", "Invalid option for parking").isIn(["FOUR WHEELER", "TWO WHEELER", "BOTH", "NONE"])
+            check("smoker", "Invalid option for smoker").isIn(["Yes", "No", "Not sure"]),
+            check("nightowl", "Invalid option for night-owl").isIn(["Yes", "No", "Not sure"]),
+            check("earlybird", "Invalid option for early bird").isIn(["Yes", "No", "Not sure"]),
+            check("pets", "Inavlid option for pets").isIn(["Dogs", "Cats", "Birds", "Others","No Pets","Not sure"]),
+            check("vegetarians", "Invalid option for vegetarian").isIn(["Yes", "No", "Not sure"]),
+            check("furnished", "Invalid option for furnished").isIn(["Fully", "Semi", "Not Furnished"]),
+            check("wifi", "Invalid option for wifi").isIn(["Yes", "No"]),
+            check("parking", "Invalid option for parking").isIn(["Four Wheeler", "Two Wheeler", "Both", "No parking"])
         ]
     ],
     async (req, res) => {
@@ -35,10 +36,12 @@ router.post(
         }
 
         try {
+            console.log(req.body);
             const roomdetails = {
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,
+                sq_ft:req.body.sq_ft,
                 pincode: parseInt(req.body.pincode, 10),
                 state: req.body.state,
                 phonnenum: parseInt(req.body.phonnenum, 10),

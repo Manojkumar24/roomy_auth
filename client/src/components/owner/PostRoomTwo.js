@@ -5,7 +5,7 @@ class PostRoomTwo extends Component{
 
     state = {
         rent: '',
-        vacancyNumber:''
+        availability:''
     }
 
     handleChange = (event) => {
@@ -19,7 +19,11 @@ class PostRoomTwo extends Component{
 
         let Copystate = JSON.parse(JSON.stringify(this.state));
         Copystate.rent = parseInt(this.state.rent);
-        Copystate.vacancyNumber = parseInt(this.state.vacancyNumber);
+        Copystate.availability = parseInt(this.state.availability);
+        if (Copystate.availability > 5 && Copystate.availability  <= 0){
+            window.alert('Availability must be a number between 0 and 5')
+        }
+
         let prev_form_data = JSON.parse(localStorage.getItem('form_data'))
         
         
@@ -41,10 +45,10 @@ class PostRoomTwo extends Component{
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Number of vacancies</label>
-                        <input type="number" name="vacancyNumber" required = {true} onChange = {this.handleChange}/>
+                        <input type="number" placeholder="Availability" name="availability" required = {true} onChange = {this.handleChange}/>
 
                         <label>Rent</label>
-                        <input type="number" name="rent" required = {true} onChange = {this.handleChange}/>
+                        <input type="number" name="rent" placeholder="Monthly Rent" required = {true} onChange = {this.handleChange}/>
 
                         <button style={{ margin: "10px" }} type="submit" className="waves-effect waves-light btn-large" >Next</button>
                         <Link to="/details/1"><button style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Previous</button></Link>
