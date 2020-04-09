@@ -9,6 +9,10 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    sq_ft: {
+        type: Number,
+        required: true
+    },
     address: {
         type: String,
         required: true
@@ -42,42 +46,42 @@ const RoomSchema = new mongoose.Schema({
     },
     smoker: {
         type: String, 
-        enum: ["YES", "NO", "NOT SURE"],
+        enum: ["Yes", "No", "Not sure"],
         required: true
     },
     nightowl: {
         type: String, 
-        enum: ["YES", "NO", "NOT SURE"],
+        enum: ["Yes", "No", "Not sure"],
         required: true
     },
     earlybird: {
         type: String, 
-        enum: ["YES", "NO", "NOT SURE"],
+        enum: ["Yes", "No", "Not sure"],
         required: true
     },
     pets: {
         type: String, 
-        enum: ["DOGS", "CATS", "BIRDS", "OTHERS", "NOT SURE"],
+        enum: ["Dogs", "Cats", "Birds", "Others", "No Pets","Not sure"],
         required: true
     },
     vegetarians: {
         type: String, 
-        enum: ["YES", "NO", "NOT SURE"],
+        enum: ["Yes", "No", "Not sure"],
         required: true
     },
     furnished: {
         type: String, 
-        enum: ["FULLY", "SEMI", "NOT"],
+        enum: ["Fully", "Semi", "Not Furnished"],
         required: true
     },
     wifi: {
         type: String, 
-        enum: ["YES", "NO"],
+        enum: ["Yes", "No"],
         required: true
     },
     parking: {
         type: String, 
-        enum: ["FOUR WHEELER", "TWO WHEELER", "BOTH", "NONE"],
+        enum: ["Four Wheeler", "Two Wheeler", "Both", "No parking"],
         required: true
     }
 });

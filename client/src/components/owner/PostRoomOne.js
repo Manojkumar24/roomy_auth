@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom';
 class PostRoomOne extends Component{
 
     state = {    
-        HouseName: null,
+        name: null,
         address : null,
         sq_ft : null,
-        ContactNumber: null
+        phonenum: null,
+        city : null,
+        state : null,
+        pincode : null
     
     }
 
@@ -20,18 +23,21 @@ class PostRoomOne extends Component{
 
     handleSubmit = (event) => {
         event.preventDefault()
-        
-        if(this.state.ContactNumber.length !== 10) {
+        console.log(this.state);
+        if(this.state.phonenum.length !== 10) {
             window.alert('Enter a valid phone number of 10 digits!')
+        }
+
+        if (this.state.pincode.length !== 6) {
+            window.alert('Enter a valid pincode of 6 digits!')
         }
 
         else {
             let Copystate = JSON.parse(JSON.stringify(this.state))
-            Copystate.ContactNumber = parseInt(this.state.ContactNumber)    
             Copystate.sq_ft = parseInt(this.state.sq_ft)    
-            
             localStorage.setItem('form_data',JSON.stringify(Copystate))
-            console.log(localStorage.getItem("form_data"))
+            // console.log(JSON.parse(localStorage.getItem("form_data")))
+            // console.log(Copystate);
             this.setState({ state: Copystate }, () => { this.props.history.push('/details/2') });
         
         }
@@ -44,16 +50,25 @@ class PostRoomOne extends Component{
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Name of the house</label>
-                        <input type="text" name="HouseName" placeholder="House Name" required = {true} onChange = {this.handleChange}/>
-
-                        <label>Address</label>
-                        <input type="text" name="address" placeholder="address"  required = {true} onChange = {this.handleChange}/>
+                        <input type="text" name="name" placeholder="House Name" required = {true} onChange = {this.handleChange}/>
 
                         <label>Square Feet</label>
-                        <input type="number" name="sq_ft" required = {true} onChange = {this.handleChange}/>
+                        <input type="number" name="sq_ft" placeholder="Square Feet" required={true} onChange={this.handleChange} />
+
+                        <label>Address</label>
+                        <input type="text" name="address" placeholder="Address"  required = {true} onChange = {this.handleChange}/>
+
+                        <label>City</label>
+                        <input type="text" name="city" placeholder="City" required = {true} onChange = {this.handleChange}/>
+
+                        <label>State</label>
+                        <input type="text" name="state" placeholder="State" required={true} onChange={this.handleChange} />
+                        
+                        <label>Pin Code</label>
+                        <input type="number" name="pincode" placeholder="Pin Code" required={true} onChange={this.handleChange} />
 
                         <label>Contact Number</label>
-                        <input type="number" name="ContactNumber" required = {true} onChange = {this.handleChange}/>
+                        <input type="number" name="phonenum" placeholder="Contact Number" required = {true} onChange = {this.handleChange}/>
 
                         <button type="submit" style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Next</button>
     
