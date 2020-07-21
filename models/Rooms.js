@@ -83,6 +83,10 @@ const RoomSchema = new mongoose.Schema({
         type: String, 
         enum: ["Four Wheeler", "Two Wheeler", "Both", "No parking"],
         required: true
+    },
+    interested_people: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: false
     }
 });
 
