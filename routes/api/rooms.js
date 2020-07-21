@@ -9,12 +9,13 @@ const auth = require("../../middleware/auth");
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
     if(user && user.isOwner){
+        console.log(req.user);
         let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
         res.json(rooms);
     }else{
         let rooms = await Rooms.find().limit(10).select(["-user"]);
         rooms.user = user.name;
-        console.log(rooms);
+        // console.log(rooms);
         
         res.json(rooms);
     }
