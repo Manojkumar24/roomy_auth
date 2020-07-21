@@ -28,7 +28,7 @@ class OwnerRoom extends Component {
     }
 
     markInterested = (event) => {
-        event.preventDefault()
+        // event.preventDefault()
         let id = this.props.match.params.room_id;
         let user = localStorage.getItem("user_name")
         axios.get("/api/rooms/markInterested/" + id).then(
@@ -50,7 +50,7 @@ class OwnerRoom extends Component {
     }
 
     markUnInterested = (event) => {
-        event.preventDefault()
+        // event.preventDefault()
         let id = this.props.match.params.room_id;
         let user = localStorage.getItem("user_name")
         axios.get("/api/rooms/markUnInterested/" + id).then(
