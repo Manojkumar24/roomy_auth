@@ -17,25 +17,12 @@ class OwnerRoom extends Component {
             })
     }
     render(){
-        console.log(this.state)
-        let data = this.state.room ? (
-            this.state.room.map(room =>{
-                return (
-                    <Fragment>
-                        <h4>{room.name}</h4>
-                        <p>Room rent { room.rent }</p>
-                        <p>Availability { room.availability}</p>
-                    </Fragment>
-                )
-            })
-        ) : (
-            <h4>Somting went wrong</h4>
-        );
-        //console.log(data)
         return(
             <div>
                 <h3 className="center">Your Room</h3>
-                {data}
+                <h4>{this.state.room.name}</h4>
+                <p>Room rent {this.state.room.rent}</p>
+                <p>Availability {this.state.room.availability}</p>
             </div>
         )
     }

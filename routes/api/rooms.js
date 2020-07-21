@@ -26,29 +26,56 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
     var user = await User.findOne({ _id: req.user.id });
     person_details = {}
     if(user && user.isOwner){
-        var room = await Rooms.find({ user: req.user.id, _id:req.params.id });
-        // person_details = [...room]
-        // room.interested = await User.find({ _id: { "$in": room.interested_people } })
-        // let roomCopy = [...room]
-        for(var i = 0; i < room.length; i++){
-            if (room[i].interested_people != []){
-                // console.log(room[val])
-                room[i].interested = await User.find({ _id: { "$in": room[i].interested_people}}).select(["name","email"])}
-        }
+        var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
+        var details = room.toJSON();
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
         
-        console.log(room);
-        
-        res.json(room);
+        console.log(details);
+        res.json(details);
     }
     res.status(400).json({ error: "User is not authorized" });
 });
 
 
 router.get("/userviewRoom/:id", auth, async (req, res) => {
-        let room = await Rooms.find({ _id: req.params.id });
-        console.log(room);
-        res.json(room);
-    
+        let room = await Rooms.findOne({ _id: req.params.id });
+        var details = room.toJSON();
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+
+        // console.log(details);
+        res.json(details);    
+});
+
+router.get("/markInterested/:id", auth, async (req, res) => {
+    let room = await Rooms.findOne({ _id: req.params.id });
+    room.interested_people.push(req.user.id);
+    room.save();
+    var details = room.toJSON();
+    details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+
+    // console.log(details);
+    res.json(details);
+
+});
+
+router.get("/markUnInterested/:id", auth, async (req, res) => {
+    let room = await Rooms.findOne({ _id: req.params.id });
+    console.log("in maaark in");
+    for (var i = 0; i < room.interested_people.length; i++){
+        console.log(room.interested_people[i] == req.user.id);
+        if (room.interested_people[i] == req.user.id) {
+            // console.log("marked for death");
+            room.interested_people.splice(i, 1);
+        }
+    }
+    room.save();
+    var details = room.toJSON();
+    details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+
+    // console.log(details);
+    res.json(details);
+
+
 });
 
 router.post(

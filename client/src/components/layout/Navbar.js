@@ -18,6 +18,7 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
      
       <li>
         <a onClick={logout} href='#!'>
+        {/* <a onClick={logout} href='home'> */}
           <i className='fas fa-sign-out-alt' />{' '}
           <span className='hide-sm'>logout</span>
         </a>
@@ -27,6 +28,7 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
     <ul id="nav-mobile" className="right">
       <li>
         <a onClick={logout} href='#!'>
+          {/* <a onClick={logout} href='home'> */}
           <i className='fas fa-sign-out-alt' />{' '}
           <span className='hide-sm'>logout</span>
         </a>
