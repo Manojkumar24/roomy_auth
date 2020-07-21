@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+// import { browserHistory } from 'react-router'
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -41,18 +43,23 @@ export const register = ({ name, email, password }) => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-
+  console.log("inside owner reg");
   const body = JSON.stringify({ name, email, password });
 
   try {
+    // console.log("control reaches here 1");
     const res = await axios.post('/api/users', body, config);
 
+    // console.log("control reaches here 2");
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
-
+    // console.log("control reaches here 3");
     dispatch(loadUser());
+    // console.log("control reaches here 4");
+    // this.props.history.push('/login');
+    
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -75,6 +82,7 @@ export const register_cust = ({ name, email, password }) => async dispatch => {
     }
   };
 
+  console.log("inside csutoemr reg")
   const body = JSON.stringify({ name, email, password });
 
   try {
@@ -84,7 +92,7 @@ export const register_cust = ({ name, email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-
+    
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
@@ -120,6 +128,8 @@ export const login = (email, password) => async dispatch => {
     });
 
     dispatch(loadUser());
+    // browserHistory.push('/login')
+
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -145,7 +155,7 @@ export const login_cust = (email, password) => async dispatch => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('/api/auth_cust', body, config);
+    const res = await axios.post('/api/auth', body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,

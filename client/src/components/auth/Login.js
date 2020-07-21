@@ -32,7 +32,7 @@
       <Fragment>
         
         
-        <h1 className='large text-primary'>Owner Sign In</h1>
+        <h1 className='large text-primary'>Sign In</h1>
         <div className='myborder'>
             <div className="subhead">
             <p className='lead'>

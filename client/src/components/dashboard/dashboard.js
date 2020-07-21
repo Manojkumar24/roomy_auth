@@ -6,6 +6,7 @@ import RoomCard from '../rooms/roomCard';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import auth from '../../reducers/auth';
 
 class dashboard extends Component {
 
@@ -23,6 +24,7 @@ class dashboard extends Component {
   }
   render(){
     let { auth: { user } }= this.props; 
+    console.log(this.props);
     let data = user ? (
       user.isOwner ? (
         this.state.rooms.map(room =>{

@@ -72,7 +72,7 @@ router.post(
       //em = arr[1];
       //console.log(tok);
       //console.log(em);
-      Email.send_verification_token(t, user.email);
+      // Email.send_verification_token(t, user.email);
       // if (err) {
       //   console.log('hello9');
       //   return res.status(500).send({ msg: err.message });

@@ -27,7 +27,7 @@ app.use(express.json({ extend: false }));
 //routes
 app.use('/api/users', require('./routes/api/users'));
 
-app.use('/api/users_cust', require('./routes/api/users'));
+app.use('/api/users_cust', require('./routes/api/users_cust'));
 
 
 app.use('/api/profile', require('./routes/api/profile'));
