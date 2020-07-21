@@ -23,13 +23,32 @@ router.get("/list", auth,async (req, res) => {
 });
 
 router.get("/ownerRoom/:id", auth, async (req,res) => {
-    let user = await User.findOne({ _id: req.user.id });
+    var user = await User.findOne({ _id: req.user.id });
+    person_details = {}
     if(user && user.isOwner){
-        let room = await Rooms.find({ user: req.user.id, _id:req.params.id });
+        var room = await Rooms.find({ user: req.user.id, _id:req.params.id });
+        // person_details = [...room]
+        // room.interested = await User.find({ _id: { "$in": room.interested_people } })
+        // let roomCopy = [...room]
+        for(var i = 0; i < room.length; i++){
+            if (room[i].interested_people != []){
+                // console.log(room[val])
+                room[i].interested = await User.find({ _id: { "$in": room[i].interested_people}}).select(["name","email"])}
+        }
+        
         console.log(room);
+        
         res.json(room);
     }
     res.status(400).json({ error: "User is not authorized" });
+});
+
+
+router.get("/userviewRoom/:id", auth, async (req, res) => {
+        let room = await Rooms.find({ _id: req.params.id });
+        console.log(room);
+        res.json(room);
+    
 });
 
 router.post(
