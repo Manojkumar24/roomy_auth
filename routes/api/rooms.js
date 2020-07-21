@@ -1,14 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const {check, validationResult} = require("express-validator/check");
-const Rooms = require("../../models/Rooms");
+
+
+
 const User = require("../../models/User");
 const auth = require("../../middleware/auth");
+const { route } = require("./users");
 
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
-    if(user && user.isOwner){
+    if(user && user.isOwner){ // If user is a owner then ssend his rooms list
         let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
         res.json(rooms);
     }else{
@@ -30,6 +33,18 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
     }
     res.status(400).json({ error: "User is not authorized" });
 });
+
+router.post("/filters", auth, async (req,res) => {
+    console.log(req.body);
+    try{
+    let rooms = await Rooms.find(req.body);
+    res.json(rooms);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg: "unable to fetch"});
+    }
+});
+
 
 router.post(
     "/create",
