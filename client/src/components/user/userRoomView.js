@@ -24,6 +24,7 @@ class OwnerRoom extends Component {
                         <h4>{room.name}</h4>
                         <p>Room rent {room.rent}</p>
                         <p>Availability {room.availability}</p>
+                        <p>Interested</p>
                     </Fragment>
                 )
             })
