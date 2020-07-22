@@ -92,7 +92,7 @@ const EditProfile = ({
                     />
                   </div>
                 </div>
-                <div className='row editprorows'>
+                {/* <div className='row editprorows'>
                   <div className='col-lg-3 editprotext'>Password:</div>
                   <div className='col-lg-9'>
                     <input
@@ -105,7 +105,7 @@ const EditProfile = ({
                       disabled
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className='row editprorows'>
                   <div className='col-lg-3 editprotext'>Phonenum:</div>
@@ -135,9 +135,9 @@ const EditProfile = ({
             </div>
             <div className='col-lg-4' style={{ paddingTop: '3%' }}>
               <Link to='/pw_change'>Password Change </Link>
-              <button className="editprobtn2"> 
+              {/* <button className="editprobtn2">  */}
                 <Link to='/mail_change'>Mail Change </Link>
-              </button>
+              {/* </button> */}
                {/* <button className="editprobtn2" onClick={() => ChangePassAccount()}>
               <i className="fas fa-trash"></i> &nbsp; Change password Account */}
             {/* </button>  */}

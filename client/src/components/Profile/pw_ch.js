@@ -20,9 +20,11 @@ const Pw_ch = ({ pw_ch, isAuthenticated }) => {
     e.preventDefault();
     if (password !== password2) {
         setAlert('Passwords do not match', 'danger');
-      } else {
-       
-    pw_ch(password, password2);
+      } 
+
+      else {
+          pw_ch(password, password2);
+          this.props.history.push('/login');
       }
   };
 

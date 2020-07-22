@@ -62,6 +62,15 @@ router.post(
 
       await user.save();
 
+      console.log('before sving!!!');
+      phonenum = "";
+      let profile = new Profile({ user, name, email, password, phonenum });
+      console.log('before sving');
+      //const salt = await bcrypt.genSalt(10);
+      //profile.password = await bcrypt.hash(password, 10);
+      await profile.save();
+      console.log('before sving!!!!!!!!!!!!!!!!!!!!!!!');
+
       const payload = {
         user: {
           id: user.id

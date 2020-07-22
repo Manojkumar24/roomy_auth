@@ -123,7 +123,7 @@ handleSubmit(){
 
         <div class="address">
         
-        PINCODE
+        Pincode
        <input class="input" type="number"  name="pincode" placeholder="PINCODE"/>
 
           
@@ -157,7 +157,7 @@ handleSubmit(){
     boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
     activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
     height={20} width={50} onChange={this.handleChangesmoke} checked={this.state.isNonSmoker} />
-         < i  className="fas fa-smoking-ban checked"></i>
+         {/* < i className="fas fa-smoking-ban checked"></i> */}
        
         <span class="span">No Smoking</span>
                 
