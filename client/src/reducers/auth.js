@@ -5,8 +5,12 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   FG_SUCCESS,
+  PW_SUCCESS,
+  MAIL_SUCCESS,
   LOGIN_FAIL,
   FG_FAIL,
+  PW_FAIL,
+  MAIL_FAIL,
   LOGOUT,
 
 } from '../actions/types';
@@ -31,6 +35,8 @@ export default function(state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case FG_SUCCESS:  
+    case PW_SUCCESS:  
+    case MAIL_SUCCESS:  
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
       return {
@@ -43,7 +49,9 @@ export default function(state = initialState, action) {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case FG_FAIL:  
+    case FG_FAIL:
+    case PW_FAIL:  
+    case MAIL_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
       return {

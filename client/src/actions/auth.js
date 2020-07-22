@@ -9,8 +9,12 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   FG_SUCCESS,
+  PW_SUCCESS,
+  MAIL_SUCCESS,
   LOGIN_FAIL,
   FG_FAIL,
+  PW_FAIL,
+  MAIL_FAIL,
   CLEAR_PROFILE,
   LOGOUT
 } from './types';
@@ -60,7 +64,7 @@ export const register = ({ name, email, password }) => async dispatch => {
     dispatch(loadUser());
     // console.log("control reaches here 4");
     // this.props.history.push('/login');
-    
+
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -93,7 +97,7 @@ export const register_cust = ({ name, email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    
+
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
@@ -209,6 +213,72 @@ export const for_pass = (email, password) => async dispatch => {
     });
   }
 };
+
+// password change
+export const pw_ch = (password, password2) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ password, password2 });
+
+  try {
+    const res = await axios.post('/api/profile/pw', body, config);
+
+    dispatch({
+      type: PW_SUCCESS,
+      payload: res.data
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PW_FAIL
+    });
+  }
+};
+
+// Mail change
+export const mail_ch = (email) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ email });
+
+  try {
+    const res = await axios.post('/api/profile/mail', body, config);
+
+    dispatch({
+      type: MAIL_SUCCESS,
+      payload: res.data
+    });
+
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: MAIL_FAIL
+    });
+  }
+};
+
+
 
 //mail_send for forgot password
 export const mail_fg = (email) => async dispatch => {

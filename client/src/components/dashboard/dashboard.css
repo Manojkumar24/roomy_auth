@@ -1,0 +1,74 @@
+.dashboard{
+    display: flex;
+    flex-direction: row;
+   
+}
+.fas{size: 30 px;position:relative; bottom:6px;margin-right: 4px;margin-left: 6px}
+.span{font-size: 20px;position:relative; bottom:4px}
+.filter{
+    background-color:rgb(197, 224, 235);
+    width: 400px;
+    display: 'flex' ;
+    position: fixed;
+    right:2px;
+    top:60px;
+    flex-wrap : ' wrap';
+    height: 100%;
+    padding: 5px;
+    padding-left: 10px;
+}
+ .react-switch {
+     
+   size:5px;
+   position: relative;
+   bottom: 2px;
+   
+  } 
+  .address{
+    width: 70%;
+    padding: 5x;  
+  }
+
+  .input{outline:none;
+    background-color:rgb(197, 224, 235) ;
+    width: 70%;
+   }
+   .submit{
+       padding:5px
+   }
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    border-radius:3px;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  .button1 {
+    background-color: white; 
+    color: #4CAF50; 
+    border: 2px solid #4CAF50;
+  }
+  
+  .button1:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .option{padding-left:3px;justify-content: space-between;border-width: 3px;border-color: gray;align-content: center;justify-content: center;}
+  .option:hover{justify-content: space-between;padding-top: 1px;}
+
+.parking{
+    width: 300px;
+    display: 'flex' ;
+    flex-wrap : ' wrap';
+
+}
+.withgap{
+
+}
