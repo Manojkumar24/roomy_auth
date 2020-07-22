@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 
-class OwnerRoom extends Component {
+class CustomerView extends Component {
     state = {
         room: [],
         interested:false
@@ -72,7 +72,7 @@ class OwnerRoom extends Component {
     }
 
     render() {
-        let occupant_data = this.state.room.occupants ? (
+        let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (        
                         <ul>
@@ -108,4 +108,4 @@ class OwnerRoom extends Component {
     }
 }
 
-export default OwnerRoom
+export default CustomerView

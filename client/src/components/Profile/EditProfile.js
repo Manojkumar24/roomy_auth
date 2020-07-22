@@ -1,0 +1,164 @@
+import React, { useState, Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { editProfile, getCurrentProfile } from '../../actions/profile';
+import { Link, withRouter } from 'react-router-dom';
+//import { ChangePassAccount } from "../../actions/profile";
+import Navbar from '../layout/Navbar';
+import './Editprofile.css';
+
+const EditProfile = ({
+  profile: { profile, loading },
+  editProfile,
+  getCurrentProfile,
+}) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+
+    phonenum: '',
+  });
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    setFormData({
+      name: loading || !profile.name ? '' : profile.name,
+      email: loading || !profile.email ? '' : profile.email,
+      password: loading || !profile.password ? '' : profile.password,
+
+      phonenum: loading || !profile.phonenum ? '' : profile.phonenum,
+    });
+  }, [loading]);
+
+  const {
+    name,
+    email,
+    password,
+
+    phonenum,
+  } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    editProfile(formData);
+  };
+
+  return (
+    <Fragment>
+      <br />
+      <br />
+      <div className='editprotop'>
+        <div className='myrectop_cont'>Edit your profile</div>
+        <hr className='myrechr1' />
+      </div>
+      <div className='editpro_bg'>
+        <br />
+        <br />
+        <br />
+        <div className='container'>
+          <div className='row editprobot'>
+            <div className='col-lg-8'>
+              <form onSubmit={(e) => onSubmit(e)}>
+                <div className='row editprorows'>
+                  <div className='col-lg-3 editprotext'>Username:</div>
+                  <div className='col-lg-9'>
+                    <input
+                      className='editproinput'
+                      type='text'
+                      placeholder='UserName'
+                      name='name'
+                      value={name}
+                      onChange={(e) => onChange(e)}
+                    />
+                  </div>
+                </div>
+                <div className='row editprorows'>
+                  <div className='col-lg-3 editprotext'>Email:</div>
+                  <div className='col-lg-9'>
+                    <input
+                      className='editproinput'
+                      type='text'
+                      placeholder='email'
+                      name='email'
+                      value={email}
+                      onChange={(e) => onChange(e)}
+                      disabled
+                    />
+                  </div>
+                </div>
+                {/* <div className='row editprorows'>
+                  <div className='col-lg-3 editprotext'>Password:</div>
+                  <div className='col-lg-9'>
+                    <input
+                      className='editproinput'
+                      type='password'
+                      placeholder='password'
+                      name='password'
+                      value={password}
+                      onChange={(e) => onChange(e)}
+                      disabled
+                    />
+                  </div>
+                </div> */}
+
+                <div className='row editprorows'>
+                  <div className='col-lg-3 editprotext'>Phonenum:</div>
+                  <div className='col-lg-9'>
+                    <input
+                      className='editproinput'
+                      type='number'
+                      placeholder='phone number'
+                      name='phonenum'
+                      value={phonenum}
+                      onChange={(e) => onChange(e)}
+                    />
+                  </div>
+                </div>
+
+                <br />
+                <div>
+                  <button className='editprobtn' type='submit'>
+                    Save
+                  </button>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </div>
+              </form>
+            </div>
+            <div className='col-lg-4' style={{ paddingTop: '3%' }}>
+              <Link to='/pw_change'>Password Change </Link>
+              {/* <button className="editprobtn2">  */}
+                <Link to='/mail_change'>Mail Change </Link>
+              {/* </button> */}
+               {/* <button className="editprobtn2" onClick={() => ChangePassAccount()}>
+              <i className="fas fa-trash"></i> &nbsp; Change password Account */}
+            {/* </button>  */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+EditProfile.propTypes = {
+  editProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { editProfile, getCurrentProfile })(
+  EditProfile
+);

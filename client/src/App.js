@@ -12,6 +12,9 @@ import Alert from './components/layout/Alert';
 import Posts from './components/Posts/Posts';
 import Dashboard from './components/dashboard/dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
+import Profile from './components/Profile/EditProfile';
+import pw_ch from './components/Profile/pw_ch';
+import mail_ch from './components/Profile/mail_ch';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -21,6 +24,7 @@ import setAuthToken from './utils/setAuthToken';
 import './App.css';
 
 import Home from './components/owner/Home'
+import YourRoom from './components/user/YourRoom'
 import PostRoomOne from './components/owner/PostRoomOne'
 import PostRoomTwo from './components/owner/PostRoomTwo'
 import PostRoomThree from './components/owner/PostRoomThree'
@@ -58,13 +62,17 @@ const App = () => {
               <Route exact path="/userRoomView/:room_id" component={CustomerView} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/register_cust' component={Register_Cust} />
+              <Route exact path='/yourRoom' component={YourRoom} />
               
               <Route exact path='/login' component={Login} />
               <Route exact path='/login_cust' component={Login_Cust} />
               
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />
-              
+              <Route exact path='/pw_change' component={pw_ch} />
+              <Route exact path='/mail_change' component={mail_ch} />
+
+              <PrivateRoute exact path='/profile' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />

@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// const connectDB = require('./config/db');
+const connectDB = require('./config/db');
 const Bcrypt = require("bcryptjs");
 
 const app = express();
+//connect MongoDB
+// connectDB();
 
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://localhost:27017/roomydb';

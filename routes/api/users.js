@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 const Token = require('../../models/Token');
 const bcrypt = require('bcryptjs');
 
@@ -12,6 +13,7 @@ const Email = require('./send_email');
 const randomToken = require('random-token');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+// const { profile } = require('console');
 
 // @route POST api/users
 // @access public
@@ -60,9 +62,20 @@ router.post(
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, 10);
-
       await user.save();
+      //profile = new Profile({ user});
+      //await profile.save();
+      //user1 = new User({ name, email, password });
+      
+      console.log('before sving!!!');
+      phonenum = "";
+      let profile = new Profile({ user, name, email, password, phonenum });
+      console.log('before sving');
+      //const salt = await bcrypt.genSalt(10);
 
+      //profile.password = await bcrypt.hash(password, 10);
+      await profile.save();
+      console.log('before sving!!!!!!!!!!!!!!!!!!!!!!!');
       const payload = {
         user: {
           id: user.id
@@ -173,6 +186,46 @@ function confirm_email(req, res) {
   });
 
 }
+// mail change profile
+router.get('/verify/profile/:token', confirm_email)
+
+function confirm_email(req, res) {
+
+  let randToken = req.params.token;
+  //var newValues = { $set: { isVerified: true } };
+  console.log('hello profile');
+  //var arr = randToken.split('**');
+  //console.log(arr);
+  //let tok = arr[0];
+  let em = randToken;
+  // Token.findOne({
+  //   token: tok
+  // }, function(err, token){
+  //   if (!token){
+  //     return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.'});
+
+      
+    //}
+    User.findOneAndUpdate(
+      { email: em },
+      { isVerified: true   },
+      { isOwner: true },
+      function(err, doc) {
+        if (err) {
+          console.log(err);
+          res.end();
+        } else {
+          res.send('Account verification profile successsful!');
+        }
+      }
+    );
+
+    //User.findOneAndUpdate({email: em},{user.isVerified = true})
+    
+    //user.save();
+    console.log('account profile verififed!!');
+  };
+
 
 
 

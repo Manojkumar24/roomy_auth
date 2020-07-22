@@ -77,7 +77,7 @@ handleSubmit(){
 
   componentDidMount(){
     axios.get('/api/rooms/list').then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.setState({
         rooms: res.data
       })
@@ -85,8 +85,6 @@ handleSubmit(){
   }
   render(){
     let { auth: { user } }= this.props; 
-    console.log(this.props);
-
     localStorage.setItem("user_name",user.name)
 
     let data = user ? (
@@ -102,7 +100,7 @@ handleSubmit(){
         })
       ) : (
         this.state.rooms.map(room => {
-          console.log(this.state.rooms);
+          // console.log(this.state.rooms);
           
           return (
             <div className="row">
@@ -125,7 +123,7 @@ handleSubmit(){
 
         <div class="address">
         
-        PINCODE
+        Pincode
        <input class="input" type="number"  name="pincode" placeholder="PINCODE"/>
 
           
@@ -159,7 +157,7 @@ handleSubmit(){
     boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
     activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
     height={20} width={50} onChange={this.handleChangesmoke} checked={this.state.isNonSmoker} />
-         < i  className="fas fa-smoking-ban checked"></i>
+         {/* < i className="fas fa-smoking-ban checked"></i> */}
        
         <span class="span">No Smoking</span>
                 

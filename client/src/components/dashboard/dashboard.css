@@ -1,6 +1,7 @@
 .dashboard{
     display: flex;
     flex-direction: row;
+    position: 'relative';
    
 }
 .fas{size: 30 px;position:relative; bottom:6px;margin-right: 4px;margin-left: 6px}
@@ -9,7 +10,8 @@
     background-color:rgb(197, 224, 235);
     width: 400px;
     display: 'flex' ;
-    position: fixed;
+    position: absolute;
+    float:'right';
     right:2px;
     top:60px;
     flex-wrap : ' wrap';
