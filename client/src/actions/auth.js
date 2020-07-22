@@ -87,7 +87,7 @@ export const register_cust = ({ name, email, password }) => async dispatch => {
     }
   };
 
-  console.log("inside csutoemr reg")
+  // console.log("inside csutoemr reg")
   const body = JSON.stringify({ name, email, password });
 
   try {

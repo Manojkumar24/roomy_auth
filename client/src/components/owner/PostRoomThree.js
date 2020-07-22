@@ -215,7 +215,7 @@ class PostRoomThree extends Component{
                             </label>
                             <label>
                                 <input class="with-gap" type="radio" value="Not sure" name="gender" />
-                                <span>Not Sure</span>
+                                <span>Not sure</span>
                             </label>
                         </div>
 

@@ -25,12 +25,13 @@ import './App.css';
 
 import Home from './components/owner/Home'
 import YourRoom from './components/user/YourRoom'
+import YourComplains from './components/user/YourComplains'
 import PostRoomOne from './components/owner/PostRoomOne'
 import PostRoomTwo from './components/owner/PostRoomTwo'
 import PostRoomThree from './components/owner/PostRoomThree'
 import OwnerRoom from './components/rooms/OwnerRoom';
 import CustomerView from './components/rooms/CustomerView';
-
+import ViewComplains from './components/owner/ViewComplains';
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -64,8 +65,11 @@ const App = () => {
               <Route exact path='/register_cust' component={Register_Cust} />
               <Route exact path='/yourRoom' component={YourRoom} />
               
+              
               <Route exact path='/login' component={Login} />
               <Route exact path='/login_cust' component={Login_Cust} />
+              <Route exact path='/yourComplains' component={YourComplains} />
+              <Route exact path='/viewComplains/:room_id' component={ViewComplains} />
               
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />
