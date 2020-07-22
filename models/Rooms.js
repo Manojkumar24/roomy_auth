@@ -88,7 +88,7 @@ const RoomSchema = new mongoose.Schema({
     gender: {
         type: String,
         enum: ["Male", "Female", "Not sure"],
-        required: true
+        required: false
     },
 
     interested_people: {

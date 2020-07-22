@@ -7,6 +7,8 @@ const User = require("../../models/User");
 const Occupant = require("../../models/Occupants");
 const auth = require("../../middleware/auth");
 const RateOccupantsAndRoom = require("../../models/RateOccupantsAndRoom");
+const Complains = require("../../models/Complains");
+const Occupants = require("../../models/Occupants");
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
@@ -307,6 +309,66 @@ router.post("/filters", auth, async (req, res) => {
         let newPreferences = new Preferences(form_data);
         newPreferences.save();
     } 
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: "unable to fetch" });
+    }
+});
+
+router.post("/submitComplain", auth, async (req, res) =>{
+    try{
+        let occupant = await Occupants.findOne({ user: req.user.id });
+        let room = await Rooms.findOne({ _id: occupant.room });
+        let complain = new Complains({ user: req.user.id, owner: room.user, complain: req.body.complain, room: occupant.room });
+        await complain.save();
+        res.json("Done")
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).json({ msg: "unable to fetch" });
+    }
+    
+});
+
+router.get("/listUserComplain", auth, async (req, res) => {
+    try{
+        let occupant = await Occupants.findOne({ user: req.user.id });
+        let complains = await Complains.find({user:req.user.id,room:occupant.room});
+        res.json(complains);
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: "unable to fetch" });
+    }
+});
+
+router.get("/listOwnerComplain/:id", auth, async (req, res) => {
+    try {
+        // console.log(req.params.id);
+        let complains = await Complains.find({ room: req.params.id,status:"open" });
+        // console.log("complains are",complains);
+        let details = [];
+        for(var i = 0; i < complains.length; i++){
+            details.push(complains[i].toJSON());
+            details[i].user = await User.findOne({_id:complains[i].user}).select(['name','email']);
+            // console.log("user",details[i].user);
+        }
+        console.log(details);
+        res.json(details);
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: "unable to fetch" });
+    }
+});
+
+router.get("/updateComplain/:id", auth, async (req, res) => {
+    try {
+        let complains = await Complains.findOne({ _id: req.params.id});
+        complains.status = "closed";
+        await complains.save();
+        res.json("Done");
+    }
     catch (err) {
         console.error(err.message);
         res.status(500).json({ msg: "unable to fetch" });

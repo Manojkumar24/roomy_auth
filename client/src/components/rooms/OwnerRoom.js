@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 class OwnerRoom extends Component {
     state = {
@@ -56,7 +57,7 @@ class OwnerRoom extends Component {
     }
 
     render(){
-
+        
         let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (
@@ -88,26 +89,19 @@ class OwnerRoom extends Component {
         ): (
             <p>None are Interested</p>
         )
+        
         return(
             <div>
                 <h3 className="center">Your Room</h3>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
+                {/* <Link to={'/ownerroom/' + room._id}> */}
+                <Link to={'/viewComplains/' + this.props.match.params.room_id}>Your Complains</Link>
                 <p>Occupants</p>
                 {occupant_data}
                 <p>Interested People</p>
                 {intersted_data}
-                {/* <ol>
-                    {this.state.room.interested_people.map(item => <li>{item.name}</li>)}
-                </ol> */}
-                {/* <p>
-                    <ul>
-                        {this.state.room.interested_people.map(item =>{
-                            return <li>{item["name"]} </li>
-                        })}
-                    </ul>
-                </p> */}
             </div>
         )
     }
