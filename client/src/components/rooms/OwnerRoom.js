@@ -17,7 +17,7 @@ class OwnerRoom extends Component {
             })
     }
 
-    HandleSubmit = (event) => {
+    AddUser = (event) => {
         // event.preventDefault()
         // console.log(event.target.email.value);
         let room_id = this.props.match.params.room_id;
@@ -36,11 +36,47 @@ class OwnerRoom extends Component {
         })
     }
 
+    RemoveUser = (event) => {
+        // event.preventDefault()
+        // console.log(event.target.email.value);
+        let room_id = this.props.match.params.room_id;
+        let email_id = event.target.email.value;
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        axios.post("/api/rooms/removeUser", JSON.stringify({ "email": email_id, "room": room_id }), config).then(response => {
+            this.setState({
+                room: response.data
+            })
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     render(){
-        let data = this.state.room.interested_people ? (
+
+        let occupant_data = this.state.room.occupants ? (
+            this.state.room.occupants.map(person => {
+                return (
+                    <form onSubmit={this.RemoveUser}>
+                        <ul>
+                            <li><input type="text" name="name" readonly="readonly" value={person.name} /></li>
+                            <li><input type="text" name="email" readonly="readonly" value={person.email} /></li>
+                            <li><input type="submit" value="Remove" /></li>
+                        </ul>
+                    </form>
+                )
+            })
+        ) : (
+                <p>There are currently no occupants</p>
+            )
+
+        let intersted_data = (this.state.room.interested_people && this.state.room.interested_people.length > 0)? (
             this.state.room.interested_people.map(person=>{
                 return (
-                    <form onSubmit={this.HandleSubmit}>
+                    <form onSubmit={this.AddUser}>
                         <ul>
                             <li><input type="text" name="name" readonly="readonly" value={person.name}/></li>
                             <li><input type="text" name="email" readonly="readonly" value={person.email}/></li>
@@ -50,7 +86,7 @@ class OwnerRoom extends Component {
                 )
             })
         ): (
-            <p>Noone is intrete</p>
+            <p>None are Interested</p>
         )
         return(
             <div>
@@ -58,8 +94,10 @@ class OwnerRoom extends Component {
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
+                <p>Occupants</p>
+                {occupant_data}
                 <p>Interested People</p>
-                {data}
+                {intersted_data}
                 {/* <ol>
                     {this.state.room.interested_people.map(item => <li>{item.name}</li>)}
                 </ol> */}

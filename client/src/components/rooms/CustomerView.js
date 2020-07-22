@@ -72,12 +72,28 @@ class OwnerRoom extends Component {
     }
 
     render() {
+        let occupant_data = this.state.room.occupants ? (
+            this.state.room.occupants.map(person => {
+                return (        
+                        <ul>
+                            <li>{person.name}</li>
+                            <li>{person.email}</li>
+                        </ul>
+                )
+            })
+        ) : (
+                <p>There are currently no occupants</p>
+            )
         return (
             <div>
                 <h3 className="center">Room</h3>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
+                <p>Occupants</p>
+                
+                {occupant_data}
+
                 {this.state.interested ? (
                     <form onSubmit={this.markUnInterested}>
                         <input type='submit' className='btn btn-primary' value='Mark as Uninterested' />
