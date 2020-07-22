@@ -12,6 +12,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const FG_FAIL = 'FG_FAIL';
 export const PW_FAIL = 'PW_FAIL';
 export const MAIL_FAIL = 'MAIL_FAIL';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const LOGOUT = 'LOGOUT';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const GET_POSTS = 'GET_POSTS';

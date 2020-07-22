@@ -15,6 +15,7 @@ import {
   FG_FAIL,
   PW_FAIL,
   MAIL_FAIL,
+  CLEAR_PROFILE,
   LOGOUT
 } from './types';
 
@@ -315,5 +316,6 @@ export const mail_fg = (email) => async dispatch => {
 
 //Logout  /Clear Profile
 export const logout = () => dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
 };

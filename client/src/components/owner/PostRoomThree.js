@@ -38,7 +38,10 @@ class PostRoomThree extends Component{
                 'Content-Type': 'application/json'
             }
         };
-        axios.post('/api/rooms/create',JSON.stringify(form_data),config).then(response =>{console.log(response)
+        axios.post('/api/rooms/create',JSON.stringify(form_data),config).then(response =>{
+            // console.log(response);
+            this.props.history.push('/dashboard');
+        
         }).catch(error => {
         console.log(error);
         })
@@ -48,6 +51,8 @@ class PostRoomThree extends Component{
         this.setState({
             state: Copystate
         });
+
+        
 
     }
     render(){
