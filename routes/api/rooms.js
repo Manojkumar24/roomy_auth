@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const {check, validationResult} = require("express-validator/check");
 const Rooms = require("../../models/Rooms");
+const Preferences = require("../../models/Preferences");
 const User = require("../../models/User");
 const Occupant = require("../../models/Occupants");
 const auth = require("../../middleware/auth");
 const RateOccupantsAndRoom = require("../../models/RateOccupantsAndRoom");
-
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
@@ -14,14 +14,74 @@ router.get("/list", auth,async (req, res) => {
         let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
         res.json(rooms);
     }else{
-        person_details = [];
-        tenants = await Occupant.find({ user: req.user.id });
-        for (var i = 0; i < tenants.length; i++) {
-            person_details.push(tenants[i].room);
+        let preferences = await Preferences.findOne({ user: req.user.id})
+        
+        let form_data = {}
+
+        if (preferences.earlybird) {
+            form_data.earlybird = { "$in": [preferences.earlybird, "Not sure"] }
         }
-        let rooms = await Rooms.find({_id:{"$nin":person_details}}).limit(10).select(["-user"]);
+    
+
+        if (preferences.smoker) {
+            form_data.smoker = { "$in": [preferences.smoker, "Not sure"] }
+        }
+
+        if (preferences.nightowl) {
+            form_data.nightowl = { "$in": [preferences.nightowl, "Not sure"] }
+        } 
+
+        if (preferences.gender) {
+            form_data.gender = { "$in": [preferences.gender, "Not sure"] }
+        }
+
+        if (preferences.rent > 0) {
+            form_data.rent = { "$lte": preferences.rent }
+        }
+
+        if (preferences.pincode) {
+            form_data.pincode = preferences.pincode
+        }
+
+        if (preferences.city) {
+            form_data.city = preferences.city
+        }
+
+        if (preferences.pets) {
+            form_data.pets = preferences.pets;
+        }
+
+        if (preferences.vegetarians) {
+            form_data.vegetarians = { "$in": [preferences.vegetarians, "Not sure"] }
+        } 
+
+        if (preferences.furnished) {
+            form_data.furnished = preferences.furnished;
+        }
+
+        if (preferences.wifi) {
+            form_data.wifi = preferences.wifi;
+        } 
+
+        if (preferences.parking) {
+            form_data.parking = preferences.parking;
+        }
+
+        person_details = [];
+        tenants = await Occupant.findOne({ user: req.user.id });
+        // for (var i = 0; i < tenants.length; i++) {
+        //     person_details.push(tenants[i].room);
+        // }
+        if(tenants){
+            form_data._id = { "$nin": tenants.room }
+        }
+        
+
+        console.log("Form data",form_data);
+
+        let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
         rooms.user = user.name;
-        // console.log(rooms);
+        console.log("Lenght of rooms",rooms.length);
         
         res.json(rooms);
     }
@@ -192,9 +252,62 @@ router.get("/markUnInterested/:id", auth, async (req, res) => {
 router.post("/filters", auth, async (req, res) => {
     console.log(req.body);
     try {
-        let rooms = await Rooms.find(req.body);
-        res.json(rooms);
-    } catch (err) {
+        let preferences = await Preferences({user:req.user.id});
+        if(preferences){
+            await preferences.deleteOne();
+        }
+        let form_data = { user: req.user.id }
+        if (req.body.earlybird) {
+            form_data.earlybird = req.body.earlybird;
+        }
+
+        if (req.body.smoker) {
+            form_data.smoker = req.body.smoker;
+        } 
+
+        if (req.body.nightowl) {
+            form_data.nightowl = req.body.nightowl;
+        } 
+        if (req.body.gender) {
+            form_data.gender = req.body.gender;
+        }
+
+        if (req.body.rent > 0) {
+            form_data.rent = req.body.rent;
+        }
+
+        if (req.body.pincode) {
+            form_data.pincode = req.body.pincode;
+        }
+
+        if (req.body.city) {
+            form_data.city = req.body.city;
+        }
+
+        if (req.body.pets) {
+            form_data.pets = req.body.pets;
+        }
+
+        if (req.body.vegetarians) {
+            form_data.vegetarians = req.body.vegetarians;
+        } 
+
+        if (req.body.furnished) {
+            form_data.furnished = req.body.furnished;
+        }
+
+        if (req.body.wifi) {
+            form_data.wifi = req.body.wifi;
+        }
+
+        if (req.body.parking) {
+            form_data.parking = req.body.parking;
+        }
+        
+        let newPreferences = new Preferences(form_data);
+        newPreferences.save();
+    } 
+    catch (err) {
         console.error(err.message);
         res.status(500).json({ msg: "unable to fetch" });
     }
@@ -221,7 +334,8 @@ router.post(
             check("vegetarians", "Invalid option for vegetarian").isIn(["Yes", "No", "Not sure"]),
             check("furnished", "Invalid option for furnished").isIn(["Fully", "Semi", "Not Furnished"]),
             check("wifi", "Invalid option for wifi").isIn(["Yes", "No"]),
-            check("parking", "Invalid option for parking").isIn(["Four Wheeler", "Two Wheeler", "Both", "No parking"])
+            check("parking", "Invalid option for parking").isIn(["Four Wheeler", "Two Wheeler", "Both", "No parking"]),
+            check("gender", "Invalid option for gender").isIn(["Male", "Female", "Not sure"])
         ]
     ],
     async (req, res) => {
@@ -250,7 +364,8 @@ router.post(
                 vegetarians: req.body.vegetarians,
                 furnished: req.body.furnished,
                 wifi: req.body.wifi,
-                parking: req.body.parking
+                parking: req.body.parking,
+                gender:req.body.gender
             };
             const room = new Rooms(roomdetails);
             await room.save();

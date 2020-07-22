@@ -24,7 +24,7 @@ const Pw_ch = ({ pw_ch, isAuthenticated }) => {
 
       else {
           pw_ch(password, password2);
-          this.props.history.push('/login');
+          // this.props.history.push('/login');
       }
   };
 
