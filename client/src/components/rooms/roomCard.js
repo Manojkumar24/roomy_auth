@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import office_img from '../../images/office.jpg'
+import './roomcard.css';
 
 const RoomCard = ({ room, owner }) => {
     return (
         <Fragment>
-            <div className="col s10 m20">
+            <div className="col m10 m20">
                 <div className="card">
-                    <div className="card-image">
+                    <div class="card-image">
                         <img src={office_img} alt="Room Image" />
                         <span className="card-title">{room.name}</span>
                     </div>
