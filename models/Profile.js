@@ -5,13 +5,28 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
-  website: {
-    type: String
-  },
-  skills: {
-    type: [String],
+  name: {
+    type: String,
     required: true
+  },
+
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+
+
+  phonenum: {
+    type: String,
+    min: 1111111111,
+    max: 9999999999
   }
+
+  
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);
