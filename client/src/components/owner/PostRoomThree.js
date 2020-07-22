@@ -12,7 +12,8 @@ class PostRoomThree extends Component{
         vegetarians : '',
         furnished : '',
         wifi : '',
-        parking : ''
+        parking : '',
+        gender: ''
     }
 
     handleChange = (event) => {
@@ -201,6 +202,23 @@ class PostRoomThree extends Component{
                                 <span>No parking</span>
                             </label>
                         </div>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Preferred Gender<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Male" name="gender" />
+                                <span>Male</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Female" name="gender" />
+                                <span>Female</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Not sure" name="gender" />
+                                <span>Not Sure</span>
+                            </label>
+                        </div>
+
 
                         <button style={{ margin: "10px"}} type="submit" className="waves-effect waves-light btn-large" >Submit</button>
                         <Link to="/details/2"><button style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Previous</button></Link>
