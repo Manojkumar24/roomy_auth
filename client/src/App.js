@@ -21,6 +21,7 @@ import setAuthToken from './utils/setAuthToken';
 import './App.css';
 
 import Home from './components/owner/Home'
+import YourRoom from './components/user/YourRoom'
 import PostRoomOne from './components/owner/PostRoomOne'
 import PostRoomTwo from './components/owner/PostRoomTwo'
 import PostRoomThree from './components/owner/PostRoomThree'
@@ -58,6 +59,7 @@ const App = () => {
               <Route exact path="/userRoomView/:room_id" component={CustomerView} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/register_cust' component={Register_Cust} />
+              <Route exact path='/yourRoom' component={YourRoom} />
               
               <Route exact path='/login' component={Login} />
               <Route exact path='/login_cust' component={Login_Cust} />

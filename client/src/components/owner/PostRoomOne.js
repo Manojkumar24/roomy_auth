@@ -23,7 +23,7 @@ class PostRoomOne extends Component{
 
     handleSubmit = (event) => {
         event.preventDefault()
-        console.log(this.state);
+        // console.log(this.state);
         if(this.state.phonenum.length !== 10) {
             window.alert('Enter a valid phone number of 10 digits!')
         }
