@@ -26,6 +26,9 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
     </ul>
   ) : (
     <ul id="nav-mobile" className="right">
+        <li>
+          <Link to= "/yourRoom">Your Room</Link>
+        </li>
       <li>
         <a onClick={logout} href='#!'>
           {/* <a onClick={logout} href='home'> */}

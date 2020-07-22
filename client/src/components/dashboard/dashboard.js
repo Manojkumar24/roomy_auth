@@ -77,7 +77,7 @@ handleSubmit(){
 
   componentDidMount(){
     axios.get('/api/rooms/list').then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.setState({
         rooms: res.data
       })
@@ -85,8 +85,6 @@ handleSubmit(){
   }
   render(){
     let { auth: { user } }= this.props; 
-    console.log(this.props);
-
     localStorage.setItem("user_name",user.name)
 
     let data = user ? (
@@ -102,7 +100,7 @@ handleSubmit(){
         })
       ) : (
         this.state.rooms.map(room => {
-          console.log(this.state.rooms);
+          // console.log(this.state.rooms);
           
           return (
             <div className="row">

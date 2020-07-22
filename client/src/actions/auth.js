@@ -64,7 +64,7 @@ export const register = ({ name, email, password }) => async dispatch => {
     dispatch(loadUser());
     // console.log("control reaches here 4");
     // this.props.history.push('/login');
-    
+
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -97,7 +97,7 @@ export const register_cust = ({ name, email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    
+
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
