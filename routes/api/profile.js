@@ -12,7 +12,7 @@ const Email = require('./send_email_pro_verify');
 router.get('/me', auth, async (req, res) => {
   try {
     console.log(req.user.id);
-    console.log('****profile*');
+    // console.log('****profile*');
     const profile = await Profile.findOne({
       user: req.user.id
     });
@@ -158,7 +158,7 @@ router.post('/pw',auth, async (req, res) => {
     // );
     
     // await user.save();
-    console.log(profile);
+    // console.log(profile);
     let user = User.findOneAndUpdate(
       { name : profile.name },
       update,
@@ -167,15 +167,8 @@ router.post('/pw',auth, async (req, res) => {
       }
     );
     (await user).save();
-    if(user){
-
-      console.log('hellow');
-    }
-
-    
     res.json(profile);
-    //res.redirect('routes/api/profile/up');
-    console.log('success password change')
+    //res.redirect('routes/api/profile/up')
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: 'server error' });
