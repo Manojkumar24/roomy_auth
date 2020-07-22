@@ -86,15 +86,17 @@ handleSubmit(){
   render(){
     let { auth: { user } }= this.props; 
     console.log(this.props);
-    
+
+    localStorage.setItem("user_name",user.name)
+
     let data = user ? (
       user.isOwner ? (
         this.state.rooms.map(room =>{
           return (
             <div className="row">
-            <Link to={'/ownerroom/'+room._id}>
-            <RoomCard room={room} owner={user.name}/>
-            </Link>
+              <Link to={'/ownerroom/'+room._id}>
+                <RoomCard room={room} owner={user.name}/>
+              </Link>
             </div>
           )
         })
@@ -104,7 +106,9 @@ handleSubmit(){
           
           return (
             <div className="row">
-            <RoomCard room={room} owner={this.state.rooms.user}/>
+              <Link to={'/userRoomView/' + room._id}>
+              <RoomCard room={room} owner={this.state.rooms.user} />
+              </Link>
             </div>
           )
         })
