@@ -25,12 +25,16 @@ router.get("/list", auth,async (req, res) => {
 
 router.get("/ownerRoom/:id", auth, async (req,res) => {
     var user = await User.findOne({ _id: req.user.id });
-    person_details = {}
+    person_details = []
     if(user && user.isOwner){
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
-        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
-        
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"]);
+        tenants = await Occupant.find({room: room._id}).select(["-room","-_id"]);
+        for(var i=0; i<tenants.length; i++){
+            person_details.push(tenants[i].user);
+        }
+        details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
         res.json(details);
     }
@@ -43,6 +47,12 @@ router.get("/userviewRoom/:id", auth, async (req, res) => {
         var details = room.toJSON();
         details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
 
+        person_details = [];
+        tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+        for (var i = 0; i < tenants.length; i++) {
+            person_details.push(tenants[i].user);
+        }
+        details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
         res.json(details);    
 });
@@ -53,7 +63,13 @@ router.get("/markInterested/:id", auth, async (req, res) => {
     room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
-
+    
+    person_details = [];
+    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+    for (var i = 0; i < tenants.length; i++) {
+        person_details.push(tenants[i].user);
+    }
+    details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
     // console.log(details);
     res.json(details);
 
@@ -81,10 +97,37 @@ router.post('/addUser', auth, async(req, res) => {
         await room.save();
     }
     var details = room.toJSON();
+    person_details = [];
+    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+    for (var i = 0; i < tenants.length; i++) {
+        person_details.push(tenants[i].user);
+    }
+    details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
     res.json(details);
     
  });
+
+router.post('/removeUser', auth, async (req, res) => {
+    const email = req.body.email;
+    const room_id = req.body.room;
+    let user = await User.findOne({ email: email });
+    const instance = await Occupant.findOne({ user: user.id })
+    await instance.deleteOne();
+    let room = await Rooms.findOne({ _id: room_id });
+    room.availability = room.availability + 1;
+    await room.save();
+
+    person_details = [];
+    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+    for (var i = 0; i < tenants.length; i++) {
+        person_details.push(tenants[i].user);
+    }
+    details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
+    details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+    res.json(details);
+
+});
 
 router.get("/markUnInterested/:id", auth, async (req, res) => {
     let room = await Rooms.findOne({ _id: req.params.id });
@@ -98,6 +141,13 @@ router.get("/markUnInterested/:id", auth, async (req, res) => {
     room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+
+    person_details = [];
+    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+    for (var i = 0; i < tenants.length; i++) {
+        person_details.push(tenants[i].user);
+    }
+    details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
 
     // console.log(details);
     res.json(details);
