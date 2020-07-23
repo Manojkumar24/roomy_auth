@@ -19,7 +19,7 @@ class OwnerRoom extends Component {
     }
 
     AddUser = (event) => {
-        // event.preventDefault()
+        event.preventDefault()
         // console.log(event.target.email.value);
         let room_id = this.props.match.params.room_id;
         let email_id = event.target.email.value;
@@ -38,7 +38,7 @@ class OwnerRoom extends Component {
     }
 
     RemoveUser = (event) => {
-        // event.preventDefault()
+        event.preventDefault()
         // console.log(event.target.email.value);
         let room_id = this.props.match.params.room_id;
         let email_id = event.target.email.value;
