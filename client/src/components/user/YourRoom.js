@@ -45,6 +45,7 @@ class YourRoom extends Component {
             <div>
                 <h3 className="center">Room</h3>
                 {data}
+                <Link to='/reviewPastRoom'>Review Past Room</Link>
             </div>
         )
     }

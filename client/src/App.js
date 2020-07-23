@@ -35,6 +35,8 @@ import OwnerRoom from './components/rooms/OwnerRoom';
 import CustomerView from './components/rooms/CustomerView';
 import ViewComplains from './components/owner/ViewComplains';
 import ReviewOccupant from './components/owner/ReviewOccupant';
+import ReviewPastRoom from './components/user/ReviewPastRoom';
+import ReviewRoomMate from './components/user/ReviewRoomMate';
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -67,6 +69,8 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/register_cust' component={Register_Cust} />
               <Route exact path='/yourRoom' component={YourRoom} />
+              <Route exact path='/reviewPastRoom' component={ReviewPastRoom} />
+              <Route exact path='/review/:name' component={ReviewRoomMate} />
               
               
               <Route exact path='/login' component={Login} />

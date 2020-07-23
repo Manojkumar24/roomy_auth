@@ -10,6 +10,8 @@ const RateOccupantsAndRoom = require("../../models/RateOccupantsAndRoom");
 const Complains = require("../../models/Complains");
 const Occupants = require("../../models/Occupants");
 const UserReview = require("../../models/UserReview");
+const RoomReview = require("../../models/RoomReview");
+
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
@@ -242,8 +244,161 @@ router.post('/removeUser', auth, async (req, res) => {
     }
     await instance.deleteOne();
     room.availability = room.availability + 1;
+    let occupant = await Occupant.find({room:room._id});
+    let occupant_data = [];
+    for (var i = 0; i < occupant.length; i++){
+        occupant_data.push(occupant[i].user);
+    }
+    let rate_occupants_room = new RateOccupantsAndRoom({user:user._id,room:room._id,occupants:occupant_data});
+    await rate_occupants_room.save();
     await room.save();
     res.json("OKAY");   
+
+});
+
+router.post('/submitUserReview', auth, async (req, res) => {
+    const name = req.body.name;
+    // const room_id = req.body.room;
+
+    let review_data = {}
+
+    if (req.body.smoker) {
+        review_data.smoker = req.body.smoker
+    }
+
+    if (req.body.earlybird) {
+        review_data.earlybird = req.body.earlybird
+    }
+
+    if (req.body.nightowl) {
+        review_data.nightowl = req.body.nightowl
+    }
+
+    if (req.body.pets) {
+        review_data.pets = req.body.pets
+    }
+
+    if (req.body.vegetarians) {
+        review_data.vegetarians = req.body.vegetarians
+    }
+
+    if (req.body.review_text) {
+        review_data.review_text = req.body.review_text
+    }
+
+    let occupant = await User.findOne({ name: name });
+
+    if (review_data != {}) {
+        review_data.user = req.user.id;
+        review_data.occupant = occupant._id;
+        let temp = await UserReview.findOne({user:req.user.id,occupant:occupant._id});
+        if(temp){
+            await temp.deleteOne();
+        } 
+        let review = new UserReview(review_data);
+        await review.save();
+    }
+    res.json("OKAY");
+
+});
+
+router.post('/reviewRoomMate', auth, async (req, res) => {
+    const name = req.body.name;
+    // const room_id = req.body.room;
+    let occupant = await User.findOne({name:name});
+    let review = await UserReview.findOne({ user: req.user.id, occupant:occupant._id});
+    let review_data = {}
+
+    if (review.smoker) {
+        review_data.smoker = review.smoker
+    }
+
+    if (review.earlybird) {
+        review_data.earlybird = review.earlybird
+    }
+
+    if (review.nightowl) {
+        review_data.nightowl = review.nightowl
+    }
+
+    if (review.pets) {
+        review_data.pets = review.pets
+    }
+
+    if (review.vegetarians) {
+        review_data.vegetarians = review.vegetarians
+    }
+
+    if (review.review_text) {
+        review_data.review_text = review.review_text
+    }
+
+    res.json(review_data);
+
+});
+
+
+
+router.get('/listPastRoomDetails',auth, async (req,res) => {
+    try{
+        let rate_occupants_room = await RateOccupantsAndRoom.findOne({user:req.user.id});
+        let form_data = {};
+        if(rate_occupants_room){
+            form_data.occupants = await User.find({ _id: { "$in": rate_occupants_room.occupants}}).select(["name"]);
+        }
+        let roomreview = await RoomReview.findOne({room:rate_occupants_room.room,user:req.user.id});
+        if(roomreview){
+            form_data.roomreview = roomreview;
+        }
+        res.json(form_data);
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: "server error" });
+    }
+});
+
+
+
+
+router.post('/reviewRoom', auth, async (req, res) => {
+
+    let review_data = {}
+
+    if (req.body.furnished) {
+        review_data.furnished = req.body.furnished
+    }
+
+    if (req.body.wifi) {
+        review_data.wifi = req.body.wifi
+    }
+
+    if (req.body.parking) {
+        review_data.parking = req.body.parking
+    }
+
+    if (req.body.owner) {
+        review_data.owner = req.body.owner
+    }
+
+    if (req.body.review_text) {
+        review_data.review_text = req.body.review_text
+    }
+
+    if (req.body.review_text) {
+        review_data.review_text = req.body.review_text
+    }
+
+    const instance = await RateOccupantsAndRoom.findOne({ user: req.user.id })
+
+    if (review_data != {}) {
+        review_data.user = req.user.id;
+        review_data.room = instance.room;
+        let review = new RoomReview(review_data);
+        await review.save();
+    }
+    
+    res.json("OKAY");
 
 });
 
