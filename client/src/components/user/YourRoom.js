@@ -34,6 +34,7 @@ class YourRoom extends Component {
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
+                <Link to='/payment'>Pay Rent</Link>
                 <p>Occupants</p>
                 {occupant_data}
                     <Link to='/yourComplains'>Your Complains </Link>

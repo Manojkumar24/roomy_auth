@@ -517,6 +517,19 @@ router.get("/listUserComplain", auth, async (req, res) => {
     }
 });
 
+router.get("/RentHistory", auth, async (req, res) => {
+    try {
+        console.log("before");
+        let payments = await Rent.find({user:req.user.id});
+        console.log("fddfdfdfdf",payments);
+        res.json(payments);
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: "unable to fetch" });
+    }
+});
+
 router.get("/listOwnerComplain/:id", auth, async (req, res) => {
     try {
         // console.log(req.params.id);
@@ -572,7 +585,8 @@ router.post(
             check("furnished", "Invalid option for furnished").isIn(["Fully", "Semi", "Not Furnished"]),
             check("wifi", "Invalid option for wifi").isIn(["Yes", "No"]),
             check("parking", "Invalid option for parking").isIn(["Four Wheeler", "Two Wheeler", "Both", "No parking"]),
-            check("gender", "Invalid option for gender").isIn(["Male", "Female", "Not sure"])
+            check("gender", "Invalid option for gender").isIn(["Male", "Female", "Not sure"]),
+            check("trial", "Invalid option for trial").isIn(["Yes", "No"]),
         ]
     ],
     async (req, res) => {
@@ -602,7 +616,8 @@ router.post(
                 furnished: req.body.furnished,
                 wifi: req.body.wifi,
                 parking: req.body.parking,
-                gender:req.body.gender
+                gender:req.body.gender,
+                trial:req.body.trial
             };
             const room = new Rooms(roomdetails);
             await room.save();

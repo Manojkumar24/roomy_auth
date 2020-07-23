@@ -83,7 +83,7 @@ const App = () => {
               <Route exact path='/fg_mail' component={Mail_fg} />
               <Route exact path='/pw_change' component={pw_ch} />
               <Route exact path='/mail_change' component={mail_ch} />
-              <Route exact path='/payment' component={Payment} />
+              <PrivateRoute exact path='/payment' component={Payment} />
 
               <PrivateRoute exact path='/profile' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
