@@ -12,12 +12,21 @@ const shortid = require('shortid');
 const cors = require('cors');
 
 
+
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
+
+
 var mongoose = require('mongoose');
+const auth = require('./middleware/auth');
 var mongoDB = 'mongodb://localhost:27017/roomydb';
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+const Occupants = require("./models/Occupants");
+const Rent = require("./models/Rent");
+const Rooms = require("./models/Rooms");
 
 
 //connect MongoDB
@@ -67,12 +76,15 @@ const razorpay = new Razorpay({
 // });
 
 
-app.post('/verification', (req,res) =>{
+app.post('/verification', async (req,res) =>{
     //do a verification
     const secret = '12345678';
     //const secret = '123456789';
     console.log(req.body);
-
+    let occupant = await Occupants.findOne({ user: localStorage.getItem("user_id") });
+    localStorage.removeItem("user_id");
+    let room = await Rooms.findOne({ _id: occupant.room });
+    
 	const crypto = require('crypto')
 
 	const shasum = crypto.createHmac('sha256', secret)
@@ -83,8 +95,20 @@ app.post('/verification', (req,res) =>{
 
     if (digest === req.headers['x-razorpay-signature']){
         console.log('request is legit')
+        let rent = new Rent({
+            user: occupant.user,
+            room: room._id,
+            payment_id:req.body.payload.payment.entity.id,
+            amount: req.body.payload.payment.entity.amount/100,
+            order_id:req.body.payload.payment.entity.order_id,
+            transaction_method: req.body.payload.payment.entity.method
+            })
 
-        require('fs').writeFileSync('payment5.json', JSON.stringify(req.body, null, 4))
+        await rent.save();
+        // let occupant = await Occupants.findOne({ user: req.user.id });
+        // let room = await Rooms.findOne({ _id: occupant.room });
+        
+        require('fs').writeFileSync('payment6.json', JSON.stringify(req.body, null, 4))
     }else{
         console.log('request is not legit')
     }
@@ -94,10 +118,15 @@ app.post('/verification', (req,res) =>{
 
 })
 
-app.post('/razorpay', async (req, res) => {
+app.post('/razorpay', auth, async (req, res) => {
     
+    let occupant = await Occupants.findOne({user:req.user.id});
+    localStorage.setItem("user_id", req.user.id);
+    let room = await Rooms.findOne({_id:occupant.room});
+    let user = await User.findOne({_id:req.user.id});
+
     const payment_capture = 1;
-    const amount = 4999
+    const amount = room.rent;
     const currency = 'INR'
 
     const options = {
@@ -108,16 +137,24 @@ app.post('/razorpay', async (req, res) => {
     }
     try{
         const response = await razorpay.orders.create(options)
-        console.log('hello server start');
+        // console.log('hello server start');
         console.log(response);
-        console.log('hello server end');
+        // console.log('hello server end');
 
-        res.json({
+        let profile = await Profile.findOne({user:req.user.id});
+
+        let res_data = {
             id: response.id,
             currency: response.currency,
-            amount: response.amount
-        })
+            amount: response.amount,
+            name: user.name,
+            email: user.email
+        }
     
+        if (profile.phonenum){
+            res_data.contact_number = profile.phonenum;
+        }
+        res.json(res_data);
     }
     catch(err){
         console.log(err);

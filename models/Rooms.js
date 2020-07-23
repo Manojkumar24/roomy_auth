@@ -94,6 +94,11 @@ const RoomSchema = new mongoose.Schema({
     interested_people: {
         type: [mongoose.Schema.Types.ObjectId],
         required: false
+    },
+    trial: {
+        type:String,
+        enum: ["Yes", "No"],
+        required: true
     }
 });
 
