@@ -51,6 +51,9 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
         <a href='#!'> Profile</a>
       </li> */}
       <li>
+        <Link to='/payment'> Donate</Link>
+      </li>
+      <li>
         <Link to='/register'> Owner Reg</Link>
       </li>
 

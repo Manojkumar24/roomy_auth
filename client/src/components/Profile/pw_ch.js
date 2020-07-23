@@ -24,15 +24,16 @@ const Pw_ch = ({ pw_ch, isAuthenticated }) => {
 
       else {
           pw_ch(password, password2);
-          // this.props.history.push('/login');
+          return <Redirect to='/dashboard' />;
+          //this.props.history.push('/login');
       }
   };
 
   //Redirect if logged in
 
-//   if (isAuthenticated) {
-//     return <Redirect to='/login' />;
-//   }
+  // if (isAuthenticated) {
+  //   return <Redirect to='/login' />;
+  // }
 
   return (
     <Fragment>
