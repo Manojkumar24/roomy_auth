@@ -32,6 +32,7 @@ import PostRoomThree from './components/owner/PostRoomThree'
 import OwnerRoom from './components/rooms/OwnerRoom';
 import CustomerView from './components/rooms/CustomerView';
 import ViewComplains from './components/owner/ViewComplains';
+import ReviewOccupant from './components/owner/ReviewOccupant';
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -70,6 +71,7 @@ const App = () => {
               <Route exact path='/login_cust' component={Login_Cust} />
               <Route exact path='/yourComplains' component={YourComplains} />
               <Route exact path='/viewComplains/:room_id' component={ViewComplains} />
+              <Route exact path='/removeUser/:email' component={ReviewOccupant} />
               
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />
@@ -80,6 +82,7 @@ const App = () => {
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
+            
             </Switch>
           </section>
         </Fragment>

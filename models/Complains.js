@@ -25,7 +25,8 @@ const ComplainsSchema = new mongoose.Schema({
         enum: ["open","closed"],
         required: true,
         default:"open"
-    }
+    },
+    created_at: { type: Date, default: Date.now }
 
 });
 
