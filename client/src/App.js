@@ -15,6 +15,8 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import Profile from './components/Profile/EditProfile';
 import pw_ch from './components/Profile/pw_ch';
 import mail_ch from './components/Profile/mail_ch';
+import Payment from './components/payments/payments';
+
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -71,6 +73,7 @@ const App = () => {
               <Route exact path='/fg_mail' component={Mail_fg} />
               <Route exact path='/pw_change' component={pw_ch} />
               <Route exact path='/mail_change' component={mail_ch} />
+              <Route exact path='/payment' component={Payment} />
 
               <PrivateRoute exact path='/profile' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />

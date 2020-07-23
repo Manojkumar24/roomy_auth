@@ -85,8 +85,10 @@ handleSubmit(){
   }
   render(){
     let { auth: { user } }= this.props; 
-    localStorage.setItem("user_name",user.name)
-
+    //localStorage.setItem("user_name",user.name)
+    if(user){
+      localStorage.setItem("user_name",user.name)
+      }
     let data = user ? (
       user.isOwner ? (
         this.state.rooms.map(room =>{
