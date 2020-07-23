@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { withRouter } from 'react-router-dom'
 
@@ -21,7 +20,6 @@ class ReviewOccupant extends Component {
 
     RemoveUser = (event) => {
         event.preventDefault()
-        console.log(this.props.history);
         // console.log(this.state);
         let email_id = this.props.match.params.email;
         let form_data = { "email": email_id };
