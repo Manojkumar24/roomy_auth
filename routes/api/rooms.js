@@ -9,6 +9,7 @@ const auth = require("../../middleware/auth");
 const RateOccupantsAndRoom = require("../../models/RateOccupantsAndRoom");
 const Complains = require("../../models/Complains");
 const Occupants = require("../../models/Occupants");
+const UserReview = require("../../models/UserReview");
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
@@ -201,29 +202,48 @@ router.post('/addUser', auth, async(req, res) => {
 
 router.post('/removeUser', auth, async (req, res) => {
     const email = req.body.email;
-    const room_id = req.body.room;
+    // const room_id = req.body.room;
+
+    let review_data = {}
+
+    if (req.body.smoker) {
+        review_data.smoker = req.body.smoker
+    }
+
+    if (req.body.earlybird) {
+        review_data.earlybird = req.body.earlybird
+    }
+
+    if (req.body.nightowl) {
+        review_data.nightowl = req.body.nightowl
+    }
+
+    if (req.body.pets) {
+        review_data.pets = req.body.pets
+    }
+
+    if (req.body.vegetarians) {
+        review_data.vegetarians = req.body.vegetarians
+    }
+
+    if (req.body.review_text) {
+        review_data.review_text = req.body.review_text
+    }
+
     let user = await User.findOne({ email: email });
-    const instance = await Occupant.findOne({ user: user.id })
+    const instance = await Occupant.findOne({ user: user._id })
+    let room = await Rooms.findOne({ _id: instance.room });
+
+    if (review_data != {}) {
+        review_data.user = req.user.id;
+        review_data.occupant = user._id;
+        let review = new UserReview(review_data);
+        await review.save();
+    }
     await instance.deleteOne();
-    let room = await Rooms.findOne({ _id: room_id });
     room.availability = room.availability + 1;
     await room.save();
-
-    person_details = [];
-    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
-    for (var i = 0; i < tenants.length; i++) {
-        person_details.push(tenants[i].user);
-    }
-    console.log(person_details);
-    let rateoccupants = await RateOccupantsAndRoom.findOne({user:user.id})
-    if(rateoccupants){
-        await rateoccupants.deleteOne();
-    }
-    let oldRoom = await RateOccupantsAndRoom({ user: user.id, room: room_id, occupants: person_details });
-    await oldRoom.save();
-    details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
-    details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
-    res.json(details);
+    res.json("OKAY");   
 
 });
 

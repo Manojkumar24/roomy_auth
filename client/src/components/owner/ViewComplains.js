@@ -37,6 +37,7 @@ class ViewComplains extends Component {
                         <li>{complain.status}</li>
                         <li>{complain.user.name}</li>
                         <li>{complain.user.email}</li>
+                        <li>{complain.created_at}</li>
                         <form onSubmit = {this.handleSubmit}>
                             <input type="text" name="id" value={complain._id} hidden/>
                             <input type='submit' className='btn btn-primary' value='Mark as closed' />

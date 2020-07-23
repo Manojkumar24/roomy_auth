@@ -40,22 +40,6 @@ class dashboard extends Component {
 
 handleSubmit =(event)=>{
   // event.preventDefault()
-  // console.log("Early Bird",this.state.isEarlyBird);
-  // console.log("Non Smoker",this.state.isNonSmoker);
-  // console.log("Night Owl",this.state.isNightOwl);
-  // console.log("gender",this.state.gender); 
-  // console.log("min price",this.state.minPrice);
-  // console.log("max price",this.state.maxPrice)
-  // console.log("pincode",this.state.pincode);
-  // console.log("city",this.state.city); 
-  // console.log("pets",this.state.pets); 
-  // console.log("vegetarians",this.state.vegetarians);
-  // console.log("furnished",this.state.furnished);
-  // console.log("wifi",this.state.wifi);
-  // console.log("parking",this.state.parking);
-  
-  // "rent": { "$lte": 500.5, "$gte": 500.5 }
-  // "rent": [500.5, 2000]
   let form_data = {}
   console.log(this.state.pincode,this.state.pincode.length);
   

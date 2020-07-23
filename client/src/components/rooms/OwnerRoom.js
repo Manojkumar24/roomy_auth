@@ -61,13 +61,13 @@ class OwnerRoom extends Component {
         let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (
-                    <form onSubmit={this.RemoveUser}>
+                    <div>
                         <ul>
-                            <li><input type="text" name="name" readonly="readonly" value={person.name} /></li>
-                            <li><input type="text" name="email" readonly="readonly" value={person.email} /></li>
-                            <li><input type="submit" value="Remove" /></li>
+                            <li>{person.name}</li>
+                            <li>{person.email}</li>
+                            <Link to={'/removeUser/' + person.email}>Remove User</Link>
                         </ul>
-                    </form>
+                    </div>
                 )
             })
         ) : (

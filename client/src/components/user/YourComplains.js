@@ -37,6 +37,7 @@ class YourComplains extends Component {
                     <ul>
                         <li>{complain.complain}</li>
                         <li>{complain.status}</li>
+                        <li>{complain.created_at}</li>
                     </ul>
                 )
             })
