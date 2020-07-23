@@ -89,7 +89,7 @@ class CustomerView extends Component {
 
         let myimage = (this.state.images.length > 0)? (this.state.images.map((img)=>{
             if(img.image_id==this.state.image_id) {
-            return(<div class="image">{img.image_id} <img  style={{width:"100%", height:"96%"}} src={img.imageValue} alt="Room Image" /> </div>
+            return(<div class="image"> <img  style={{width:"100%", height:"96%"}} src={img.imageValue} alt="Room Image" /> </div>
             )}
             
         }
@@ -114,6 +114,7 @@ class CustomerView extends Component {
                 <p>There are currently no occupants</p>
             )
         return (
+
             <div class="details">
                 <div class="heading">{this.state.room.name} </div>
                 {myimage}
@@ -140,23 +141,14 @@ class CustomerView extends Component {
                     <div class="row"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; Location: {room.pincode} ,{room.city}</div>
                 </div>         
                 </div>
+                
                 <div class="card">
-                <div class="title">Amenties</div>  
-                <div class="itemDisplayDetailLines">
-                    <div class="row"></div>
-                    <div class="row"></div>
-                </div>    
-                <div class="itemDisplayDetailLines">
-                    <div class="row"></div>
-                    <div class="row"></div>
-                </div>         
-                </div>
-                <div class="row ">Amenities &nbsp; </div>
+                <div class="title ">Amenities &nbsp; </div>
                 <div class="amenties">
                    
                     
                         {/* <button type="button" class="exploreBtn">Apply 7 day-trail</button>  */}
-                        {room.parking == "Four Wheeler" ? <div class="list"><i class="fa fa-car" aria-hidden="true"></i>  Four Wheeler Parking</div> : <span></span>}
+                        {room.parking == "Four Wheeler" ? <div ><i class="fa fa-car"  aria-hidden="true"></i>  Four Wheeler Parking</div> : <span></span>}
                         {room.parking == "Two Wheeler"  ?  <div><i class="fa fa-motorcycle" aria-hidden="true"></i>  Two Wheeler Parking </div>: <span></span>}
                         {room.parking == "Both"  ? <div><i class="fa fa-car" aria-hidden="true"></i> Four Wheeler Parking </div> : <span></span>}
                         {room.parking == "Both"  ? <div><i class="fa fa-motorcycle" aria-hidden="true"></i> Two Wheeler Parking</div>  : <span></span>}
@@ -165,8 +157,31 @@ class CustomerView extends Component {
                         {room.furnished == "Yes"  ? <div><i class="fa fa-bed" aria-hidden="true"></i> Furnished  </div>: <span></span>}
                        
                        
-                    </div>                
+                    </div>
+                 </div>    
+
+                 
+                 <div class="card">
+                <div class="title">Regulations</div>  
+                     
+                </div>
+
                 {occupant_data}
+        <div class="usercard">
+         <div class="user-name">		 
+         <button class="btn"><i class="fa fa-check-circle"></i> Rent Paid</button> 
+         <button class="btn"> Due <span>&#8377; 10000</span></button>  
+         <h5>Abhiram Maddipudi</h5> 
+        
+           </div>
+		<h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
+        <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+		<h6>Hobbies</h6>
+		<p class="hobbies">
+			playing cricket ,badminton,watching animes
+		</p>
+	
+	           </div>
 
                 {this.state.interested ? (
                     <form onSubmit={this.markUnInterested}>

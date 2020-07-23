@@ -17,6 +17,11 @@
     display: flex;
     width:45%
 }
+
+.amenties div
+{ padding: 5px;
+ width:50%;   
+  height: 60%;}
 .amenties{
     display:flex;
     flex-direction: row;
@@ -88,3 +93,15 @@
     padding: 3%;
     height: 150px;
 }
+
+
+
+.usercard{
+    flex-direction: row;padding: 2%;
+    width: 350px;
+    border-width: 2px;
+    background-color: white;
+    border-color:black;
+    flex-wrap: wrap;
+}
+.h3{}

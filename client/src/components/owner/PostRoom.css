@@ -1,0 +1,15 @@
+.post-room{
+    align-content: center;
+    margin-left: 10%;
+    padding: 5%;
+    width:80%;
+    background-color: silver;
+}
+
+.myborder{
+    border: 2px rgb(16, 77, 116);
+    padding: 15px;
+    background-color: white;
+    
+
+}

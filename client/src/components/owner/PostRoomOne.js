@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
-
+import './PostRoom.css'
 class PostRoomOne extends Component{
 
     state = {    
@@ -45,8 +45,9 @@ class PostRoomOne extends Component{
     }
     render(){
         return(
-            <div>
+            <div class="post-room">
                 <h3>Post a room</h3>
+                <div className='myborder'>
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Name of the house</label>
@@ -76,7 +77,7 @@ class PostRoomOne extends Component{
                 </form>
 
                 {/* {console.log(this.state)} */}
-                
+                </div>
             </div>
         );
     }
