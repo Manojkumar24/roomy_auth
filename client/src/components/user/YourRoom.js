@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import {Link} from 'react-router-dom';
 import axios from "axios";
 
 class YourRoom extends Component {
@@ -35,6 +36,7 @@ class YourRoom extends Component {
                 <p>Availability {this.state.room.availability}</p>
                 <p>Occupants</p>
                 {occupant_data}
+                    <Link to='/yourComplains'>Your Complains </Link>
             </div>
         ) : (
             <h4>{this.state.room.msg}</h4>
