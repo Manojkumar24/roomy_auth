@@ -83,9 +83,9 @@ router.get("/list", auth,async (req, res) => {
 
         let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
         rooms.user = user.name;
-        console.log("Lenght of rooms",rooms.length);
+        console.log("Length of rooms",rooms.length);
         
-        res.json(rooms);
+        res.json({"rooms":rooms,"preferences":preferences});
     }
     res.status(400).json({error:"User is not authorized"});
 });
@@ -254,7 +254,7 @@ router.get("/markUnInterested/:id", auth, async (req, res) => {
 router.post("/filters", auth, async (req, res) => {
     console.log(req.body);
     try {
-        let preferences = await Preferences({user:req.user.id});
+        let preferences = await Preferences.findOne({user:req.user.id});
         if(preferences){
             await preferences.deleteOne();
         }
@@ -305,9 +305,9 @@ router.post("/filters", auth, async (req, res) => {
         if (req.body.parking) {
             form_data.parking = req.body.parking;
         }
-        
         let newPreferences = new Preferences(form_data);
         newPreferences.save();
+        console.log(req.body);
     } 
     catch (err) {
         console.error(err.message);
