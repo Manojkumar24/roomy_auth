@@ -2,7 +2,7 @@ import React, { useEffect, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
-import RoomCard from '../rooms/roomCard';
+import RoomCard from '../rooms/roomCard2';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -85,13 +85,13 @@ handleSubmit(){
   }
   render(){
     let { auth: { user } }= this.props; 
-    localStorage.setItem("user_name",user.name)
+    if(user){localStorage.setItem("user_name",user.name)}
 
     let data = user ? (
       user.isOwner ? (
         this.state.rooms.map(room =>{
           return (
-            <div className="row">
+            <div class="room-list">
               <Link to={'/ownerroom/'+room._id}>
                 <RoomCard room={room} owner={user.name}/>
               </Link>
@@ -103,17 +103,23 @@ handleSubmit(){
           // console.log(this.state.rooms);
           
           return (
-            <div className="row">
+            <div style={{width:"45%",backgroundColor:"green"}}>
               <Link to={'/userRoomView/' + room._id}>
               <RoomCard room={room} owner={this.state.rooms.user} />
               </Link>
-            </div>
+              </div>
           )
         })
       )
     ) : (<Redirect to='/dashboard' />)
     return (
+      
       <div class="dashboard">
+        <div class="container">
+      { data }
+        {/* <div style={{width:"45%",backgroundColor:"green"}}>hi</div>
+        <div style={{width:"45%",backgroundColor:"red"}}>hi</div> */}
+      </div>
         { user? ( user.isOwner)? <a></a> :
         <div class="filter">
         <form onSubmit={this.handleSubmit}>
@@ -133,6 +139,7 @@ handleSubmit(){
 
           </div>
           </div>
+          <hr></hr>
         <div className='slider-horizontal'>
 
 
@@ -157,7 +164,7 @@ handleSubmit(){
     boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
     activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
     height={20} width={50} onChange={this.handleChangesmoke} checked={this.state.isNonSmoker} />
-         {/* < i className="fas fa-smoking-ban checked"></i> */}
+          < i className="fas fa-smoking-ban checked"></i> 
        
         <span class="span">No Smoking</span>
                 
@@ -255,16 +262,12 @@ handleSubmit(){
                             </label>
                         </div>
 
-                        <div class="submit">
-        <button class="button button1" >Save Preferences </button>  
-        </div>
          </form>
         </div> :<span></span> }
       
-      <div className="container">
-      { data }
+      
       </div>
-      </div>
+      
     )
   }
 }
