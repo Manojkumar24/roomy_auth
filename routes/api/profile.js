@@ -79,7 +79,13 @@ router.post('/',auth, async (req, res) => {
     const update = {
       email: req.body.email,
       phonenum : req.body.phonenum,
-      password: req.body.password
+      password: req.body.password,
+      profession: req.body.profession,
+      hobbies: {
+        hobbies1: req.body.hobbies1,
+        hobbies2: req.body.hobbies2,
+        hobbies3: req.body.hobbies3
+      }
       
       
       
@@ -117,7 +123,7 @@ router.post('/',auth, async (req, res) => {
     
     res.json(profile);
     //res.redirect('routes/api/profile/up');
-    console.log('success')
+    console.log('success profile')
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: 'server error' });
