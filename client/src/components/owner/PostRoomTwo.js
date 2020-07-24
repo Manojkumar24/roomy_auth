@@ -41,14 +41,20 @@ class PostRoomTwo extends Component{
     }
     render(){
         return(
-            <div>
+            <div class="post-room">
                 <h3>Post a room</h3>
+                <div className='myborder'>
+                <div class="subhead">
+                    <p class='lead'>
+                    <i className='fas fa-user'></i>Add Room Details
+                    </p>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>Number of vacancies</label>
+                        <span>Number of vacancies</span>
                         <input type="number" placeholder="Availability" name="availability" required = {true} onChange = {this.handleChange}/>
 
-                        <label>Rent</label>
+                        <span>Rent</span>
                         <input type="number" name="rent" placeholder="Monthly Rent" required = {true} onChange = {this.handleChange}/>
 
                         <div onChange={this.handleChange.bind(this)}>
@@ -69,7 +75,7 @@ class PostRoomTwo extends Component{
                 </form>
 
                 {/* {console.log(this.state)} */}
-                
+                </div>
             </div>
         );
     }

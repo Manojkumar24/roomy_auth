@@ -30,7 +30,7 @@
 
     return (
       <Fragment>
-        
+        <div class="login">
         
         <h1 className='large text-primary'>Sign In</h1>
         <div className='myborder'>
@@ -72,7 +72,7 @@
             <Link to='/fg_mail'>Forgot your password? </Link>
             </p>
 
-
+            </div>
       </Fragment>
     );
   };

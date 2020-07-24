@@ -32,6 +32,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
   return (
     <Fragment className="bg-mypale">
+      <div class="register">
       
         <h1 className='large text-primary'>Owner Sign Up</h1>
       
@@ -86,6 +87,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       <p className='my-1'>
         Already have an account? <Link to='/login'>Sign In</Link>
       </p>
+      </div>
     </Fragment>
   );
 };
