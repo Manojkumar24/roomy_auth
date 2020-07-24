@@ -96,7 +96,7 @@ class OwnerRoom extends Component {
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                {/* <Link to={'/ownerroom/' + room._id}> */}
+                <Link to={'/editRoom/' + this.props.match.params.room_id}><h4>Edit Room</h4></Link>
                 <Link to={'/viewComplains/' + this.props.match.params.room_id}>Your Complains</Link>
                 <p>Occupants</p>
                 {occupant_data}
