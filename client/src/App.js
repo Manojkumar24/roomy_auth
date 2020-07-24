@@ -38,6 +38,7 @@ import ReviewOccupant from './components/owner/ReviewOccupant';
 import ReviewPastRoom from './components/user/ReviewPastRoom';
 import ReviewRoomMate from './components/user/ReviewRoomMate';
 import EditRoom from './components/owner/EditRoom';
+import ViewUserReview from './components/user/ViewUserReview';
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -80,6 +81,7 @@ const App = () => {
               <Route exact path='/viewComplains/:room_id' component={ViewComplains} />
               <Route exact path='/removeUser/:email' component={ReviewOccupant} />
               <Route exact path='/editRoom/:room_id' component={EditRoom} />
+              <Route exact path='/viewUserReview/:id' component={ViewUserReview} />
               
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />

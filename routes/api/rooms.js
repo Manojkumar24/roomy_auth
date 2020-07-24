@@ -11,6 +11,7 @@ const Complains = require("../../models/Complains");
 const Occupants = require("../../models/Occupants");
 const UserReview = require("../../models/UserReview");
 const RoomReview = require("../../models/RoomReview");
+const Profile = require("../../models/Profile");
 
 
 router.get("/list", auth,async (req, res) => {
@@ -146,8 +147,8 @@ router.get("/userviewRoom/:id", auth, async (req, res) => {
         for (var i = 0; i < tenants.length; i++) {
             person_details.push(tenants[i].user);
         }
-        details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
-        // console.log(details);
+        details.occupants = await Profile.find({ user: { "$in": person_details } });
+        console.log(details);
         res.json(details);    
 });
 
@@ -176,9 +177,10 @@ router.get("/userRoom", auth, async (req, res) => {
 });
 
 router.get("/markInterested/:id", auth, async (req, res) => {
+    console.log("VHJVAKSHJVAJDVJADVLJADVJHAVDLJHAVJHAF", req.params.id)
     let room = await Rooms.findOne({ _id: req.params.id });
     room.interested_people.push(req.user.id);
-    room.save();
+    await room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
     
@@ -358,6 +360,25 @@ router.post('/reviewRoomMate', auth, async (req, res) => {
     }
 
     res.json(review_data);
+
+});
+
+
+router.post('/viewUserReview', auth, async (req, res) => {
+    console.log("Id issssssssssssss",req.body.id)
+    const id = req.body.id;
+
+    // const room_id = req.body.room;
+    let user = await User.findOne({_id:id}).select(["name"]);
+    let review = await UserReview.find({ occupant: id});
+    let review_data = []
+    for(var i=0; i<review.length; i++){
+        review_data.push(review[i].toJSON());
+        review_data[i].user = await User.findOne({_id:review[i].user}).select(["name"]);
+    }
+    console.log("Review data",review_data)
+
+    res.json({"comments":review_data,"user": user})
 
 });
 
