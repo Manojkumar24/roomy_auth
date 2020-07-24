@@ -1,0 +1,107 @@
+.itemDisplayDetailLines
+{
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  line-height:25px;
+  font-size:15px;
+  font-weight:bold;
+  color:grey;
+  padding: 5px;
+
+ 
+}
+.list{
+    display: inline-block;
+    background-color: royalblue;
+    display: flex;
+    width:45%
+}
+
+.amenties div
+{ padding: 5px;
+ width:50%;   
+  height: 60%;}
+.amenties{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    line-height:25px;
+    font-size:15px;
+    font-weight:bold;
+    color:grey;
+    padding: 5px;
+}
+.details{
+    /* display: flex; */
+    margin-left: 15%;
+    /* flex-direction: column; */
+    width: 70%;
+    height: 50%;
+    background-color: cyan;
+    align-content: center;
+}
+.images{
+    width: 60%;
+   
+    
+    margin-left:20% ;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.image1{
+    padding: 1.5%;
+    background-color: darkgray;
+    
+    height:15%;
+    width:15%;
+    
+}
+.image1:hover{
+    padding: 1%;
+    height:15%;
+    width:15%;
+
+}
+.heading{
+    font-size: 27px;
+    font-weight: bold;
+    font-family: 'PT Sans', sans-serif;
+    padding:10px;
+}
+
+.image{
+    padding-left: 20%;
+
+    
+    height:350px;   
+    width:80%;
+
+}
+.title{
+    font-size: 20px;
+    font-family: 'PT Sans', sans-serif;
+    padding:10px;
+}
+.row{
+    display: inline-block;
+    
+}
+.lower-card{
+    padding: 3%;
+    height: 150px;
+}
+
+
+
+.usercard{
+    flex-direction: row;padding: 2%;
+    width: 350px;
+    border-width: 2px;
+    background-color: white;
+    border-color:black;
+    flex-wrap: wrap;
+}
+.h3{}

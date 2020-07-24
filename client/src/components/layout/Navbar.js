@@ -15,9 +15,13 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
       <li>
         <Link to="/details/1" >Create Room</Link>
       </li>
+      <li>
+        <Link to="/profile" >Profile</Link>
+      </li>
      
       <li>
-        <a onClick={logout} href='#!'>
+        {/* <a onClick={logout} href='#!'> */}
+        <a onClick={logout} href='/home'>
           <i className='fas fa-sign-out-alt' />{' '}
           <span className='hide-sm'>logout</span>
         </a>
@@ -25,8 +29,15 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
     </ul>
   ) : (
     <ul id="nav-mobile" className="right">
+        <li>
+          <Link to= "/yourRoom">Your Room</Link>
+        </li>
+        <li>
+          <Link to="/profile" >Profile</Link>
+        </li>
       <li>
-        <a onClick={logout} href='#!'>
+        {/* <a onClick={logout} href='#!'> */}
+          <a onClick={logout} href='/home'>
           <i className='fas fa-sign-out-alt' />{' '}
           <span className='hide-sm'>logout</span>
         </a>

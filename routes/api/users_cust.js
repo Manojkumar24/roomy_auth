@@ -7,6 +7,8 @@ const User = require('../../models/User');
 const Token = require('../../models/Token');
 const bcrypt = require('bcryptjs');
 
+const Preferences = require("../../models/Preferences");
+
 const { check, validationResult } = require('express-validator/check');
 const Email = require('./send_email');
 const randomToken = require('random-token');
@@ -61,6 +63,19 @@ router.post(
       user.password = await bcrypt.hash(password, 10);
 
       await user.save();
+
+      // console.log('before sving!!!');
+      phonenum = "";
+      let profile = new Profile({ user, name, email, password, phonenum });
+      // console.log('before sving');
+      //const salt = await bcrypt.genSalt(10);
+      //profile.password = await bcrypt.hash(password, 10);
+      await profile.save();
+
+      let preferences = new Preferences({user});
+      await preferences.save();
+
+      // console.log('before sving!!!!!!!!!!!!!!!!!!!!!!!');
 
       const payload = {
         user: {

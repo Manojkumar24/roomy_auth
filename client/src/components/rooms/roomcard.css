@@ -1,0 +1,100 @@
+.card{
+    position: relative;
+}
+
+.itemDisplayWrapper
+{
+     /* position: relative;
+  bottom:15%;
+  right:5%;   */
+  background-color: blue ;   
+  width: 90%;  
+  
+  /* box-shadow: 0px 0px 20px #888888; */
+  
+  margin: 2%;
+  
+  font-family: 'PT Sans', sans-serif;
+}
+.card-image{width: 100%;}
+/* .card-title{
+    position: absolute;
+    width:100%;
+    color: black;
+    background-color: rgba(255,255,255,0.7);
+} */
+.image{
+    width:100%;
+    height:50%
+    /* ;position: absolute;
+    right:20%; */
+}
+.card-title{
+    position: absolute;
+    top: 55%;
+    width:25%;
+    font-size:22px;
+    line-height:50px;
+    padding-left:15px;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+  
+}
+   
+
+
+.lower-card{
+    background-color: salmon;
+    padding: 5%;
+   
+}
+
+
+
+
+.itemDisplayDetailLines
+{
+  height: 25px;
+  
+  flex-direction: row;
+  line-height:10px;
+  font-size:15px;
+  font-weight:bold;
+  color:grey;
+ 
+
+ 
+}
+
+.itemDisplayDetailLines div
+{ padding: 5px;
+ width:50%;   
+  height: 60%;
+  white-space: nowrap;
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+}
+
+.row{
+    display: inline-block;
+    width: 50%;
+    height: 15px;
+    
+}
+
+
+.exploreBtn
+{
+  width:100%;
+  background:transparent;
+  border:2px solid #ff6666;
+  color:#ff6666;
+}
+.exploreBtn:hover
+{
+  width:100%;
+  background:#ff6666;
+  border:2px solid #ff6666;
+  color:#fff;
+}

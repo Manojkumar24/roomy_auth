@@ -5,7 +5,8 @@ class PostRoomTwo extends Component{
 
     state = {
         rent: '',
-        availability:''
+        availability:'',
+        trial:''
     }
 
     handleChange = (event) => {
@@ -40,15 +41,33 @@ class PostRoomTwo extends Component{
     }
     render(){
         return(
-            <div>
+            <div class="post-room">
                 <h3>Post a room</h3>
+                <div className='myborder'>
+                <div class="subhead">
+                    <p class='lead'>
+                    <i className='fas fa-user'></i>Add Room Details
+                    </p>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>Number of vacancies</label>
+                        <span>Number of vacancies</span>
                         <input type="number" placeholder="Availability" name="availability" required = {true} onChange = {this.handleChange}/>
 
-                        <label>Rent</label>
+                        <span>Rent</span>
                         <input type="number" name="rent" placeholder="Monthly Rent" required = {true} onChange = {this.handleChange}/>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Do you want users to have a 7 day trial<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Yes" name="trial" />
+                                <span>Yes</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="No" name="trial" />
+                                <span>No</span>
+                            </label>
+                        </div>
 
                         <button style={{ margin: "10px" }} type="submit" className="waves-effect waves-light btn-large" >Next</button>
                         <Link to="/details/1"><button style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Previous</button></Link>
@@ -56,7 +75,7 @@ class PostRoomTwo extends Component{
                 </form>
 
                 {/* {console.log(this.state)} */}
-                
+                </div>
             </div>
         );
     }
