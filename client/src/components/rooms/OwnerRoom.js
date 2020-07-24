@@ -106,8 +106,10 @@ class OwnerRoom extends Component {
                 return (
                     <form onSubmit={this.AddUser}>
                         <ul>
+                            <Link to={'/viewUserReview/' + person._id}>
                             <li><input type="text" name="name" readonly="readonly" value={person.name}/></li>
                             <li><input type="text" name="email" readonly="readonly" value={person.email}/></li>
+                            </Link>
                             <li><input type="submit" value = "Add"/></li>
                         </ul>
                     </form>

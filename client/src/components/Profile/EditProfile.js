@@ -199,6 +199,7 @@ const EditProfile = ({
             </div>
             <div className='col-lg-4' style={{ paddingTop: '3%' }}>
               <Link to='/pw_change'>Password Change </Link>
+
               {/* <button className="editprobtn2">  */}
                 <Link to='/mail_change'>Mail Change </Link>
               {/* </button> */}

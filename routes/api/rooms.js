@@ -100,7 +100,7 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
     if(user && user.isOwner){
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
-        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"]);
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "_id"]);
         tenants = await Occupant.find({room: room._id}).select(["-room","-_id"]);
         for(var i=0; i<tenants.length; i++){
             person_details.push(tenants[i].user);
@@ -365,7 +365,7 @@ router.post('/reviewRoomMate', auth, async (req, res) => {
 
 
 router.post('/viewUserReview', auth, async (req, res) => {
-    console.log("Id issssssssssssss",req.body.id)
+    // console.log("Id is",req.body.id)
     const id = req.body.id;
 
     // const room_id = req.body.room;
@@ -379,6 +379,25 @@ router.post('/viewUserReview', auth, async (req, res) => {
     console.log("Review data",review_data)
 
     res.json({"comments":review_data,"user": user})
+
+});
+
+
+router.post('/viewRoomReview', auth, async (req, res) => {
+    console.log("Id is",req.body.id)
+    const id = req.body.id;
+
+    // const room_id = req.body.room;
+    let room = await Rooms.findOne({ _id: id });
+    let review = await RoomReview.find({ room: id });
+    let review_data = []
+    for (var i = 0; i < review.length; i++) {
+        review_data.push(review[i].toJSON());
+        review_data[i].user = await User.findOne({ _id: review[i].user }).select(["name"]);
+    }
+    console.log("Review data", review_data)
+
+    res.json({ "comments": review_data, "room": room })
 
 });
 
@@ -423,7 +442,7 @@ router.post('/reviewRoom', auth, async (req, res) => {
     }
 
     if (req.body.owner) {
-        review_data.owner = req.body.owner
+        review_data.owner_review = req.body.owner
     }
 
     if (req.body.review_text) {
@@ -436,10 +455,18 @@ router.post('/reviewRoom', auth, async (req, res) => {
 
     const instance = await RateOccupantsAndRoom.findOne({ user: req.user.id })
 
+    console.log(review_data);
+
     if (review_data != {}) {
         review_data.user = req.user.id;
         review_data.room = instance.room;
+        let room_review = await RoomReview.findOne({user:req.user.id,room:instance.room});
+        if(room_review){
+            await room_review.deleteOne();
+        }
+
         let review = new RoomReview(review_data);
+        console.log(review);
         await review.save();
     }
     
