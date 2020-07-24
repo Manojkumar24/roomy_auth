@@ -1,0 +1,61 @@
+.review-room{
+    width:90%;
+    align-content: center;
+    padding-left: 20%;
+    flex-wrap: wrap;
+   
+    
+   }
+  .myborder{
+      border: 2px rgb(16, 77, 116);
+      padding: 15px;
+      
+  
+  }
+  
+  .bg-mypale{
+      background-color: rgb(247, 192, 160);
+    
+    }
+    
+  
+  div.myborder {
+      outline-style: solid;
+      
+      outline-color:rgb(16, 77, 116);
+    }
+  
+    div.subhead {
+      background-color: rgb(16, 77, 116);
+      transform: skew(20deg); /* SKEW */
+      width: 35%;
+      height: 15%;
+    }
+    
+    p.lead {
+      display: block; /* block or inline-block is needed */
+      text-decoration: none;
+      padding: 5px 10px;
+      
+      font: 30px/1 sans-serif;
+      transform: skew(-20deg); /* UNSKEW */
+      color: white;
+    }
+
+
+    .exploreButton
+    {
+      width:150px;
+      height: 45px;
+      background:transparent;
+      border:2px solid rgb(16, 77, 116);
+      color:rgb(16, 77, 116);
+    }
+    .exploreButton:hover
+    {
+      width:150px;
+      height: 45px;
+      background:rgb(16, 77, 116);
+      border:2px solid rgb(16, 77, 116);
+      color:#fff;
+    }

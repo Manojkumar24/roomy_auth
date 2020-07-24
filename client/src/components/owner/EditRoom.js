@@ -104,8 +104,15 @@ class PostRoomOne extends Component {
     }
     render() {
         return (
-            <div>
-                <h3>Post a room</h3>
+            <div class="post-room">
+            <h3 style={{color:"rgb(16, 77, 116)"}}> Edit Room </h3>
+             <div className='myborder'>
+             <div class="subhead">
+                 <p class='lead'>
+                 <i className='fas fa-user'></i>Edit Your room Details
+                 
+                 </p>
+             </div>
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Name of the house</label>
@@ -313,6 +320,7 @@ class PostRoomOne extends Component {
                 {/* {console.log(this.state)} */}
 
             </div>
+           </div> 
         );
     }
 }

@@ -169,8 +169,7 @@ class CustomerView extends Component {
                 {occupant_data}
         <div class="usercard">
          <div class="user-name">		 
-         <button class="btn"><i class="fa fa-check-circle"></i> Rent Paid</button> 
-         <button class="btn"> Due <span>&#8377; 10000</span></button>  
+          
          <h5>Abhiram Maddipudi</h5> 
         
            </div>
@@ -182,7 +181,7 @@ class CustomerView extends Component {
 		</p>
 	
 	           </div>
-
+               
                 {this.state.interested ? (
                     <form onSubmit={this.markUnInterested}>
                         <input type='submit' className='btn btn-primary' value='Mark as Uninterested' />

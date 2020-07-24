@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import office_img from '../../images/office.jpg'
-=======
 import { Link } from 'react-router-dom';
 
->>>>>>> da5240f1a2526e0773d1ccdc7863640c2bb5ae0c
 class OwnerRoom extends Component {
     state = {
         room: [],
@@ -51,7 +48,25 @@ class OwnerRoom extends Component {
             console.log(error);
         })
     }
-
+     
+    AddUser1 = (mail) => {
+       // event.preventDefault()
+        // console.log(event.target.email.value);
+        let room_id = this.props.match.params.room_id;
+        let email_id = mail;
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        axios.post("/api/rooms/addUser", JSON.stringify({"email":email_id,"room":room_id}), config).then(response => {
+            this.setState({
+                room: response.data
+            })
+        }).catch(error => {
+            console.log(error);
+        })
+    }
     RemoveUser = (event) => {
         event.preventDefault()
         // console.log(event.target.email.value);
@@ -88,6 +103,33 @@ class OwnerRoom extends Component {
             )
         }) : <div class="image1"> <img   src={office_img} alt="Room Image" /> </div> ;
 
+
+        let tenents_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
+            this.state.room.occupants.map(person => {
+                return (  
+                
+                    <div class="usercard">
+                    <div class="user-name">		 
+                    <button class="btn"><i class="fa fa-check-circle" style={{color:"green"}}></i> Rent Paid</button> 
+                    <button class="btn"> <i class="fa fa-exclamation" style={{color:"red"}}></i>  Due <span>&#8377; 10000</span></button>  
+                    <h5>Abhiram Maddipudi</h5> 
+                   
+                      </div>
+                   <h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
+                   <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+                   <h6>Hobbies</h6>
+                   <p class="hobbies">
+                       playing cricket ,badminton,watching animes
+                   </p>
+                 {  ( person.hobby.length > 0) ? (
+            this.state.room.occupants.map(hobby => {
+                return (<p class="hobbies">
+                playing cricket ,badminton,watching animes  </p> )})) : <span>-</span>
+                  }
+
+                    </div>   
+
+                    )})  ): <p>There are currently no occupants</p>
         let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (
@@ -107,13 +149,31 @@ class OwnerRoom extends Component {
         let intersted_data = (this.state.room.interested_people && this.state.room.interested_people.length > 0)? (
             this.state.room.interested_people.map(person=>{
                 return (
-                    <form onSubmit={this.AddUser}>
-                        <ul>
-                            <li><input type="text" name="name" readonly="readonly" value={person.name}/></li>
-                            <li><input type="text" name="email" readonly="readonly" value={person.email}/></li>
-                            <li><input type="submit" value = "Add"/></li>
-                        </ul>
-                    </form>
+
+                    <div class="usercard">
+                    <div class="user-name">		 
+                    
+                   <h5>{person.name}</h5> 
+                   
+                      </div>
+                   <h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
+                   <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+                   <h6>Hobbies</h6>
+                   <p class="hobbies">
+                       playing cricket ,badminton, chess
+                   </p>
+                   {/* <div>
+                   <button class="exploreButton" onClick={()=>this.AddUser1(person.email)} type="submit" value="Submit" >Add to Room
+                   </button>                   </div>  */}
+                   
+                     <form onSubmit={this.AddUser}>
+                         <ul>
+                             <li><input type="text" name="name" readonly="readonly" hidden="true" value={person.name}/></li>
+                             <li><input type="text" name="email" readonly="readonly" hidden="true" value={person.email}/></li>
+                             <li><input type="submit" value = {person.email}/></li>
+                         </ul>
+                     </form>
+                    </div>
                 )
             })
         ): (
@@ -122,9 +182,12 @@ class OwnerRoom extends Component {
         
         return(
             <div>
-<<<<<<< HEAD
+
                 <div class="details">
-                <div class="heading">{this.state.room.name} </div>
+                <div class="heading" >{this.state.room.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <Link to={'/editRoom/' + this.props.match.params.room_id}><span class="exploreButton">Edit Room</span></Link>
+                </div> 
+                
                 {myimage}
                 <div class="images">
                 {imageslist}
@@ -177,8 +240,8 @@ class OwnerRoom extends Component {
                 {occupant_data}
         <div class="usercard">
          <div class="user-name">		 
-         <button class="btn"><i class="fa fa-check-circle"></i> Rent Paid</button> 
-         <button class="btn"> Due <span>&#8377; 10000</span></button>  
+         <button class="btn"><i class="fa fa-check-circle" style={{color:"green"}}></i> Rent Paid</button> 
+         <button class="btn"> <i class="fa fa-exclamation" style={{color:"red"}}></i>  Due <span>&#8377; 10000</span></button>  
          <h5>Abhiram Maddipudi</h5> 
         
            </div>
@@ -189,32 +252,25 @@ class OwnerRoom extends Component {
 			playing cricket ,badminton,watching animes
 		</p>
 	
-	           </div>
+	     </div>
 
-                {this.state.interested ? (
-                    <form onSubmit={this.markUnInterested}>
-                        <input type='submit' className='btn btn-primary' value='Mark as Uninterested' />
-                    </form>
-                ): (
-                    <form onSubmit={this.markInterested}>
-                        <input type='submit' className='btn btn-primary' value='Mark as Interested' />
-                    </form>
-                )}
-            </div>
+               
+            
 
 
-=======
+
                 <h3 className="center">Your Room</h3>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                <Link to={'/editRoom/' + this.props.match.params.room_id}><h4>Edit Room</h4></Link>
-                <Link to={'/viewComplains/' + this.props.match.params.room_id}>Your Complains</Link>
->>>>>>> da5240f1a2526e0773d1ccdc7863640c2bb5ae0c
-                <p>Occupants</p>
+                
+                <Link to={'/viewComplains/' + this.props.match.params.room_id}><div class="exploreButton">Your Complains</div></Link>
+
+              <p>Occupants</p>
                 {occupant_data}
                 <p>Interested People</p>
                 {intersted_data}
+                </div>  
             </div>
         )
     }

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import './Review.css';
 
 class ReviewRoomMate extends Component {
     state = {
@@ -110,8 +111,14 @@ class ReviewRoomMate extends Component {
 
     render() {
         return (
-            <div>
-                Your Review
+            <div class="review-room">
+            <h3 style={{color:"rgb(16, 77, 116)"}}> Your Review </h3>
+             <div className='myborder'>
+             <div class="subhead">
+                 <p class='lead'>
+                 <i className='fas fa-user'></i>About Your Friend
+                 </p>
+             </div>
                 <form onSubmit={this.submitReview}>
                     <label>Smoker</label>
                     <input type="text" name="smoker" value={this.state.smoker} placeholder="smoker" onChange={this.handleChange} />
@@ -133,6 +140,7 @@ class ReviewRoomMate extends Component {
 
                     <input type="submit" value="Submit Review" />
                 </form>
+            </div>
             </div>
         )
     }

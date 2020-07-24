@@ -39,9 +39,9 @@ class dashboard extends Component {
 }
 
 handleSubmit =(event)=>{
-  // event.preventDefault()
+   //event.preventDefault()
   let form_data = {}
-  console.log(this.state.pincode,this.state.pincode.length);
+  //console.log(this.state.pincode,this.state.pincode.length);
   
     if (this.state.pincode && (this.state.pincode > 999999 || this.state.pincode < 111111)){
       window.alert('Enter a valid pincode of 6 digits!')
@@ -232,7 +232,7 @@ handleChangeiswifi = (value) => {
     return (
       
       <div class="dashboard">
-        <div class="container">
+        <div class="container1">
       { data }
         {/* <div style={{width:"45%",backgroundColor:"green"}}>hi</div>
         <div style={{width:"45%",backgroundColor:"red"}}>hi</div> */}

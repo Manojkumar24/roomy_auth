@@ -61,6 +61,27 @@ const EditProfile = ({
 
   return (
     <Fragment>
+       <div class="usercard">
+         <div class="user-name">		 
+         <h5>Edit Your profile</h5> 
+         
+         <input
+                      className='editproinput'
+                      type='text'
+                      placeholder='UserName'
+                      name='name'
+                      value={name}
+                      onChange={(e) => onChange(e)}
+                    />
+           </div>
+		<h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
+        <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+		<h6>Hobbies</h6>
+		<p class="hobbies">
+			playing cricket ,badminton,watching animes
+		</p>
+	
+	           </div>
       <br />
       <br />
       <div className='editprotop'>
