@@ -61,6 +61,7 @@ const EditProfile = ({
 
   return (
     <Fragment>
+    <div className="edit-profile">
       <br />
       <br />
       <div className='editprotop'>
@@ -207,6 +208,7 @@ const EditProfile = ({
             </div>
           </div>
         </div>
+      </div>
       </div>
     </Fragment>
   );
