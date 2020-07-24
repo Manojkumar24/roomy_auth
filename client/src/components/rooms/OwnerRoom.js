@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 class OwnerRoom extends Component {
     state = {
         room: [],
-         image_id:23,
+        payments:[],
+        image_id:23,
         images:[{image_id:23,imageValue:"https://www.w3schools.com/w3images/bedroom.jpg"
         ,image_num:1},{image_id:32,imageValue:"https://www.w3schools.com/w3images/livingroom2.jpg"
         ,image_num:2},{image_id:44,imageValue:"https://www.w3schools.com/w3images/diningroom.jpg"
@@ -24,7 +25,8 @@ class OwnerRoom extends Component {
         axios.get("/api/rooms/ownerRoom/"+id)
             .then(res => {
                 this.setState({
-                    room: res.data
+                    room: res.data.details,
+                    payments:res.data.payments
                 })
                 // console.log(res.data);
             })
@@ -119,6 +121,26 @@ class OwnerRoom extends Component {
             <p>None are Interested</p>
         )
         
+        let rentHistory = this.state.payments ? (
+            this.state.payments.map(payment => {
+                return (
+                    <div>
+                        <ul>
+                            <li>Payment id: {payment.payment_id}</li>
+                            <li>Order id:  {payment.order_id}</li>
+                            <li>Transaction Date: {payment.transaction_date}</li>
+                            <li>Payment Amount: {payment.amount}</li>
+                            <li>Transaction Method: {payment.transaction_method}</li>
+                        </ul> <br></br>
+                    </div>
+                )
+            })
+        ) : (
+                <div>
+                    <h3>No Transaction History</h3>
+                </div>
+            )
+
         return(
             <div>
                 <div class="details">
@@ -206,6 +228,8 @@ class OwnerRoom extends Component {
                 {occupant_data}
                 <p>Interested People</p>
                 {intersted_data}
+                <p>Rent Details</p>
+                {rentHistory}
             </div>
         )
     }

@@ -4,13 +4,17 @@ import axios from "axios";
 
 class YourRoom extends Component {
     state = {
-        room: []
+        room: [],
+        paidRent:null,
+        rent_pay_date:null
     }
     componentDidMount() {
         axios.get("/api/rooms/userRoom/")
             .then(res => {
                 this.setState({
-                    room: res.data
+                    room: res.data.details,
+                    paidRent: res.data.paidRent,
+                    rent_pay_date: res.data.rent_pay_date
                 })
             })
     }
@@ -34,7 +38,10 @@ class YourRoom extends Component {
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                <Link to='/payment'>Pay Rent</Link>
+                {this.state.paidRent ? (
+                    <p>Rent Paid on {this.state.rent_pay_date}</p>
+                ): (<Link to = '/payment'>Pay Rent</Link>)}
+                
                 <p>Occupants</p>
                 {occupant_data}
                     <Link to='/yourComplains'>Your Complains </Link>
