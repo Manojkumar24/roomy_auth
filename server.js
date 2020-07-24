@@ -80,7 +80,7 @@ app.post('/verification', async (req,res) =>{
     //do a verification
     const secret = '12345678';
     //const secret = '123456789';
-    console.log(req.body);
+    // console.log(req.body);
     let occupant = await Occupants.findOne({ user: localStorage.getItem("user_id") });
     localStorage.removeItem("user_id");
     let room = await Rooms.findOne({ _id: occupant.room });
@@ -103,8 +103,9 @@ app.post('/verification', async (req,res) =>{
             order_id:req.body.payload.payment.entity.order_id,
             transaction_method: req.body.payload.payment.entity.method
             })
-
+        
         await rent.save();
+        console.log("Done with rent creation");
         // let occupant = await Occupants.findOne({ user: req.user.id });
         // let room = await Rooms.findOne({ _id: occupant.room });
         
@@ -119,7 +120,7 @@ app.post('/verification', async (req,res) =>{
 })
 
 app.post('/razorpay', auth, async (req, res) => {
-    
+    console.log("inside razor pay fn");
     let occupant = await Occupants.findOne({user:req.user.id});
     localStorage.setItem("user_id", req.user.id);
     let room = await Rooms.findOne({_id:occupant.room});
@@ -138,7 +139,7 @@ app.post('/razorpay', auth, async (req, res) => {
     try{
         const response = await razorpay.orders.create(options)
         // console.log('hello server start');
-        console.log(response);
+        // console.log(response);
         // console.log('hello server end');
 
         let profile = await Profile.findOne({user:req.user.id});

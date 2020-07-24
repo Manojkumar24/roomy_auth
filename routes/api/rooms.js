@@ -112,6 +112,18 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
 });
 
 
+router.get("/getRoomDetails/:id", auth, async (req, res) => {
+    var user = await User.findOne({ _id: req.user.id });
+    
+    if (user && user.isOwner) {
+        var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
+        // console.log(room);
+        res.json(room);
+    }
+    res.status(400).json({ error: "User is not authorized" });
+});
+
+
 router.get("/userviewRoom/:id", auth, async (req, res) => {
         let room = await Rooms.findOne({ _id: req.params.id });
         var details = room.toJSON();
@@ -519,9 +531,7 @@ router.get("/listUserComplain", auth, async (req, res) => {
 
 router.get("/RentHistory", auth, async (req, res) => {
     try {
-        console.log("before");
-        let payments = await Rent.find({user:req.user.id});
-        console.log("fddfdfdfdf",payments);
+        let payments = await Rent.find({user:req.user.id}).sort({transaction_date:-1});
         res.json(payments);
     }
     catch (err) {
@@ -605,7 +615,7 @@ router.post(
                 sq_ft:req.body.sq_ft,
                 pincode: parseInt(req.body.pincode, 10),
                 state: req.body.state,
-                phonnenum: parseInt(req.body.phonnenum, 10),
+                phonenum: parseInt(req.body.phonenum, 10),
                 availability: req.body.availability,
                 rent: req.body.rent,
                 smoker: req.body.smoker,
@@ -625,6 +635,82 @@ router.post(
         } catch (err) {
             console.error(err.message);
             res.status(500).json({msg: "server error"});
+        }
+    }
+);
+
+
+router.post(
+    "/updateRoom",
+    [
+        auth,
+        [
+            check("name", "name is needed").not().isEmpty(),
+            check("address", "address is needed").not().isEmpty(),
+            check("city", "City is needed").not().isEmpty(),
+            check("state", "State is needed").not().isEmpty(),
+            check("pincode", "Invalid pincode").isLength({ min: 6, max: 6 }),
+            check("phonenum", "Invalid phone Number").isLength({ min: 10, max: 10 }),
+            check("availability", "Invalid number").isNumeric(),
+            check("sq_ft", "Invalid number").isNumeric(),
+            check("rent", "Invalid rent").isDecimal(),
+            check("smoker", "Invalid option for smoker").isIn(["Yes", "No", "Not sure"]),
+            check("nightowl", "Invalid option for night-owl").isIn(["Yes", "No", "Not sure"]),
+            check("earlybird", "Invalid option for early bird").isIn(["Yes", "No", "Not sure"]),
+            check("pets", "Inavlid option for pets").isIn(["Dogs", "Cats", "Birds", "Others", "No Pets", "Not sure"]),
+            check("vegetarians", "Invalid option for vegetarian").isIn(["Yes", "No", "Not sure"]),
+            check("furnished", "Invalid option for furnished").isIn(["Fully", "Semi", "Not Furnished"]),
+            check("wifi", "Invalid option for wifi").isIn(["Yes", "No"]),
+            check("parking", "Invalid option for parking").isIn(["Four Wheeler", "Two Wheeler", "Both", "No parking"]),
+            check("gender", "Invalid option for gender").isIn(["Male", "Female", "Not sure"]),
+            check("trial", "Invalid option for trial").isIn(["Yes", "No"]),
+        ]
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            console.log(req.body);
+            let room = await Rooms.findOne({_id:req.body.room_id});
+            const roomdetails = {
+                user: req.user.id,
+                name: req.body.form_data.name,
+                address: req.body.form_data.address,
+                city: req.body.form_data.city,
+                sq_ft: req.body.form_data.sq_ft,
+                pincode: parseInt(req.body.form_data.pincode, 10),
+                state: req.body.form_data.state,
+                phonenum: parseInt(req.body.form_data.phonenum, 10),
+                availability: req.body.form_data.availability,
+                rent: req.body.form_data.rent,
+                smoker: req.body.form_data.smoker,
+                nightowl: req.body.form_data.nightowl,
+                earlybird: req.body.form_data.earlybird,
+                pets: req.body.form_data.pets,
+                vegetarians: req.body.form_data.vegetarians,
+                furnished: req.body.form_data.furnished,
+                wifi: req.body.form_data.wifi,
+                parking: req.body.form_data.parking,
+                gender: req.body.form_data.gender,
+                trial: req.body.form_data.trial
+            };
+
+            await room.update(roomdetails);
+
+            // const room = new Rooms(roomdetails);
+
+            // let upsertData = room.toObject();
+            // delete upsertData._id;
+            // room.update({ _id: req.body.room_id }, upsertData);
+            
+            res.json("room details updated!");
+        
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).json({ msg: "server error" });
         }
     }
 );
