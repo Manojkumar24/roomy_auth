@@ -98,16 +98,18 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
     var user = await User.findOne({ _id: req.user.id });
     person_details = []
     if(user && user.isOwner){
+        let payments = await Rent.find({ room: req.params.id }).sort({ transaction_date: -1 });
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
         details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "_id"]);
+        
         tenants = await Occupant.find({room: room._id}).select(["-room","-_id"]);
         for(var i=0; i<tenants.length; i++){
             person_details.push(tenants[i].user);
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json(details);
+        res.json({ "details": details,"payments":payments});
     }
     res.status(400).json({ error: "User is not authorized" });
 });
@@ -155,10 +157,24 @@ router.get("/userviewRoom/:id", auth, async (req, res) => {
 
 router.get("/userRoom", auth, async (req, res) => {
     let occupant = await Occupant.findOne({user: req.user.id});
+    
     if(occupant){
         let room = await Rooms.findOne({ _id: occupant.room });
         var details = room.toJSON();
         details.interested_people = [];
+        
+        let current_month = new Date(Date.now() * 1000).getMonth();
+        let last_pay_month = occupant.rent_due_date.getMonth();
+        
+        let paidRent = true;
+
+        if(current_month == 0 && last_pay_month == 11){
+            paidRent = false;
+        }
+
+        else if(current_month - last_pay_month >= 1){
+            paidRent = false;
+        }
 
         person_details = [];
         tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
@@ -167,7 +183,7 @@ router.get("/userRoom", auth, async (req, res) => {
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json(details);
+        res.json({"details":details,"paidRent":paidRent,"last_paid":occupant.rent_due_date});
     }
     
     else{

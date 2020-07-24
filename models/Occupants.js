@@ -8,6 +8,9 @@ const OccupantSchema = new mongoose.Schema({
     room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "rooms"
+    },
+    rent_due_date: {
+        type: Date, default: Date.now
     }
 });
 
