@@ -18,6 +18,24 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  profession: {
+    type: String,
+    default: ''
+  },
+  hobbies: {
+    hobbies1: {
+      type: String,
+      default: ''
+    },
+    hobbies2: {
+      type: String,
+      default: ''
+    },
+    hobbies3: {
+      type: String,
+      default: ''
+    }
+  },
 
 
   phonenum: {

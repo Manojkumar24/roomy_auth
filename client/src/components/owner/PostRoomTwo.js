@@ -5,7 +5,8 @@ class PostRoomTwo extends Component{
 
     state = {
         rent: '',
-        availability:''
+        availability:'',
+        trial:''
     }
 
     handleChange = (event) => {
@@ -55,6 +56,18 @@ class PostRoomTwo extends Component{
 
                         <span>Rent</span>
                         <input type="number" name="rent" placeholder="Monthly Rent" required = {true} onChange = {this.handleChange}/>
+
+                        <div onChange={this.handleChange.bind(this)}>
+                            <label>Do you want users to have a 7 day trial<br></br> </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="Yes" name="trial" />
+                                <span>Yes</span>
+                            </label>
+                            <label>
+                                <input class="with-gap" type="radio" value="No" name="trial" />
+                                <span>No</span>
+                            </label>
+                        </div>
 
                         <button style={{ margin: "10px" }} type="submit" className="waves-effect waves-light btn-large" >Next</button>
                         <Link to="/details/1"><button style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Previous</button></Link>
