@@ -3,13 +3,49 @@
     margin-left: 10%;
     padding: 5%;
     width:80%;
-    background-color: silver;
+    font-style: italic;
+   
 }
-
+label{
+    margin-left: 2px;
+}
+.section{
+    display: flex;
+    flex-direction: row;
+    
+}
+.span{
+    width: 100px;
+}
+.tag{
+    padding-left: 5px;
+    padding-bottom: 15px;
+}
+.unit{
+    width: 40%;
+    padding-right: 5%;
+}
 .myborder{
     border: 2px rgb(16, 77, 116);
     padding: 15px;
     background-color: white;
-    
+    font-style: italic;
 
 }
+
+.subhead {
+    background-color: rgb(16, 77, 116);
+    transform: skew(20deg); /* SKEW */
+    width: 40%;
+    height: 20%;
+  }
+  
+  .lead {
+    display: block; /* block or inline-block is needed */
+    text-decoration: none;
+    padding: 5px 10px;
+    
+    font: 30px/1 sans-serif;
+    transform: skew(-20deg); /* UNSKEW */
+    color: white;
+  }

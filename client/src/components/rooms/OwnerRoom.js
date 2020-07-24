@@ -67,7 +67,7 @@ class OwnerRoom extends Component {
     }
 
     render(){
-        let room =this.state.room.name;
+        let room =this.state.room;
         let myimage = (this.state.images.length > 0)? (this.state.images.map((img)=>{
             if(img.image_id==this.state.image_id) {
             return(<div class="image"> <img  style={{width:"100%", height:"96%"}} src={img.imageValue} alt="Room Image" /> </div>

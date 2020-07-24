@@ -48,29 +48,49 @@ class PostRoomOne extends Component{
             <div class="post-room">
                 <h3>Post a room</h3>
                 <div className='myborder'>
+                <div class="subhead">
+                    <p class='lead'>
+                    <i className='fas fa-user'></i>Add Room Details
+                    </p>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label>Name of the house</label>
+                     <div class="section">
+                        <div class="unit"> 
+                        <i class="fa fa-home" aria-hidden="true"></i>&nbsp;<span>Name of the house</span>
                         <input type="text" name="name" placeholder="House Name" required = {true} onChange = {this.handleChange}/>
-
-                        <label>Square Feet</label>
+                        </div>
+                        <div class="unit">
+                        <i class="fa fa-object-ungroup" ></i>&nbsp;
+                        <span>Square Feet</span>
                         <input type="number" name="sq_ft" placeholder="Square Feet" required={true} onChange={this.handleChange} />
-
-                        <label>Address</label>
-                        <input type="text" name="address" placeholder="Address"  required = {true} onChange = {this.handleChange}/>
-
-                        <label>City</label>
-                        <input type="text" name="city" placeholder="City" required = {true} onChange = {this.handleChange}/>
-
-                        <label>State</label>
-                        <input type="text" name="state" placeholder="State" required={true} onChange={this.handleChange} />
+                        </div>
                         
-                        <label>Pin Code</label>
+                     </div>
+                        <span>Address</span>
+                        <input type="text" name="address" placeholder="Address"  required = {true} onChange = {this.handleChange}/>
+                        
+                     <div class="section">
+                       <div class="unit">
+                        <span>City</span>
+                        <input type="text" name="city" placeholder="City" required = {true} onChange = {this.handleChange}/>
+                        </div>
+                        <div class="unit">
+                        <span>State</span>
+                        <input type="text" name="state" placeholder="State" required={true} onChange={this.handleChange} />
+                         </div>
+                      </div>
+                      <div class="section"> 
+                       <div class="unit">
+                        <span>Pin Code</span>
                         <input type="number" name="pincode" placeholder="Pin Code" required={true} onChange={this.handleChange} />
-
-                        <label>Contact Number</label>
+                       </div>
+                       <div class="unit">
+                       <i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;
+                        <span>Contact Number</span>
                         <input type="number" name="phonenum" placeholder="Contact Number" required = {true} onChange = {this.handleChange}/>
-
+                        </div>
+                      </div>
                         <button type="submit" style={{ margin: "10px" }} className="waves-effect waves-light btn-large" >Next</button>
     
                     </div>
