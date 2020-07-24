@@ -36,7 +36,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    let { name, email, password } = req.body;
     try {
       let user = await User.findOne({ email }); //email: req.body.email
 
@@ -54,13 +54,14 @@ router.post(
       const gen_token = randomToken(55);
       // Email.send_verification_token(gen_token, email);
       //var newValues = { $set: { token: gen_token } };
-      user = new User({ name, email, avatar, password });
+      //user = new User({ name, email, avatar, password });
 
       //user = new User({ name, email, avatar, password });
 
       const salt = await bcrypt.genSalt(10);
 
-      user.password = await bcrypt.hash(password, 10);
+      password = await bcrypt.hash(password, 10);
+      user = new User({ name, email, avatar, password });
 
       await user.save();
 

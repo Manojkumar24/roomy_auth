@@ -171,7 +171,7 @@ const EditProfile = ({
 
 
                 <div className='row editprorows'>
-                  <div className='col-lg-3 editprotext'>Phonenum:</div>
+                  <div className='col-lg-3 editprotext'>Phone number:</div>
                   <div className='col-lg-9'>
                     <input
                       className='editproinput'

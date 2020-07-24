@@ -15,7 +15,9 @@ const RoomCard = ({ room, owner }) => {
                    }} >{room.name}</div>
                     </div>
                    
-              
+                    <br />
+                    <br />
+                    <br />
                     <div class="itemDisplayDetailLines">
                     <div class="row ">
                         <i class="fa fa-object-ungroup" ></i> {room.sq_ft} Sq.Ft.

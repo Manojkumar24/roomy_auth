@@ -1,13 +1,15 @@
 .editprotop {
-    background-color: #f3c51f;
-    font-family: futura Md BT;
-    font-size: xxx-large;
-    height: 40vh;
-    text-align: center;
-  }
+  background-color: #f3c51f;
+  font-family: futura Md BT;
+  font-size: xxx-large;
+  height: 40vh;
+  text-align: center;
+}
   .editprobot {
     background-color: #eee6;
     text-align: center;
+    width: 80%;
+
   }
   .editproknife {
     z-index: 1;
@@ -21,8 +23,10 @@
     font-size: larger;
     padding-top: 3%;
     text-align: left;
+    width: 50%;
+    color: red;
   }
-  
+
   .editpro_bg {
     position: relative;
     background: url("https://i.ibb.co/KqNwVNP/Capture1.jpg") no-repeat;
@@ -31,16 +35,18 @@
   }
   .editproinput {
     border: none;
-    border-bottom: 1px solid #000000e0;
+    border-bottom: 5px solid #000000e0;
     text-align: center;
-    width: 50%;
+    width: 100%;
     margin-bottom: 6%;
-    height: 51px;
+    height: 100px;
     text-decoration: none;
     background-color: #fff0;
+    color: blue;
   }
   .editprorows {
     margin-left: 10%;
+    width: 90%;
   }
   .editprobtn {
     text-align: center;
@@ -62,3 +68,15 @@
     font-family: karla;
   }
   
+  /* .container {
+  
+    max-width: 1100px;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 2rem;
+    margin-top: 6rem;
+    margin-bottom: 3rem;
+  }
+   */
+
+   

@@ -232,7 +232,7 @@ handleChangeiswifi = (value) => {
     return (
       
       <div class="dashboard">
-        <div class="container">
+        <div class="container_dash">
       { data }
         {/* <div style={{width:"45%",backgroundColor:"green"}}>hi</div>
         <div style={{width:"45%",backgroundColor:"red"}}>hi</div> */}
