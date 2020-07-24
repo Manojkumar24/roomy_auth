@@ -39,6 +39,8 @@ import ReviewPastRoom from './components/user/ReviewPastRoom';
 import ReviewRoomMate from './components/user/ReviewRoomMate';
 import EditRoom from './components/owner/EditRoom';
 import ViewUserReview from './components/user/ViewUserReview';
+import ViewRoomReview from './components/user/ViewRoomReview';
+
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -73,6 +75,7 @@ const App = () => {
               <Route exact path='/yourRoom' component={YourRoom} />
               <Route exact path='/reviewPastRoom' component={ReviewPastRoom} />
               <Route exact path='/review/:name' component={ReviewRoomMate} />
+              <Route exact path='/viewRoomReview/:room_id' component={ViewRoomReview} />
               
               
               <Route exact path='/login' component={Login} />
@@ -89,13 +92,16 @@ const App = () => {
               <Route exact path='/mail_change' component={mail_ch} />
               <PrivateRoute exact path='/payment' component={Payment} />
 
-              <PrivateRoute exact path='/profile' component={Profile} />
+              {/* <PrivateRoute exact path='/profile' component={Profile} /> */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
             
             </Switch>
             </section>
+          <section className="container">
+            <PrivateRoute exact path='/profile' component={Profile} />
+          </section>
         </Fragment>
       </Router>
     </Provider>

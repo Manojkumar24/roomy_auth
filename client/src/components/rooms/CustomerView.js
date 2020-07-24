@@ -219,7 +219,11 @@ class CustomerView extends Component {
                             <input type='submit' className='btn btn-primary' value='Mark as Interested' />
                         </form>
                     )}
+
+                <Link to={"/viewRoomReview/" + this.props.match.params.room_id}>View Reviews</Link>
             </div>
+
+            
         )
     }
 }
