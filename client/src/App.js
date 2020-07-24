@@ -87,13 +87,16 @@ const App = () => {
               <Route exact path='/mail_change' component={mail_ch} />
               <PrivateRoute exact path='/payment' component={Payment} />
 
-              <PrivateRoute exact path='/profile' component={Profile} />
+              {/* <PrivateRoute exact path='/profile' component={Profile} /> */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
             
             </Switch>
             </section>
+          <section className="container">
+            <PrivateRoute exact path='/profile' component={Profile} />
+          </section>
         </Fragment>
       </Router>
     </Provider>
