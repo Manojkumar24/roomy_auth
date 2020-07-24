@@ -11,6 +11,7 @@ const Complains = require("../../models/Complains");
 const Occupants = require("../../models/Occupants");
 const UserReview = require("../../models/UserReview");
 const RoomReview = require("../../models/RoomReview");
+const Profile = require("../../models/Profile");
 
 
 router.get("/list", auth,async (req, res) => {
@@ -134,8 +135,8 @@ router.get("/userviewRoom/:id", auth, async (req, res) => {
         for (var i = 0; i < tenants.length; i++) {
             person_details.push(tenants[i].user);
         }
-        details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
-        // console.log(details);
+        details.occupants = await Profile.find({ user: { "$in": person_details } });
+        console.log(details);
         res.json(details);    
 });
 

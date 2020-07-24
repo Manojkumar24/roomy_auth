@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import office_img from '../../images/office.jpg'
-=======
 import { Link } from 'react-router-dom';
 
->>>>>>> da5240f1a2526e0773d1ccdc7863640c2bb5ae0c
 class OwnerRoom extends Component {
     state = {
         room: [],
@@ -122,7 +119,6 @@ class OwnerRoom extends Component {
         
         return(
             <div>
-<<<<<<< HEAD
                 <div class="details">
                 <div class="heading">{this.state.room.name} </div>
                 {myimage}
@@ -203,14 +199,6 @@ class OwnerRoom extends Component {
             </div>
 
 
-=======
-                <h3 className="center">Your Room</h3>
-                <h4>{this.state.room.name}</h4>
-                <p>Room rent {this.state.room.rent}</p>
-                <p>Availability {this.state.room.availability}</p>
-                <Link to={'/editRoom/' + this.props.match.params.room_id}><h4>Edit Room</h4></Link>
-                <Link to={'/viewComplains/' + this.props.match.params.room_id}>Your Complains</Link>
->>>>>>> da5240f1a2526e0773d1ccdc7863640c2bb5ae0c
                 <p>Occupants</p>
                 {occupant_data}
                 <p>Interested People</p>
