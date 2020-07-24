@@ -18,6 +18,10 @@ const EditProfile = ({
     password: '',
 
     phonenum: '',
+    profession: '',
+    hobbies1: '',
+    hobbies2:'',
+    hobbies3: ''
   });
 
   useEffect(() => {
@@ -27,7 +31,10 @@ const EditProfile = ({
       name: loading || !profile.name ? '' : profile.name,
       email: loading || !profile.email ? '' : profile.email,
       password: loading || !profile.password ? '' : profile.password,
-
+      profession: loading || !profile.profession ? '' : profile.profession,
+      hobbies1: loading || !profile.hobbies.hobbies1 ? '' : profile.hobbies.hobbies1,
+      hobbies2: loading || !profile.hobbies.hobbies2 ? '' : profile.hobbies.hobbies2,
+      hobbies3: loading || !profile.hobbies.hobbies3 ? '' : profile.hobbies.hobbies3,
       phonenum: loading || !profile.phonenum ? '' : profile.phonenum,
     });
   }, [loading]);
@@ -36,7 +43,10 @@ const EditProfile = ({
     name,
     email,
     password,
-
+    profession,
+    hobbies1,
+    hobbies2,
+    hobbies3,
     phonenum,
   } = formData;
 
@@ -92,6 +102,21 @@ const EditProfile = ({
                     />
                   </div>
                 </div>
+                <div className='row editprorows'>
+                  <div className='col-lg-3 editprotext'>Profession:</div>
+                  <div className='col-lg-9'>
+                    <input
+                      className='editproinput'
+                      type='text'
+                      placeholder='profession'
+                      name='profession'
+                      value={profession}
+                      onChange={(e) => onChange(e)}
+                      
+                    />
+                  </div>
+                </div>
+
                 {/* <div className='row editprorows'>
                   <div className='col-lg-3 editprotext'>Password:</div>
                   <div className='col-lg-9'>
@@ -106,6 +131,44 @@ const EditProfile = ({
                     />
                   </div>
                 </div> */}
+              <div className="row editprorows">
+                <div className="col-lg-3 editprotext">Hobbies:</div>
+                <div className="col-lg-9">
+                  <div>
+                    <input
+                      className="editproinput"
+                      type="text"
+                      placeholder="Hobbies 1"
+                      name="hobbies1"
+                      value={hobbies1}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+
+                  <div>
+                    <input
+                      className="editproinput"
+                      type="text"
+                      placeholder="Hobbies 2"
+                      name="hobbies2"
+                      value={hobbies2}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+
+                  <div>
+                    <input
+                      className="editproinput"
+                      type="text"
+                      placeholder="Hobbies 3"
+                      name="hobbies3"
+                      value={hobbies3}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
+              </div>
+
 
                 <div className='row editprorows'>
                   <div className='col-lg-3 editprotext'>Phonenum:</div>
