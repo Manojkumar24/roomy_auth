@@ -124,6 +124,18 @@ router.get("/getRoomDetails/:id", auth, async (req, res) => {
     res.status(400).json({ error: "User is not authorized" });
 });
 
+router.post("/filters", auth, async (req,res) => {
+    console.log(req.body);
+    try{
+    let rooms = await Rooms.find(req.body);
+    res.json(rooms);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg: "unable to fetch"});
+    }
+});
+
+
 
 router.get("/userviewRoom/:id", auth, async (req, res) => {
         let room = await Rooms.findOne({ _id: req.params.id });
@@ -165,9 +177,10 @@ router.get("/userRoom", auth, async (req, res) => {
 });
 
 router.get("/markInterested/:id", auth, async (req, res) => {
+    console.log("VHJVAKSHJVAJDVJADVLJADVJHAVDLJHAVJHAF", req.params.id)
     let room = await Rooms.findOne({ _id: req.params.id });
     room.interested_people.push(req.user.id);
-    room.save();
+    await room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
     
@@ -347,6 +360,25 @@ router.post('/reviewRoomMate', auth, async (req, res) => {
     }
 
     res.json(review_data);
+
+});
+
+
+router.post('/viewUserReview', auth, async (req, res) => {
+    console.log("Id issssssssssssss",req.body.id)
+    const id = req.body.id;
+
+    // const room_id = req.body.room;
+    let user = await User.findOne({_id:id}).select(["name"]);
+    let review = await UserReview.find({ occupant: id});
+    let review_data = []
+    for(var i=0; i<review.length; i++){
+        review_data.push(review[i].toJSON());
+        review_data[i].user = await User.findOne({_id:review[i].user}).select(["name"]);
+    }
+    console.log("Review data",review_data)
+
+    res.json({"comments":review_data,"user": user})
 
 });
 
@@ -573,6 +605,8 @@ router.get("/updateComplain/:id", auth, async (req, res) => {
         res.status(500).json({ msg: "unable to fetch" });
     }
 });
+
+
 
 router.post(
     "/create",

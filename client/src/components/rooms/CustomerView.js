@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 import './CustomerView.css'
 import office_img from '../../images/office.jpg'
 import profile from "../../reducers/profile";
@@ -51,6 +52,7 @@ class CustomerView extends Component {
         // event.preventDefault()
         let id = this.props.match.params.room_id;
         let user = localStorage.getItem("user_name")
+        console.log("Id is",id);
         axios.get("/api/rooms/markInterested/" + id).then(
             res => {
                 this.setState({
@@ -114,6 +116,7 @@ class CustomerView extends Component {
         let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (
+                    <Link to={'/viewUserReview/'+person.user}>
                     <div class="usercard">
                         <div class="user-name">
                             <button class="btn"><i class="fa fa-check-circle"></i> Rent Paid</button>
@@ -146,6 +149,7 @@ class CustomerView extends Component {
                         
                         
                     </div>
+                    </Link>
                 )
             })
         ) : (

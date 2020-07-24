@@ -220,7 +220,7 @@ handleChangeiswifi = (value) => {
           // console.log(this.state.rooms);
           
           return (
-            <div style={{width:"45%",backgroundColor:"green"}}>
+            <div class="room-list" style={{width:"45%",backgroundColor:"green"}}>
               <Link to={'/userRoomView/' + room._id}>
               <RoomCard room={room} owner={this.state.rooms.user} />
               </Link>
