@@ -5,19 +5,24 @@ const {check, validationResult} = require("express-validator/check");
 
 
 const User = require("../../models/User");
+const Rooms = require("../../models/Rooms");
 const auth = require("../../middleware/auth");
 const { route } = require("./users");
 
 
 router.get("/list", auth,async (req, res) => {
     let user = await User.findOne({_id:req.user.id});
+
     if(user && user.isOwner){ // If user is a owner then ssend his rooms list
+
+        console.log(req.user);
+
         let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
         res.json(rooms);
     }else{
         let rooms = await Rooms.find().limit(10).select(["-user"]);
         rooms.user = user.name;
-        console.log(rooms);
+        // console.log(rooms);
         
         res.json(rooms);
     }
@@ -25,11 +30,29 @@ router.get("/list", auth,async (req, res) => {
 });
 
 router.get("/ownerRoom/:id", auth, async (req,res) => {
-    let user = await User.findOne({ _id: req.user.id });
+    var user = await User.findOne({ _id: req.user.id });
+    person_details = {}
     if(user && user.isOwner){
-        let room = await Rooms.find({ user: req.user.id, _id:req.params.id });
-        console.log(room);
-        res.json(room);
+        var room = await Rooms.findOne({ user: req.user.id, _id:req.params.id });
+        // person_details = [...room]
+        // room.interested = await User.find({ _id: { "$in": room.interested_people } })
+        // let roomCopy = [...room]
+        var details = room.toJSON();
+        // console.log()
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people}}).select(["name","email","-_id"])
+        // for(var i = 0; i < room.length; i++){
+        //     if (room[i].interested_people != []){
+        //         // console.log(room[val])
+        //         var info = await User.find({ _id: { "$in": room[i].interested_people}}).select(["name","email"])}
+        //         console.log(info)
+        //         details.push({id: room[i]._id, details: info});
+        // }
+        
+        console.log(details);
+        // console.log(details);
+
+        
+        res.json(details);
     }
     res.status(400).json({ error: "User is not authorized" });
 });
@@ -44,6 +67,16 @@ router.post("/filters", auth, async (req,res) => {
         res.status(500).json({msg: "unable to fetch"});
     }
 });
+
+
+
+router.get("/userviewRoom/:id", auth, async (req, res) => {
+        let room = await Rooms.find({ _id: req.params.id });
+        console.log(room);
+        res.json(room);
+    
+});
+
 
 
 router.post(

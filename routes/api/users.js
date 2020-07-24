@@ -13,75 +13,77 @@ const randomToken = require('random-token');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 
-//@route POST api/users
-//@access public
-// router.post(
-//   '/',
-//   [
-//     check('name', 'name is required')
-//       .not()
-//       .isEmpty(),
-//     check('email', 'enter correct email').isEmail(),
-//     check('password', 'minimum length of password is 6 characters').isLength({
-//       min: 6
-//     })
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
+// @route POST api/users
+// @access public
+router.post(
+  '/',
+  [
+    check('name', 'name is required')
+      .not()
+      .isEmpty(),
+    check('email', 'enter correct email').isEmail(),
+    // check('password', 'minimum length of password is 6 characters').isLength({
+    //   min: 6
+    // })
+  ],
+  async (req, res) => {
+    console.log("inside ownre");
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-//     const { name, email, password } = req.body;
-//     try {
-//       let user = await User.findOne({ email }); //email: req.body.email
+    const { name, email, password } = req.body;
+    try {
+      let user = await User.findOne({ email }); //email: req.body.email
 
-//       if (user) {
-//         return res
-//           .status(400)
-//           .json({ errors: [{ msg: 'user with email already exists' }] });
-//       }
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'user with email already exists' }] });
+      }
 
-//       const avatar = gravatar.url(email, {
-//         d: 'mm',
-//         s: '200',
-//         r: 'pg'
-//       });
-//       const gen_token = randomToken(55);
-//       Email.send_verification_token(gen_token, email);
-//       //var newValues = { $set: { token: gen_token } };
-//       //user = new User({ name, email, avatar, password });
+      const avatar = gravatar.url(email, {
+        d: 'mm',
+        s: '200',
+        r: 'pg'
+      });
+      const gen_token = randomToken(55);
+      // Email.send_verification_token(gen_token, email);
+      //var newValues = { $set: { token: gen_token } };
+      isOwner = true;
+      user = new User({ name, email, avatar, password,isOwner });
 
-//       //user = new User({ name, email, avatar, password });
+      //user = new User({ name, email, avatar, password });
 
-//       //const salt = await bcrypt.genSalt(10);
+      const salt = await bcrypt.genSalt(10);
 
-//       //user.password = await bcrypt.hash(password, 10);
+      user.password = await bcrypt.hash(password, 10);
 
-//       //await user.save();
+      await user.save();
 
-//       const payload = {
-//         user: {
-//           id: user.id
-//         }
-//       };
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
 
-//       jwt.sign(
-//         payload,
-//         config.get('jwtSecret'),
-//         { expiresIn: 360000 },
-//         (err, token) => {
-//           if (err) throw err;
-//           res.json({ token });
-//         }
-//       );
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send('server error');
-//     }
-//   }
-// );
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+    }
+  }
+);
 
 // router.get('/verify/:token', confirm_email);
 
@@ -174,130 +176,154 @@ function confirm_email(req, res) {
 
 
 
-router.post(
-  '/',
-  [
-    check('name', 'name is required')
-      .not()
-      .isEmpty(),
-    check('email', 'enter correct email').isEmail(),
-    check('password', 'minimum length of password is 6 characters').isLength({
-      min: 6
-    })
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
+// router.post(
+//   '/',
+//   [
+//     check('name', 'name is required')
+//       .not()
+//       .isEmpty(),
+//     check('email', 'enter correct email').isEmail(),
+//     check('password', 'minimum length of password is 6 characters').isLength({
+//       min: 6
+//     })
+//   ],
+//   async (req, res) => {
+//     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
 
-    const { name, email, password } = req.body;
-    // try {
-    //   let user = await User.findOne({ email }); //email: req.body.email
-    //
-    //   if (user) {
-    //     return res
-    //       .status(400)
-    //       .json({ errors: [{ msg: 'user with email already exists' }] });
-    //   }
-
-      const avatar = gravatar.url(email, {
-        d: 'mm',
-        s: '200',
-        r: 'pg'
-      });
-      //const gen_token = randomToken(55);
-      //Email.send_verification_token(gen_token, email);
-      user = new User({ name, email, avatar, password });
-
-      //const salt = await bcrypt.genSalt(10);
-
-      user.password = await bcrypt.hash(password, 10);
-      //await user.save();
-      await user.save();
-      const new_token = new Token({ _userId: user.id, token: crypto.randomBytes(16).toString('hex')});
-      await new_token.save()
-      var str_email = user.email;
-      var t = new_token.token + '**' + str_email;
-      //console.log(t);
-      //var arr = t.split('**');
-      //console.log(arr);
-      //tok = arr[0];
-      //em = arr[1];
-      //console.log(tok);
-      //console.log(em);
-      Email.send_verification_token(t, user.email);
-        // if (err) {
-        //   console.log('hello9');
-        //   return res.status(500).send({ msg: err.message });
-        // }
-        // console.log('hello8');
-        // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex')});
-        // console.log('hello7');
-        // token.save(function(err){
-        //   if (err) {
-        //     return res.status(500).send({ msg: err.message});
-        //   }
-        //   Email.send_verification_token(token.token, user.email);
-        //   console.log('hello456');
-
+//     const { name, email, password } = req.body;
+//     try {
+//       let user = await User.findOne({ email }); //email: req.body.email
     
-          
-    
-
-
-          
-      //console.log('hello123');
-      //Email.send_verification_token(token.token, user.email);
-
-    // } catch (err) {
-    //   console.error(err.message);
-    //   res.status(500).send('server error');
-    // }
-  }
-);
-
-
-
-// router.post('/', function(req, res, next) {
-//   req.assert('email', 'Email is not valid').isEmail();
-//   req.assert('email', 'Email cannot be blank').notEmpty();
-//   req.assert('password', 'Password cannot be blank').notEmpty();
-//   req.sanitize('email').normalizeEmail({ remove_dots: false });
-
-//   // Check for validation erro
-//   var errors = req.validationErrors();
-//   if (errors) return res.status(400).send(errors);
-
-//   User.findOne({ email: req.body.email }, function(err, user) {
-//     if (!user)
-//       return res
-//         .status(401)
-//         .send({
-//           msg:
-//             'The email address ' +
-//             req.body.email +
-//             ' is not associated with any account. Double-check your email address and try again.'
-//         });
-
-//     user.comparePassword(req.body.password, function(err, isMatch) {
-//       if (!isMatch)
-//         return res.status(401).send({ msg: 'Invalid email or password' });
-
-//       // Make sure the user has been verified
-//       if (!user.isVerified)
+//       if (user) {
 //         return res
-//           .status(401)
-//           .send({
-//             type: 'not-verified',
-//             msg: 'Your account has not been verified.'
-//           });
+//           .status(400)
+//           .json({ errors: [{ msg: 'user with email already exists' }] });
+//       }
 
-//       // Login successful, write token, and send back user
-//       res.send({ token: generateToken(user), user: user.toJSON() });
-//     });
-//   });
-// });
+//       const avatar = gravatar.url(email, {
+//         d: 'mm',
+//         s: '200',
+//         r: 'pg'
+//       });
+//       //const gen_token = randomToken(55);
+//       //Email.send_verification_token(gen_token, email);
+//       const isOwner = true;
+//       user = new User({ name, email, avatar, password, isOwner});
 
+//       //const salt = await bcrypt.genSalt(10);
+
+//       user.password = await bcrypt.hash(password, 10);
+//       //await user.save();
+//       await user.save();
+//       const new_token = new Token({ _userId: user.id, token: crypto.randomBytes(16).toString('hex')});
+//       await new_token.save()
+//       var str_email = user.email;
+//       var t = new_token.token + '**' + str_email;
+
+//       const payload = {
+//         user: {
+//           id: user.id
+//         }
+//       };
+      
+//       console.log("after signing");
+      
+//       jwt.sign(
+//         payload,
+//         config.get('jwtSecret'),
+//         { expiresIn: 360000 },
+//         (err, token) => {
+//           if (err) throw err;
+//           console.log("after signing no");
+//           res.json({ token });
+//         }
+//       );
+//     } 
+//     catch (err) {
+//     console.error(err.message);
+//     console.log("after signing error");
+//     res.status(500).send('server error');
+//   }
+//       //console.log(t);
+//       //var arr = t.split('**');
+//       //console.log(arr);
+//       //tok = arr[0];
+//       //em = arr[1];
+//       //console.log(tok);
+//       //console.log(em);
+//       // Email.send_verification_token(t, user.email);
+//         // if (err) {
+//         //   console.log('hello9');
+//         //   return res.status(500).send({ msg: err.message });
+//         // }
+//         // console.log('hello8');
+//         // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex')});
+//         // console.log('hello7');
+//         // token.save(function(err){
+//         //   if (err) {
+//         //     return res.status(500).send({ msg: err.message});
+//         //   }
+//         //   Email.send_verification_token(token.token, user.email);
+//         //   console.log('hello456');
+
+    
+          
+    
+
+
+          
+//       //console.log('hello123');
+//       //Email.send_verification_token(token.token, user.email);
+
+//     // } catch (err) {
+//     //   console.error(err.message);
+//     //   res.status(500).send('server error');
+//     // }
+
+
+// // router.post('/', function(req, res, next) {
+// //   req.assert('email', 'Email is not valid').isEmail();
+// //   req.assert('email', 'Email cannot be blank').notEmpty();
+// //   req.assert('password', 'Password cannot be blank').notEmpty();
+// //   req.sanitize('email').normalizeEmail({ remove_dots: false });
+
+// //   // Check for validation erro
+// //   var errors = req.validationErrors();
+// //   if (errors) return res.status(400).send(errors);
+
+// //   User.findOne({ email: req.body.email }, function(err, user) {
+// //     if (!user)
+// //       return res
+// //         .status(401)
+// //         .send({
+// //           msg:
+// //             'The email address ' +
+// //             req.body.email +
+// //             ' is not associated with any account. Double-check your email address and try again.'
+// //         });
+
+// //     user.comparePassword(req.body.password, function(err, isMatch) {
+// //       if (!isMatch)
+// //         return res.status(401).send({ msg: 'Invalid email or password' });
+
+// //       // Make sure the user has been verified
+// //       if (!user.isVerified)
+// //         return res
+// //           .status(401)
+// //           .send({
+// //             type: 'not-verified',
+// //             msg: 'Your account has not been verified.'
+// //           });
+
+// //       // Login successful, write token, and send back user
+// //       res.send({ token: generateToken(user), user: user.toJSON() });
+// //     });
+// //   });
+// // });
+//   }
+// );
 module.exports = router;

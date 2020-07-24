@@ -35,12 +35,16 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
   );
 
   const guestLinks = (
-    <ul id="nav-mobile" className="right">>
+    <ul id="nav-mobile" className="right">
       {/* <li>
         <a href='#!'> Profile</a>
       </li> */}
       <li>
-        <Link to='/register'> Register</Link>
+        <Link to='/register'> Owner Reg</Link>
+      </li>
+
+      <li>
+        <Link to='/register_cust'> Customer Reg</Link>
       </li>
 
       <li>

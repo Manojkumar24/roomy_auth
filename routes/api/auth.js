@@ -52,13 +52,13 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
-      if (!user.isOwner){
-        console.log('customer details not allowed here ');
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'customer details not allowed here ' }] });
+      // if (!user.isOwner){
+      //   console.log('customer details not allowed here ');
+      //   return res
+      //     .status(400)
+      //     .json({ errors: [{ msg: 'customer details not allowed here ' }] });
 
-      }
+      // }
       if (!user.isVerified)
         return res
           .status(401)
