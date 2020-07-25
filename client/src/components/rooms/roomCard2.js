@@ -5,6 +5,8 @@ import './roomcard.css';
 
 
 const RoomCard = ({ room, owner }) => {
+    console.log("room is",room);
+    console.log("owner is", owner);
     return (
         
 
@@ -41,6 +43,10 @@ const RoomCard = ({ room, owner }) => {
                     </div>
                     <div class="itemDisplayDetailLines">
                     <div class="row "><i class="fa fa-user" aria-hidden="true"></i> by {owner}</div>
+                    {/* <div class="row "><i class="fa fa-user" aria-hidden="true"></i> */}
+                    {room.trial === "Yes" ? (<div><p>7 day trial available</p></div>) : (<div><p>Trial not available</p></div>)} 
+                    {/* {room.trial} */}
+                    {/* </div> */}
                     <div class="row ">
                         <button type="button" class="exploreBtn">View Room</button> 
                     </div>

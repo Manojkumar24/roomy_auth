@@ -36,7 +36,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    let { name, email, password } = req.body;
     try {
       let user = await User.findOne({ email }); //email: req.body.email
 
@@ -55,18 +55,21 @@ router.post(
       // Email.send_verification_token(gen_token, email);
       //var newValues = { $set: { token: gen_token } };
       isOwner = true;
-      user = new User({ name, email, avatar, password,isOwner });
+
 
       //user = new User({ name, email, avatar, password });
 
       const salt = await bcrypt.genSalt(10);
 
-      user.password = await bcrypt.hash(password, 10);
+      password = await bcrypt.hash(password, 10);
+      user = new User({ name, email, avatar, password, isOwner });
+
+      //let password = user.password;
       await user.save();
       //profile = new Profile({ user});
       //await profile.save();
       //user1 = new User({ name, email, password });
-      
+
       console.log('before sving!!!');
       phonenum = "";
       let profile = new Profile({ user, name, email, password, phonenum });
@@ -159,17 +162,17 @@ function confirm_email(req, res) {
   let em = arr[1];
   Token.findOne({
     token: tok
-  }, function(err, token){
-    if (!token){
-      return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.'});
+  }, function (err, token) {
+    if (!token) {
+      return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
-      
+
     }
     User.findOneAndUpdate(
       { email: em },
-      { isVerified: true   },
+      { isVerified: true },
       { isOwner: true },
-      function(err, doc) {
+      function (err, doc) {
         if (err) {
           console.log(err);
           res.end();
@@ -180,7 +183,7 @@ function confirm_email(req, res) {
     );
 
     //User.findOneAndUpdate({email: em},{user.isVerified = true})
-    
+
     //user.save();
     console.log('account verififed!!');
   });
@@ -204,27 +207,27 @@ function confirm_email(req, res) {
   //   if (!token){
   //     return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.'});
 
-      
-    //}
-    User.findOneAndUpdate(
-      { email: em },
-      { isVerified: true   },
-      { isOwner: true },
-      function(err, doc) {
-        if (err) {
-          console.log(err);
-          res.end();
-        } else {
-          res.send('Account verification profile successsful!');
-        }
-      }
-    );
 
-    //User.findOneAndUpdate({email: em},{user.isVerified = true})
-    
-    //user.save();
-    console.log('account profile verififed!!');
-  };
+  //}
+  User.findOneAndUpdate(
+    { email: em },
+    { isVerified: true },
+    { isOwner: true },
+    function (err, doc) {
+      if (err) {
+        console.log(err);
+        res.end();
+      } else {
+        res.send('Account verification profile successsful!');
+      }
+    }
+  );
+
+  //User.findOneAndUpdate({email: em},{user.isVerified = true})
+
+  //user.save();
+  console.log('account profile verififed!!');
+};
 
 
 
@@ -250,7 +253,7 @@ function confirm_email(req, res) {
 //     const { name, email, password } = req.body;
 //     try {
 //       let user = await User.findOne({ email }); //email: req.body.email
-    
+
 //       if (user) {
 //         return res
 //           .status(400)
@@ -282,9 +285,9 @@ function confirm_email(req, res) {
 //           id: user.id
 //         }
 //       };
-      
+
 //       console.log("after signing");
-      
+
 //       jwt.sign(
 //         payload,
 //         config.get('jwtSecret'),
@@ -323,12 +326,12 @@ function confirm_email(req, res) {
 //         //   Email.send_verification_token(token.token, user.email);
 //         //   console.log('hello456');
 
-    
-          
-    
 
 
-          
+
+
+
+
 //       //console.log('hello123');
 //       //Email.send_verification_token(token.token, user.email);
 

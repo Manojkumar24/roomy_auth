@@ -5,7 +5,7 @@ import office_img from '../../images/office.jpg'
 import "../rooms/CustomerView.css"
 class YourRoom extends Component {
     state = {
-        room: [],
+        room: null,
         image_id:23,
         images:[{image_id:23,imageValue:"https://www.w3schools.com/w3images/bedroom.jpg"
         ,image_num:1},{image_id:32,imageValue:"https://www.w3schools.com/w3images/livingroom2.jpg"
@@ -21,9 +21,11 @@ class YourRoom extends Component {
         
     }
     componentDidMount() {
+
         axios.get("/api/rooms/userRoom/")
             .then(res => {
-                if(res.length > 0){
+                console.log("room data is ",res.data.details);
+                if(res.data.details){
                 this.setState({
                     room: res.data.details,
                     paidRent: res.data.paidRent,
@@ -31,6 +33,8 @@ class YourRoom extends Component {
                 })
             }
             })
+
+        // console.log("room data is ", this.state.room);
           
     }
 
@@ -51,7 +55,7 @@ class YourRoom extends Component {
             )
         }) : <div class="image1"> <img   src={office_img} alt="Room Image" /> </div> ;
 
-        let occupant_data =( this.state.room.occupants) ? (
+        let occupant_data = (this.state.room && this.state.room.occupants) ? (
             this.state.room.occupants.map(person => {
                 return (
                     <ul>
@@ -64,7 +68,7 @@ class YourRoom extends Component {
                 <p>There are currently no occupants</p>
             )
   
-        let data = (this.state.room.name )? (
+        let data = (this.state.room && this.state.room.name )? (
             <div>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
@@ -78,10 +82,17 @@ class YourRoom extends Component {
                     <Link to='/yourComplains'>Your Complains </Link>
             </div>
         ) : (
-            <h4>{this.state.room.msg}</h4>
+                <h4>Your are currently not associated with any room</h4>
         )
 
-        let room_data = ( this.state.room.length > 0)?(
+        console.log("before pringintg details",this.state.room);
+
+        // let isPartofRoom = false;
+        // if(this.state.room != []){
+        //     isPartofRoom = true;
+        // }
+
+        let room_data = (this.state.room) ? (
                   
             <div class="details">
                 

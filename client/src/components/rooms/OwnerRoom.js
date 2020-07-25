@@ -123,7 +123,7 @@ class OwnerRoom extends Component {
                    <p class="hobbies">
                        playing cricket ,badminton,watching animes
                    </p>
-                 {  ( person.hobby.length > 0) ? (
+                        {(person.hobby && person.hobby.length > 0) ? (
             this.state.room.occupants.map(hobby => {
                 return (<p class="hobbies">
                 playing cricket ,badminton,watching animes  </p> )})) : <span>-</span>
