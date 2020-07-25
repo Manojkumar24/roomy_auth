@@ -1,3 +1,33 @@
+.bg-img{
+    background-image: url("https://i.pinimg.com/originals/c6/60/24/c66024ea79527d9bbafe79ed171558b9.jpg"); 
+     background-position: center;
+     background-repeat: no-repeat;
+  
+     filter: blur(4px);
+     background-size: cover;
+     position: absolute;
+     width: 100%;
+     height: 200%;
+  }
+
+  .exploreButton1
+    {
+      
+      padding: 2%;
+      font-size: 12px;
+      background:transparent;
+      border:2px solid rgb(16, 77, 116);
+      color:rgb(16, 77, 116);
+    }
+    .exploreButton1:hover
+    {
+     
+     padding: 2%;
+      font-size: 12px;
+      background:rgb(16, 77, 116);
+      border:2px solid rgb(16, 77, 116);
+      color:#fff;
+    }
 .post-room{
     align-content: center;
     margin-left: 10%;
@@ -36,8 +66,8 @@ label{
 .subhead {
     background-color: rgb(16, 77, 116);
     transform: skew(20deg); /* SKEW */
-    width: 40%;
-    height: 20%;
+    width: 50%;
+    height: 15%;
   }
   
   .lead {
@@ -49,3 +79,21 @@ label{
     transform: skew(-20deg); /* UNSKEW */
     color: white;
   }
+  
+.wrapper{
+    display:"flex";
+    width: 70%;
+    margin-left: 15%;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.usercard{
+    margin: 2%;
+    flex-direction: row;padding: 2%;
+    width: 350px;
+    border-width: 2px;
+    background-color: white;
+    border-color:black;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}

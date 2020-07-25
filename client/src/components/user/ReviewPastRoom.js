@@ -101,16 +101,17 @@ class ReviewPastRoom extends Component {
     }
 
     render() {
-        let roommate_data = (this.state.occupants) ? (
+        let roommate_data = (this.state.occupants && this.state.occupants.length > 0) ? (
             this.state.occupants.map(person =>{
                 return(
-                    <div>
+                    <div className="usercard">
                         <p>{person.name}</p>
-                        <Link to = {"/review/" + person.name}>Review this room mate</Link>
+                        <Link to = {"/review/" + person.name}><span className="exploreButton1">Review this room mate</span></Link>
                     </div>
                 )
             })
         ) : (
+            
             <p> No room mates </p>
         )
         return (
@@ -141,7 +142,9 @@ class ReviewPastRoom extends Component {
                     <input  class="exploreButton" type="submit" value="Submit" />
                     </div>
                 </form>
+                <div>
                 {roommate_data}
+                </div>
             </div>
            </div> 
         )
