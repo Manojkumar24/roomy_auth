@@ -28,7 +28,7 @@
     div.subhead {
       background-color: rgb(16, 77, 116);
       transform: skew(20deg); /* SKEW */
-      width: 35%;
+      width: 50%;
       height: 15%;
     }
     
@@ -43,6 +43,22 @@
     }
 
 
+    .usercard{
+        margin: 2%;
+        flex-direction: row;padding: 2%;
+        width: 250px;
+        border-width: 2px;
+        background-color: white;
+        border-color:black;
+        flex-wrap: wrap;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+    
+    .wrapper{
+        display:"flex";
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
     .exploreButton
     {
       width:150px;

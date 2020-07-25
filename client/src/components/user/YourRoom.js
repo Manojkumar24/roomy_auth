@@ -158,7 +158,8 @@ class YourRoom extends Component {
         return (
             <div>
                         {room_data}
-                        <div style={{marginLeft:"10%"}}>
+                        <div style={{marginLeft:"10%",marginTop:"20%"}}>
+                            <a href="/reviewPastRoom">click here</a>
                           <Link to='/reviewPastRoom'><span className="exploreButton1">Review Past Room </span></Link>
                           </div>
             </div>

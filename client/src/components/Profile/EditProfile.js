@@ -63,7 +63,7 @@ const EditProfile = ({
     <Fragment>
       <div class="bg-img"></div>
        <div class="review-room">
-               <h3 style={{color:"rgb(16, 77, 116)"}}> Profile </h3>
+               <h3 style={{color:"white"}}> Profile </h3>
                 <div className='myborder'>
                 <div class="subhead">
                     <p class='lead'>
