@@ -8,34 +8,21 @@
     "payload": {
         "payment": {
             "entity": {
-                "id": "pay_FIgRnWVB0Yc7o5",
+                "id": "pay_FIhYCIrs6dNsB8",
                 "entity": "payment",
                 "amount": 350000,
                 "currency": "INR",
                 "status": "captured",
-                "order_id": "order_FIgRIKi0mw2b1j",
+                "order_id": "order_FIhXsGXZj1gqRC",
                 "invoice_id": null,
                 "international": false,
-                "method": "card",
+                "method": "netbanking",
                 "amount_refunded": 0,
                 "refund_status": null,
                 "captured": true,
                 "description": "thank you for ntg please give us more",
-                "card_id": "card_FHyC7lMWeAYsl5",
-                "card": {
-                    "id": "card_FHyC7lMWeAYsl5",
-                    "entity": "card",
-                    "name": "Gaurav Kumar",
-                    "last4": "1111",
-                    "network": "Visa",
-                    "type": "debit",
-                    "issuer": null,
-                    "international": false,
-                    "emi": false,
-                    "global_fingerprint": "db99becd5fbe49fd8621c5fbabe10e3d",
-                    "sub_type": "consumer"
-                },
-                "bank": null,
+                "card_id": null,
+                "bank": "KKBK",
                 "wallet": null,
                 "vpa": null,
                 "email": "gaurav.kumar@example.com",
@@ -49,11 +36,11 @@
                 "error_step": null,
                 "error_reason": null,
                 "acquirer_data": {
-                    "auth_code": "250639"
+                    "bank_transaction_id": "6834241"
                 },
-                "created_at": 1595670307
+                "created_at": 1595674192
             }
         }
     },
-    "created_at": 1595670308
+    "created_at": 1595674193
 }

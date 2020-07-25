@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import './Review.css'
 
 class ViewUserReview extends Component {
     state = {
@@ -35,7 +36,7 @@ class ViewUserReview extends Component {
         let reviews = (this.state.comments && this.state.comments.length>0) ? (
             this.state.comments.map(review => {
                 return(
-                    <div>
+                    <div className="usercard">
                         <ul>
                                 <li>Smoker:{review.smoker}</li>
                 
@@ -62,9 +63,17 @@ class ViewUserReview extends Component {
             <h5>No Reviews</h5>
         ) 
         return (
-            <div>
-                <h4>Reviews on {this.state.user.name}</h4>
-                {reviews}
+
+            <div className="review-room">
+                <h3 style={{ color: "rgb(16, 77, 116)" }}> Reviews on {this.state.user.name} </h3>
+                <div className='myborder'>
+                    <div class="subhead">
+                        <p class='lead'>
+                            <i className='fa fa-comments-o'></i>Reviews
+                 </p>
+                    </div>
+                    {reviews}
+                </div>
             </div>
         )
     }
