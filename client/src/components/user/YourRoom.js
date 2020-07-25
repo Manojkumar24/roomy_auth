@@ -147,7 +147,7 @@ class YourRoom extends Component {
                     {this.state.paidRent ? (
                         <p>Rent Paid on {this.state.rent_pay_date}</p>
                     ) : (<Link to='/payment'><span className="exploreButton1">View Transaction History </span></Link>)}
-
+                    <br /><br /><br />
                 </div>
                 <Link to='/yourComplains'><span className="exploreButton1">Your Complains </span></Link>
                 {occupant_data}

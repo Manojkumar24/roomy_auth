@@ -99,7 +99,7 @@ class Payments extends Component {
         let rentHistory = this.state.room ? (
             this.state.room.map(payment => {
                 return (
-                    <div>
+                    <div classname="review-room">
                         <div class="card" style={{ padding: "3%" }}>
                             <ul>
                                 <li>Payment id: {payment.payment_id}</li>
