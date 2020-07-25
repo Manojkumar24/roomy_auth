@@ -105,6 +105,8 @@ app.post('/verification', async (req,res) =>{
             })
         
         await rent.save();
+        occupant.rent_due_date = Date.now();
+        await occupant.save();
         console.log("Done with rent creation");
         // let occupant = await Occupants.findOne({ user: req.user.id });
         // let room = await Rooms.findOne({ _id: occupant.room });

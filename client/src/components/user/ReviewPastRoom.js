@@ -37,9 +37,9 @@ class ReviewPastRoom extends Component {
                         parking : res.data.roomreview.parking
                     })
                 }
-                if (res.data.roomreview.owner) {
+                if (res.data.roomreview.owner_review) {
                     this.setState({
-                        owner : res.data.roomreview.owner
+                        owner: res.data.roomreview.owner_review
                     })
                 }
                 if (res.data.roomreview.review_text) {
@@ -130,7 +130,7 @@ class ReviewPastRoom extends Component {
                     <input type="text" name="wifi" placeholder="wifi" value={this.state.wifi} onChange={this.handleChange} />
 
                     <span>Parking</span>
-                    <input type="text" name="nigparkinghtowl" placeholder="parking" value={this.state.parking} onChange={this.handleChange} />
+                    <input type="text" name="parking" placeholder="parking" value={this.state.parking} onChange={this.handleChange} />
 
                     <span>Owner</span>
                     <input type="text" name="owner" placeholder="owner" value={this.state.owner} onChange={this.handleChange} />

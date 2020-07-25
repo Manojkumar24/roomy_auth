@@ -116,7 +116,7 @@ class ReviewRoomMate extends Component {
              <div className='myborder'>
              <div class="subhead">
                  <p class='lead'>
-                 <i className='fas fa-user'></i>About Your Friend
+                 <i className='fas fa-user'></i>About Roomate
                  </p>
              </div>
                 <form onSubmit={this.submitReview}>

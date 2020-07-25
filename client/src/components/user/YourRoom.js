@@ -11,24 +11,31 @@ class YourRoom extends Component {
         ,image_num:1},{image_id:32,imageValue:"https://www.w3schools.com/w3images/livingroom2.jpg"
         ,image_num:2},{image_id:44,imageValue:"https://www.w3schools.com/w3images/diningroom.jpg"
         ,image_num:3},{image_id:26,imageValue:"https://www.w3schools.com/w3images/bedroom.jpg"
-        ,image_num:4}]
+        ,image_num:4}],
+        paidRent:null,
+        rent_pay_date:null
     }
 
     handleimages=(id)=>{
         this.setState({image_id:id})
+        
     }
     componentDidMount() {
         axios.get("/api/rooms/userRoom/")
             .then(res => {
+                if(res.length > 0){
                 this.setState({
-                    room: res.data
+                    room: res.data.details,
+                    paidRent: res.data.paidRent,
+                    rent_pay_date: res.data.rent_pay_date
                 })
+            }
             })
-            console.log(this.state.room)
+          
     }
 
     render() {
-        let room=this.state.room ;
+        let room = this.state.room;
         let myimage = (this.state.images.length > 0)? (this.state.images.map((img)=>{
             if(img.image_id==this.state.image_id) {
             return(<div class="image"> <img  style={{width:"100%", height:"96%"}} src={img.imageValue} alt="Room Image" /> </div>
@@ -44,7 +51,7 @@ class YourRoom extends Component {
             )
         }) : <div class="image1"> <img   src={office_img} alt="Room Image" /> </div> ;
 
-        let occupant_data = this.state.room.occupants ? (
+        let occupant_data =( this.state.room.occupants) ? (
             this.state.room.occupants.map(person => {
                 return (
                     <ul>
@@ -56,13 +63,16 @@ class YourRoom extends Component {
         ) : (
                 <p>There are currently no occupants</p>
             )
-
+  
         let data = (this.state.room.name )? (
             <div>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                <Link to='/payment'>Pay Rent</Link>
+                {this.state.paidRent ? (
+                    <p>Rent Paid on {this.state.rent_pay_date}</p>
+                ): (<Link to = '/payment'>Pay Rent</Link>)}
+                
                 <p>Occupants</p>
                 {occupant_data}
                     <Link to='/yourComplains'>Your Complains </Link>
@@ -144,11 +154,13 @@ class YourRoom extends Component {
                 
             </div>
 
-        ):(<div className="myborder"><h4>you donot have any booked room </h4></div>)
+        ):(<div className="review-room" style={{padding:"5%"}}><div className="myborder"><h4>you don't have any booked room </h4></div></div>)
         return (
             <div>
                         {room_data}
-                          <Link to='/reviewPastRoom'>Review Past Room</Link>
+                        <div style={{marginLeft:"10%"}}>
+                          <Link to='/reviewPastRoom'><span className="exploreButton1">Review Past Room </span></Link>
+                          </div>
             </div>
         )
     }

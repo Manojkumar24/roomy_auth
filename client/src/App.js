@@ -38,6 +38,9 @@ import ReviewOccupant from './components/owner/ReviewOccupant';
 import ReviewPastRoom from './components/user/ReviewPastRoom';
 import ReviewRoomMate from './components/user/ReviewRoomMate';
 import EditRoom from './components/owner/EditRoom';
+import ViewUserReview from './components/user/ViewUserReview';
+import ViewRoomReview from './components/user/ViewRoomReview';
+
 // import Register_Cust from './components/auth/Register_Cust';
 
 
@@ -72,6 +75,7 @@ const App = () => {
               <Route exact path='/yourRoom' component={YourRoom} />
               <Route exact path='/reviewPastRoom' component={ReviewPastRoom} />
               <Route exact path='/review/:name' component={ReviewRoomMate} />
+              <Route exact path='/viewRoomReview/:room_id' component={ViewRoomReview} />
               
               
               <Route exact path='/login' component={Login} />
@@ -80,12 +84,15 @@ const App = () => {
               <Route exact path='/viewComplains/:room_id' component={ViewComplains} />
               <Route exact path='/removeUser/:email' component={ReviewOccupant} />
               <Route exact path='/editRoom/:room_id' component={EditRoom} />
+              <Route exact path='/viewUserReview/:id' component={ViewUserReview} />
               
               <Route exact path='/forgotpassword' component={For_pass} />
               <Route exact path='/fg_mail' component={Mail_fg} />
               <Route exact path='/pw_change' component={pw_ch} />
               <Route exact path='/mail_change' component={mail_ch} />
               <PrivateRoute exact path='/payment' component={Payment} />
+
+              {/* <PrivateRoute exact path='/profile' component={Profile} /> */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               
              
@@ -94,9 +101,9 @@ const App = () => {
             
             </Switch>
             </section>
-            <section class="container">
+          <section >
             <PrivateRoute exact path='/profile' component={Profile} />
-            </section>
+          </section>
         </Fragment>
       </Router>
     </Provider>

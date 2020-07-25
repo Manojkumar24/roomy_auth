@@ -31,6 +31,7 @@ const Mail_ch = ({ mail_ch, isAuthenticated }) => {
 
   return (
     <Fragment>
+      <div class="review-room">
       <h1 className='large text-primary'>mail change</h1>
       <div className='myborder'>
           <div className="subhead">
@@ -58,7 +59,7 @@ const Mail_ch = ({ mail_ch, isAuthenticated }) => {
       <p className='my-1'>
         
       </p>
-      
+      </div>
     </Fragment>
   );
 };

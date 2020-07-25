@@ -11,6 +11,7 @@ const Complains = require("../../models/Complains");
 const Occupants = require("../../models/Occupants");
 const UserReview = require("../../models/UserReview");
 const RoomReview = require("../../models/RoomReview");
+const Profile = require("../../models/Profile");
 
 
 router.get("/list", auth,async (req, res) => {
@@ -97,16 +98,18 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
     var user = await User.findOne({ _id: req.user.id });
     person_details = []
     if(user && user.isOwner){
+        let payments = await Rent.find({ room: req.params.id }).sort({ transaction_date: -1 });
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
-        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"]);
+        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "_id"]);
+        
         tenants = await Occupant.find({room: room._id}).select(["-room","-_id"]);
         for(var i=0; i<tenants.length; i++){
             person_details.push(tenants[i].user);
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json(details);
+        res.json({ "details": details,"payments":payments});
     }
     res.status(400).json({ error: "User is not authorized" });
 });
@@ -123,6 +126,18 @@ router.get("/getRoomDetails/:id", auth, async (req, res) => {
     res.status(400).json({ error: "User is not authorized" });
 });
 
+router.post("/filters", auth, async (req,res) => {
+    console.log(req.body);
+    try{
+    let rooms = await Rooms.find(req.body);
+    res.json(rooms);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg: "unable to fetch"});
+    }
+});
+
+
 
 router.get("/userviewRoom/:id", auth, async (req, res) => {
         let room = await Rooms.findOne({ _id: req.params.id });
@@ -134,18 +149,32 @@ router.get("/userviewRoom/:id", auth, async (req, res) => {
         for (var i = 0; i < tenants.length; i++) {
             person_details.push(tenants[i].user);
         }
-        details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
-        // console.log(details);
+        details.occupants = await Profile.find({ user: { "$in": person_details } });
+        console.log(details);
         res.json(details);    
 });
 
 
 router.get("/userRoom", auth, async (req, res) => {
     let occupant = await Occupant.findOne({user: req.user.id});
+    
     if(occupant){
         let room = await Rooms.findOne({ _id: occupant.room });
         var details = room.toJSON();
         details.interested_people = [];
+        
+        let current_month = new Date(Date.now() * 1000).getMonth();
+        let last_pay_month = occupant.rent_due_date.getMonth();
+        
+        let paidRent = true;
+
+        if(current_month == 0 && last_pay_month == 11){
+            paidRent = false;
+        }
+
+        else if(current_month - last_pay_month >= 1){
+            paidRent = false;
+        }
 
         person_details = [];
         tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
@@ -154,7 +183,7 @@ router.get("/userRoom", auth, async (req, res) => {
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json(details);
+        res.json({"details":details,"paidRent":paidRent,"last_paid":occupant.rent_due_date});
     }
     
     else{
@@ -164,9 +193,10 @@ router.get("/userRoom", auth, async (req, res) => {
 });
 
 router.get("/markInterested/:id", auth, async (req, res) => {
+    console.log("VHJVAKSHJVAJDVJADVLJADVJHAVDLJHAVJHAF", req.params.id)
     let room = await Rooms.findOne({ _id: req.params.id });
     room.interested_people.push(req.user.id);
-    room.save();
+    await room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
     
@@ -350,6 +380,44 @@ router.post('/reviewRoomMate', auth, async (req, res) => {
 });
 
 
+router.post('/viewUserReview', auth, async (req, res) => {
+    // console.log("Id is",req.body.id)
+    const id = req.body.id;
+
+    // const room_id = req.body.room;
+    let user = await User.findOne({_id:id}).select(["name"]);
+    let review = await UserReview.find({ occupant: id});
+    let review_data = []
+    for(var i=0; i<review.length; i++){
+        review_data.push(review[i].toJSON());
+        review_data[i].user = await User.findOne({_id:review[i].user}).select(["name"]);
+    }
+    console.log("Review data",review_data)
+
+    res.json({"comments":review_data,"user": user})
+
+});
+
+
+router.post('/viewRoomReview', auth, async (req, res) => {
+    console.log("Id is",req.body.id)
+    const id = req.body.id;
+
+    // const room_id = req.body.room;
+    let room = await Rooms.findOne({ _id: id });
+    let review = await RoomReview.find({ room: id });
+    let review_data = []
+    for (var i = 0; i < review.length; i++) {
+        review_data.push(review[i].toJSON());
+        review_data[i].user = await User.findOne({ _id: review[i].user }).select(["name"]);
+    }
+    console.log("Review data", review_data)
+
+    res.json({ "comments": review_data, "room": room })
+
+});
+
+
 
 router.get('/listPastRoomDetails',auth, async (req,res) => {
     try{
@@ -390,7 +458,7 @@ router.post('/reviewRoom', auth, async (req, res) => {
     }
 
     if (req.body.owner) {
-        review_data.owner = req.body.owner
+        review_data.owner_review = req.body.owner
     }
 
     if (req.body.review_text) {
@@ -403,10 +471,18 @@ router.post('/reviewRoom', auth, async (req, res) => {
 
     const instance = await RateOccupantsAndRoom.findOne({ user: req.user.id })
 
+    console.log(review_data);
+
     if (review_data != {}) {
         review_data.user = req.user.id;
         review_data.room = instance.room;
+        let room_review = await RoomReview.findOne({user:req.user.id,room:instance.room});
+        if(room_review){
+            await room_review.deleteOne();
+        }
+
         let review = new RoomReview(review_data);
+        console.log(review);
         await review.save();
     }
     
@@ -572,6 +648,8 @@ router.get("/updateComplain/:id", auth, async (req, res) => {
         res.status(500).json({ msg: "unable to fetch" });
     }
 });
+
+
 
 router.post(
     "/create",
