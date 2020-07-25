@@ -123,6 +123,7 @@ class OwnerRoom extends Component {
                    <p class="hobbies">
                        playing cricket ,badminton,watching animes
                    </p>
+
                  {  (person.hobby && person.hobby.length > 0) ? (
             this.state.room.occupants.map(hobby => {
                 return (<p class="hobbies">
@@ -191,7 +192,7 @@ class OwnerRoom extends Component {
                      <div class="card" style={{padding:"3%"}}>
                         <div class="user-name">
                             
-                            <h5> <i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>person.name</h5>
+                            <h5> <i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>{payment.user.name}</h5>
 
                         </div>
                         <ul>
@@ -248,7 +249,7 @@ class OwnerRoom extends Component {
                    
                     
                         {/* <button type="button" class="exploreBtn">Apply 7 day-trail</button>  */}
-                        {room.trial === "Yes" ? (<div>7-day Trail :<span>Available</span></div>) : (<div>7-day Trail :<span>Not Available</span></div>)} 
+                        {room.trial === "Yes" ? (<div>7-day Trail :<span>Available</span></div>) : (<div>7-day Trial :<span>Not Available</span></div>)} 
                         {room.parking == "Four Wheeler" ? <div ><i class="fa fa-car"  aria-hidden="true"></i>  Four Wheeler Parking</div> : <span></span>}
                         {room.parking == "Two Wheeler"  ?  <div><i class="fa fa-motorcycle" aria-hidden="true"></i>  Two Wheeler Parking </div>: <span></span>}
                         {room.parking == "Both"  ? <div><i class="fa fa-car" aria-hidden="true"></i> Four Wheeler Parking </div> : <span></span>}

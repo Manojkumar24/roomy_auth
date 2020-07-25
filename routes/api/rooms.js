@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {check, validationResult} = require("express-validator/check");
+const { check, validationResult } = require("express-validator/check");
 const Rooms = require("../../models/Rooms");
 const Preferences = require("../../models/Preferences");
 const User = require("../../models/User");
@@ -14,20 +14,20 @@ const RoomReview = require("../../models/RoomReview");
 const Profile = require("../../models/Profile");
 
 
-router.get("/list", auth,async (req, res) => {
-    let user = await User.findOne({_id:req.user.id});
-    if(user && user.isOwner){
+router.get("/list", auth, async (req, res) => {
+    let user = await User.findOne({ _id: req.user.id });
+    if (user && user.isOwner) {
         let rooms = await Rooms.find({ user: req.user.id }).select(["-user"]);
         res.json(rooms);
-    }else{
-        let preferences = await Preferences.findOne({ user: req.user.id})
-        
+    } else {
+        let preferences = await Preferences.findOne({ user: req.user.id })
+
         let form_data = {}
 
         if (preferences.earlybird) {
             form_data.earlybird = { "$in": [preferences.earlybird, "Not sure"] }
         }
-    
+
 
         if (preferences.smoker) {
             form_data.smoker = { "$in": [preferences.smoker, "Not sure"] }
@@ -35,7 +35,7 @@ router.get("/list", auth,async (req, res) => {
 
         if (preferences.nightowl) {
             form_data.nightowl = { "$in": [preferences.nightowl, "Not sure"] }
-        } 
+        }
 
         if (preferences.gender) {
             form_data.gender = { "$in": [preferences.gender, "Not sure"] }
@@ -59,7 +59,7 @@ router.get("/list", auth,async (req, res) => {
 
         if (preferences.vegetarians) {
             form_data.vegetarians = { "$in": [preferences.vegetarians, "Not sure"] }
-        } 
+        }
 
         if (preferences.furnished) {
             form_data.furnished = preferences.furnished;
@@ -67,7 +67,7 @@ router.get("/list", auth,async (req, res) => {
 
         if (preferences.wifi) {
             form_data.wifi = preferences.wifi;
-        } 
+        }
 
         if (preferences.parking) {
             form_data.parking = preferences.parking;
@@ -78,38 +78,59 @@ router.get("/list", auth,async (req, res) => {
         // for (var i = 0; i < tenants.length; i++) {
         //     person_details.push(tenants[i].room);
         // }
-        if(tenants){
+        if (tenants) {
             form_data._id = { "$nin": tenants.room }
         }
-        
 
-        console.log("Form data",form_data);
 
-        let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
-        rooms.user = user.name;
-        console.log("Length of rooms",rooms.length);
+        console.log("Form data", form_data);
+
+        // let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
+        let rooms = await Rooms.find(form_data).limit(10);
         
-        res.json({"rooms":rooms,"preferences":preferences});
+        let room_details = []
+
+        for(let i = 0; i < rooms.length; i++){
+            room_details.push(rooms[i].toJSON());
+            room_details[i].user = await User.findOne({_id:rooms[i].user})
+        }
+
+        // let o1 = room_details[0].user;
+        // let owner = await User.find({_id:o1}).select(["name"]);
+        // console.log("owner name is",owner[0].name);
+
+        // rooms.user = user.name;
+        console.log("Length of rooms", rooms.length);
+
+        res.json({ "rooms": room_details, "preferences": preferences });
     }
-    res.status(400).json({error:"User is not authorized"});
+    res.status(400).json({ error: "User is not authorized" });
 });
 
-router.get("/ownerRoom/:id", auth, async (req,res) => {
+router.get("/ownerRoom/:id", auth, async (req, res) => {
     var user = await User.findOne({ _id: req.user.id });
     person_details = []
-    if(user && user.isOwner){
+    let payment_details = []
+    if (user && user.isOwner) {
         let payments = await Rent.find({ room: req.params.id }).sort({ transaction_date: -1 });
+        if(payments){
+            for(let i = 0; i <  payments.length; i++){
+                payment_details.push(payments[i]);
+                payment_details[i].user = await User.findOne({_id:payments[i].user});
+                console.log(payment_details[i].user);
+            }
+        }
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
         details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "_id"]);
-        
-        tenants = await Occupant.find({room: room._id}).select(["-room","-_id"]);
-        for(var i=0; i<tenants.length; i++){
+
+        tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+        for (var i = 0; i < tenants.length; i++) {
             person_details.push(tenants[i].user);
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json({ "details": details,"payments":payments});
+        res.json({ "details": details, "payments": payment_details });
     }
     res.status(400).json({ error: "User is not authorized" });
 });
@@ -117,7 +138,7 @@ router.get("/ownerRoom/:id", auth, async (req,res) => {
 
 router.get("/getRoomDetails/:id", auth, async (req, res) => {
     var user = await User.findOne({ _id: req.user.id });
-    
+
     if (user && user.isOwner) {
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         // console.log(room);
@@ -126,53 +147,53 @@ router.get("/getRoomDetails/:id", auth, async (req, res) => {
     res.status(400).json({ error: "User is not authorized" });
 });
 
-router.post("/filters", auth, async (req,res) => {
-    console.log(req.body);
-    try{
-    let rooms = await Rooms.find(req.body);
-    res.json(rooms);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({msg: "unable to fetch"});
-    }
-});
+// router.post("/filters", auth, async (req, res) => {
+//     console.log(req.body);
+//     try {
+//         let rooms = await Rooms.find(req.body);
+//         res.json(rooms);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).json({ msg: "unable to fetch" });
+//     }
+// });
 
 
 
 router.get("/userviewRoom/:id", auth, async (req, res) => {
-        let room = await Rooms.findOne({ _id: req.params.id });
-        var details = room.toJSON();
-        details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
+    let room = await Rooms.findOne({ _id: req.params.id });
+    var details = room.toJSON();
+    details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
 
-        person_details = [];
-        tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
-        for (var i = 0; i < tenants.length; i++) {
-            person_details.push(tenants[i].user);
-        }
-        details.occupants = await Profile.find({ user: { "$in": person_details } });
-        console.log(details);
-        res.json(details);    
+    person_details = [];
+    tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
+    for (var i = 0; i < tenants.length; i++) {
+        person_details.push(tenants[i].user);
+    }
+    details.occupants = await Profile.find({ user: { "$in": person_details } });
+    console.log(details);
+    res.json(details);
 });
 
 
 router.get("/userRoom", auth, async (req, res) => {
-    let occupant = await Occupant.findOne({user: req.user.id});
-    
-    if(occupant){
+    let occupant = await Occupant.findOne({ user: req.user.id });
+
+    if (occupant) {
         let room = await Rooms.findOne({ _id: occupant.room });
         var details = room.toJSON();
         details.interested_people = [];
-        
+
         let current_month = new Date(Date.now() * 1000).getMonth();
         let last_pay_month = occupant.rent_due_date.getMonth();
-        
+
         let paidRent = true;
 
-        if(current_month == 0 && last_pay_month == 11){
+        if (current_month == 0 && last_pay_month == 11) {
             paidRent = false;
         }
 
-        else if(current_month - last_pay_month >= 1){
+        else if (current_month - last_pay_month >= 1) {
             paidRent = false;
         }
 
@@ -183,13 +204,13 @@ router.get("/userRoom", auth, async (req, res) => {
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json({"details":details,"paidRent":paidRent,"last_paid":occupant.rent_due_date});
+        res.json({ "details": details, "paidRent": paidRent, "last_paid": occupant.rent_due_date });
     }
-    
-    else{
-        res.json({ "msg":"Your are currently not associated with any room"});
+
+    else {
+        res.json({ "msg": "Your are currently not associated with any room" });
     }
-    
+
 });
 
 router.get("/markInterested/:id", auth, async (req, res) => {
@@ -199,7 +220,7 @@ router.get("/markInterested/:id", auth, async (req, res) => {
     await room.save();
     var details = room.toJSON();
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
-    
+
     person_details = [];
     tenants = await Occupant.find({ room: room._id }).select(["-room", "-_id"]);
     for (var i = 0; i < tenants.length; i++) {
@@ -211,18 +232,18 @@ router.get("/markInterested/:id", auth, async (req, res) => {
 
 });
 
-router.post('/addUser', auth, async(req, res) => {
+router.post('/addUser', auth, async (req, res) => {
     const email = req.body.email;
     const room_id = req.body.room;
-    let user = await User.findOne({email:email });
+    let user = await User.findOne({ email: email });
     const instance = await Occupant.findOne({ user: user.id })
     let room = await Rooms.findOne({ _id: room_id });
-    if (room.availability > 0){
-        if(!instance){ 
-            const occupant = new Occupant({user:user.id, room:room_id});
+    if (room.availability > 0) {
+        if (!instance) {
+            const occupant = new Occupant({ user: user.id, room: room_id });
             await occupant.save();
-        }    
-        
+        }
+
         for (var i = 0; i < room.interested_people.length; i++) {
 
             if (room.interested_people[i] == user.id) {
@@ -241,8 +262,8 @@ router.post('/addUser', auth, async(req, res) => {
     details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
     details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "-_id"])
     res.json(details);
-    
- });
+
+});
 
 router.post('/removeUser', auth, async (req, res) => {
     const email = req.body.email;
@@ -286,15 +307,15 @@ router.post('/removeUser', auth, async (req, res) => {
     }
     await instance.deleteOne();
     room.availability = room.availability + 1;
-    let occupant = await Occupant.find({room:room._id});
+    let occupant = await Occupant.find({ room: room._id });
     let occupant_data = [];
-    for (var i = 0; i < occupant.length; i++){
+    for (var i = 0; i < occupant.length; i++) {
         occupant_data.push(occupant[i].user);
     }
-    let rate_occupants_room = new RateOccupantsAndRoom({user:user._id,room:room._id,occupants:occupant_data});
+    let rate_occupants_room = new RateOccupantsAndRoom({ user: user._id, room: room._id, occupants: occupant_data });
     await rate_occupants_room.save();
     await room.save();
-    res.json("OKAY");   
+    res.json("OKAY");
 
 });
 
@@ -333,10 +354,10 @@ router.post('/submitUserReview', auth, async (req, res) => {
     if (review_data != {}) {
         review_data.user = req.user.id;
         review_data.occupant = occupant._id;
-        let temp = await UserReview.findOne({user:req.user.id,occupant:occupant._id});
-        if(temp){
+        let temp = await UserReview.findOne({ user: req.user.id, occupant: occupant._id });
+        if (temp) {
             await temp.deleteOne();
-        } 
+        }
         let review = new UserReview(review_data);
         await review.save();
     }
@@ -347,8 +368,8 @@ router.post('/submitUserReview', auth, async (req, res) => {
 router.post('/reviewRoomMate', auth, async (req, res) => {
     const name = req.body.name;
     // const room_id = req.body.room;
-    let occupant = await User.findOne({name:name});
-    let review = await UserReview.findOne({ user: req.user.id, occupant:occupant._id});
+    let occupant = await User.findOne({ name: name });
+    let review = await UserReview.findOne({ user: req.user.id, occupant: occupant._id });
     let review_data = {}
 
     if (review.smoker) {
@@ -385,22 +406,22 @@ router.post('/viewUserReview', auth, async (req, res) => {
     const id = req.body.id;
 
     // const room_id = req.body.room;
-    let user = await User.findOne({_id:id}).select(["name"]);
-    let review = await UserReview.find({ occupant: id});
+    let user = await User.findOne({ _id: id }).select(["name"]);
+    let review = await UserReview.find({ occupant: id });
     let review_data = []
-    for(var i=0; i<review.length; i++){
+    for (var i = 0; i < review.length; i++) {
         review_data.push(review[i].toJSON());
-        review_data[i].user = await User.findOne({_id:review[i].user}).select(["name"]);
+        review_data[i].user = await User.findOne({ _id: review[i].user }).select(["name"]);
     }
-    console.log("Review data",review_data)
+    console.log("Review data", review_data)
 
-    res.json({"comments":review_data,"user": user})
+    res.json({ "comments": review_data, "user": user })
 
 });
 
 
 router.post('/viewRoomReview', auth, async (req, res) => {
-    console.log("Id is",req.body.id)
+    console.log("Id is", req.body.id)
     const id = req.body.id;
 
     // const room_id = req.body.room;
@@ -419,15 +440,15 @@ router.post('/viewRoomReview', auth, async (req, res) => {
 
 
 
-router.get('/listPastRoomDetails',auth, async (req,res) => {
-    try{
-        let rate_occupants_room = await RateOccupantsAndRoom.findOne({user:req.user.id});
+router.get('/listPastRoomDetails', auth, async (req, res) => {
+    try {
+        let rate_occupants_room = await RateOccupantsAndRoom.findOne({ user: req.user.id });
         let form_data = {};
-        if(rate_occupants_room){
-            form_data.occupants = await User.find({ _id: { "$in": rate_occupants_room.occupants}}).select(["name"]);
+        if (rate_occupants_room) {
+            form_data.occupants = await User.find({ _id: { "$in": rate_occupants_room.occupants } }).select(["name"]);
         }
-        let roomreview = await RoomReview.findOne({room:rate_occupants_room.room,user:req.user.id});
-        if(roomreview){
+        let roomreview = await RoomReview.findOne({ room: rate_occupants_room.room, user: req.user.id });
+        if (roomreview) {
             form_data.roomreview = roomreview;
         }
         res.json(form_data);
@@ -476,8 +497,8 @@ router.post('/reviewRoom', auth, async (req, res) => {
     if (review_data != {}) {
         review_data.user = req.user.id;
         review_data.room = instance.room;
-        let room_review = await RoomReview.findOne({user:req.user.id,room:instance.room});
-        if(room_review){
+        let room_review = await RoomReview.findOne({ user: req.user.id, room: instance.room });
+        if (room_review) {
             await room_review.deleteOne();
         }
 
@@ -485,14 +506,14 @@ router.post('/reviewRoom', auth, async (req, res) => {
         console.log(review);
         await review.save();
     }
-    
+
     res.json("OKAY");
 
 });
 
 router.get("/markUnInterested/:id", auth, async (req, res) => {
     let room = await Rooms.findOne({ _id: req.params.id });
-    for (var i = 0; i < room.interested_people.length; i++){
+    for (var i = 0; i < room.interested_people.length; i++) {
         if (room.interested_people[i] == req.user.id) {
             room.interested_people.splice(i, 1);
         }
@@ -515,10 +536,10 @@ router.get("/markUnInterested/:id", auth, async (req, res) => {
 
 
 router.post("/filters", auth, async (req, res) => {
-    console.log("fdfgjhkhkkhkh",req.body);
+    console.log("###########################fdfgjhkhkkhkh", req.body);
     try {
-        let preferences = await Preferences.findOne({user:req.user.id});
-        if(preferences){
+        let preferences = await Preferences.findOne({ user: req.user.id });
+        if (preferences) {
             await preferences.deleteOne();
         }
         let form_data = { user: req.user.id }
@@ -528,11 +549,11 @@ router.post("/filters", auth, async (req, res) => {
 
         if (req.body.smoker) {
             form_data.smoker = req.body.smoker;
-        } 
+        }
 
         if (req.body.nightowl) {
             form_data.nightowl = req.body.nightowl;
-        } 
+        }
         if (req.body.gender) {
             form_data.gender = req.body.gender;
         }
@@ -555,7 +576,7 @@ router.post("/filters", auth, async (req, res) => {
 
         if (req.body.vegetarians) {
             form_data.vegetarians = req.body.vegetarians;
-        } 
+        }
 
         if (req.body.furnished) {
             form_data.furnished = req.body.furnished;
@@ -571,32 +592,32 @@ router.post("/filters", auth, async (req, res) => {
         let newPreferences = new Preferences(form_data);
         newPreferences.save();
         console.log(req.body);
-    } 
+    }
     catch (err) {
         console.error(err.message);
         res.status(500).json({ msg: "unable to fetch" });
     }
 });
 
-router.post("/submitComplain", auth, async (req, res) =>{
-    try{
+router.post("/submitComplain", auth, async (req, res) => {
+    try {
         let occupant = await Occupants.findOne({ user: req.user.id });
         let room = await Rooms.findOne({ _id: occupant.room });
         let complain = new Complains({ user: req.user.id, owner: room.user, complain: req.body.complain, room: occupant.room });
         await complain.save();
         res.json("Done")
     }
-    catch(err){
+    catch (err) {
         console.error(err.message);
         res.status(500).json({ msg: "unable to fetch" });
     }
-    
+
 });
 
 router.get("/listUserComplain", auth, async (req, res) => {
-    try{
+    try {
         let occupant = await Occupants.findOne({ user: req.user.id });
-        let complains = await Complains.find({user:req.user.id,room:occupant.room});
+        let complains = await Complains.find({ user: req.user.id, room: occupant.room });
         res.json(complains);
     }
     catch (err) {
@@ -607,7 +628,7 @@ router.get("/listUserComplain", auth, async (req, res) => {
 
 router.get("/RentHistory", auth, async (req, res) => {
     try {
-        let payments = await Rent.find({user:req.user.id}).sort({transaction_date:-1});
+        let payments = await Rent.find({ user: req.user.id }).sort({ transaction_date: -1 });
         res.json(payments);
     }
     catch (err) {
@@ -619,12 +640,12 @@ router.get("/RentHistory", auth, async (req, res) => {
 router.get("/listOwnerComplain/:id", auth, async (req, res) => {
     try {
         // console.log(req.params.id);
-        let complains = await Complains.find({ room: req.params.id,status:"open" });
+        let complains = await Complains.find({ room: req.params.id, status: "open" });
         // console.log("complains are",complains);
         let details = [];
-        for(var i = 0; i < complains.length; i++){
+        for (var i = 0; i < complains.length; i++) {
             details.push(complains[i].toJSON());
-            details[i].user = await User.findOne({_id:complains[i].user}).select(['name','email']);
+            details[i].user = await User.findOne({ _id: complains[i].user }).select(['name', 'email']);
             // console.log("user",details[i].user);
         }
         console.log(details);
@@ -638,7 +659,7 @@ router.get("/listOwnerComplain/:id", auth, async (req, res) => {
 
 router.get("/updateComplain/:id", auth, async (req, res) => {
     try {
-        let complains = await Complains.findOne({ _id: req.params.id});
+        let complains = await Complains.findOne({ _id: req.params.id });
         complains.status = "closed";
         await complains.save();
         res.json("Done");
@@ -668,7 +689,7 @@ router.post(
             check("smoker", "Invalid option for smoker").isIn(["Yes", "No", "Not sure"]),
             check("nightowl", "Invalid option for night-owl").isIn(["Yes", "No", "Not sure"]),
             check("earlybird", "Invalid option for early bird").isIn(["Yes", "No", "Not sure"]),
-            check("pets", "Inavlid option for pets").isIn(["Dogs", "Cats", "Birds", "Others","No Pets","Not sure"]),
+            check("pets", "Inavlid option for pets").isIn(["Dogs", "Cats", "Birds", "Others", "No Pets", "Not sure"]),
             check("vegetarians", "Invalid option for vegetarian").isIn(["Yes", "No", "Not sure"]),
             check("furnished", "Invalid option for furnished").isIn(["Fully", "Semi", "Not Furnished"]),
             check("wifi", "Invalid option for wifi").isIn(["Yes", "No"]),
@@ -680,7 +701,7 @@ router.post(
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            res.status(400).json({errors: errors.array()});
+            res.status(400).json({ errors: errors.array() });
         }
 
         try {
@@ -690,7 +711,7 @@ router.post(
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,
-                sq_ft:req.body.sq_ft,
+                sq_ft: req.body.sq_ft,
                 pincode: parseInt(req.body.pincode, 10),
                 state: req.body.state,
                 phonenum: parseInt(req.body.phonenum, 10),
@@ -704,15 +725,15 @@ router.post(
                 furnished: req.body.furnished,
                 wifi: req.body.wifi,
                 parking: req.body.parking,
-                gender:req.body.gender,
-                trial:req.body.trial
+                gender: req.body.gender,
+                trial: req.body.trial
             };
             const room = new Rooms(roomdetails);
             await room.save();
             res.json(room);
         } catch (err) {
             console.error(err.message);
-            res.status(500).json({msg: "server error"});
+            res.status(500).json({ msg: "server error" });
         }
     }
 );
@@ -752,7 +773,7 @@ router.post(
 
         try {
             console.log(req.body);
-            let room = await Rooms.findOne({_id:req.body.room_id});
+            let room = await Rooms.findOne({ _id: req.body.room_id });
             const roomdetails = {
                 user: req.user.id,
                 name: req.body.form_data.name,
@@ -783,9 +804,9 @@ router.post(
             // let upsertData = room.toObject();
             // delete upsertData._id;
             // room.update({ _id: req.body.room_id }, upsertData);
-            
+
             res.json("room details updated!");
-        
+
         } catch (err) {
             console.error(err.message);
             res.status(500).json({ msg: "server error" });

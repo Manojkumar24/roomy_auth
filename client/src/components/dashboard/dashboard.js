@@ -39,7 +39,7 @@ class dashboard extends Component {
 }
 
 handleSubmit =(event)=>{
-   //event.preventDefault()
+  //  event.preventDefault()
   let form_data = {}
   //console.log(this.state.pincode,this.state.pincode.length);
   
@@ -107,18 +107,24 @@ handleSubmit =(event)=>{
       form_data.parking = this.state.parking;
     }
 
-  console.log("form data is ",form_data);    
+  console.log("form data is after submitting preferences is",form_data);    
 
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
+
+  console.log(form_data);
+
   axios.post('/api/rooms/filters', JSON.stringify(form_data), config).then(response => {
-    console.log(response);
+    console.log("post response is ",response);
     // this.setState({
     //   rooms: response.data
     // })
+
+  
+
 
   }).catch(error => {
     console.log(error);
@@ -223,7 +229,7 @@ handleChangeiswifi = (value) => {
           return (
             <div class="room-list" style={{width:"45%"}}>
               <Link to={'/userRoomView/' + room._id}>
-              <RoomCard room={room} owner={this.state.rooms.user} />
+              <RoomCard room={room} owner={room.user.name} />
               </Link>
               </div>
           )

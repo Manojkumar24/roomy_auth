@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import '../user/Review.css';
 
 class Payments extends Component {
     state = {
@@ -99,13 +100,15 @@ class Payments extends Component {
             this.state.room.map(payment => {
                 return (
                     <div>
-                        <ul>
-                            <li>Payment id: {payment.payment_id}</li>
-                            <li>Order id:  {payment.order_id}</li>
-                            <li>Transaction Date: {payment.transaction_date}</li>
-                            <li>Payment Amount: {payment.amount}</li>
-                            <li>Transaction Method: {payment.transaction_method}</li>
-                        </ul> <br></br>
+                        <div class="card" style={{ padding: "3%" }}>
+                            <ul>
+                                <li>Payment id: {payment.payment_id}</li>
+                                <li>Order id:  {payment.order_id}</li>
+                                <li>Transaction Date: {payment.transaction_date}</li>
+                                <li>Payment Amount: {payment.amount}</li>
+                                <li>Transaction Method: {payment.transaction_method}</li>
+                            </ul>
+                        </div>
                     </div>
                 )
             })

@@ -30,7 +30,7 @@ class ViewComplains extends Component {
     }
 
     render() {
-        let complain_data = (this.state.complains && this.state.complains > 0) ? (
+        let complain_data = (this.state.complains && this.state.complains.length > 0) ? (
             this.state.complains.map(complain => {
                 return (
                     <div className="usercard">

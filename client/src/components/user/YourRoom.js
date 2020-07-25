@@ -5,7 +5,7 @@ import office_img from '../../images/office.jpg'
 import "../rooms/CustomerView.css"
 class YourRoom extends Component {
     state = {
-        room: [],
+        room: null,
         image_id:23,
         images:[{image_id:23,imageValue:"https://www.w3schools.com/w3images/bedroom.jpg"
         ,image_num:1},{image_id:32,imageValue:"https://www.w3schools.com/w3images/livingroom2.jpg"
@@ -21,9 +21,11 @@ class YourRoom extends Component {
         
     }
     componentDidMount() {
+
         axios.get("/api/rooms/userRoom/")
             .then(res => {
-                if(res.length > 0){
+                console.log("room data is ",res.data.details);
+                if(res.data.details){
                 this.setState({
                     room: res.data.details,
                     paidRent: res.data.paidRent,
@@ -31,6 +33,8 @@ class YourRoom extends Component {
                 })
             }
             })
+
+        // console.log("room data is ", this.state.room);
           
     }
 
@@ -51,37 +55,45 @@ class YourRoom extends Component {
             )
         }) : <div class="image1"> <img   src={office_img} alt="Room Image" /> </div> ;
 
-        let occupant_data =( this.state.room.occupants) ? (
+        let occupant_data = (this.state.room && this.state.room.occupants) ? (
             this.state.room.occupants.map(person => {
                 return (
-                    <ul>
-                        <li>{person.name}</li>
-                        <li>{person.email}</li>
-                    </ul>
+                    <div className="usercard">
+                        <div class="user-name">
+
+                            <h5> <i style={{ marginLeft: "5px", marginRight: "10px" }} class="fa fa-user" aria-hidden="true"></i>{person.name}</h5>
+
+                        </div>
+                        <h6> <i style={{ marginLeft: "30px", marginRight: "10px" }} class="fa fa-envelope" aria-hidden="true"></i>{person.email}</h6>
+
+                    </div>
                 )
             })
         ) : (
                 <p>There are currently no occupants</p>
             )
   
-        let data = (this.state.room.name )? (
+        let data = (this.state.room && this.state.room.name )? (
             <div>
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                {this.state.paidRent ? (
-                    <p>Rent Paid on {this.state.rent_pay_date}</p>
-                ): (<Link to = '/payment'>Pay Rent</Link>)}
-                
                 <p>Occupants</p>
                 {occupant_data}
                     <Link to='/yourComplains'>Your Complains </Link>
             </div>
         ) : (
-            <h4>{this.state.room.msg}</h4>
+                <h4>Your are currently not associated with any room</h4>
         )
 
-        let room_data = ( this.state.room.length > 0)?(
+        console.log("before pringintg details",this.state.room);
+
+        // let isPartofRoom = false;
+        // if(this.state.room != []){
+        //     isPartofRoom = true;
+        // }
+
+        let room_data = (this.state.room) ? (
                   
             <div class="details">
                 
@@ -132,25 +144,13 @@ class YourRoom extends Component {
                  
                  <div class="card">
                 <div class="title">Regulations</div>  
-                     
+                    {this.state.paidRent ? (
+                        <p>Rent Paid on {this.state.rent_pay_date}</p>
+                    ) : (<Link to='/payment'><span className="exploreButton1">View Transaction History </span></Link>)}
+
                 </div>
-
+                <Link to='/yourComplains'><span className="exploreButton1">Your Complains </span></Link>
                 {occupant_data}
-        <div class="usercard">
-         <div class="user-name">		 
-          
-         <h5>Abhiram Maddipudi</h5> 
-        
-           </div>
-		<h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
-        <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
-		<h6>Hobbies</h6>
-		<p class="hobbies">
-			playing cricket ,badminton,watching animes
-		</p>
-	
-	           </div>
-
                 
             </div>
 
@@ -159,7 +159,7 @@ class YourRoom extends Component {
             <div>
                         {room_data}
                         <div style={{marginLeft:"10%",marginTop:"20%"}}>
-                            <a href="/reviewPastRoom">click here</a>
+                          {/* <a href="/reviewPastRoom">click here</a> */}
                           <Link to='/reviewPastRoom'><span className="exploreButton1">Review Past Room </span></Link>
                           </div>
             </div>
