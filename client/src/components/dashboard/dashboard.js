@@ -229,7 +229,7 @@ handleChangeiswifi = (value) => {
           return (
             <div class="room-list" style={{width:"45%"}}>
               <Link to={'/userRoomView/' + room._id}>
-              <RoomCard room={room} owner={this.state.rooms.user} />
+              <RoomCard room={room} owner={room.user.name} />
               </Link>
               </div>
           )

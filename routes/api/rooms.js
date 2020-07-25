@@ -85,23 +85,24 @@ router.get("/list", auth, async (req, res) => {
 
         console.log("Form data", form_data);
 
-        let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
-        // let rooms = await Rooms.find(form_data).limit(10);
+        // let rooms = await Rooms.find(form_data).limit(10).select(["-user"]);
+        let rooms = await Rooms.find(form_data).limit(10);
         
-        // let room_details = []
+        let room_details = []
 
-        // for(let i = 0; i < rooms.length; i++){
-        //     room_details.push(rooms[i].toJSON());
-        // }
+        for(let i = 0; i < rooms.length; i++){
+            room_details.push(rooms[i].toJSON());
+            room_details[i].user = await User.findOne({_id:rooms[i].user})
+        }
 
         // let o1 = room_details[0].user;
         // let owner = await User.find({_id:o1}).select(["name"]);
         // console.log("owner name is",owner[0].name);
 
-        rooms.user = user.name;
+        // rooms.user = user.name;
         console.log("Length of rooms", rooms.length);
 
-        res.json({ "rooms": rooms, "preferences": preferences });
+        res.json({ "rooms": room_details, "preferences": preferences });
     }
     res.status(400).json({ error: "User is not authorized" });
 });
@@ -109,8 +110,16 @@ router.get("/list", auth, async (req, res) => {
 router.get("/ownerRoom/:id", auth, async (req, res) => {
     var user = await User.findOne({ _id: req.user.id });
     person_details = []
+    let payment_details = []
     if (user && user.isOwner) {
         let payments = await Rent.find({ room: req.params.id }).sort({ transaction_date: -1 });
+        if(payments){
+            for(let i = 0; i <  payments.length; i++){
+                payment_details.push(payments[i]);
+                payment_details[i].user = await User.findOne({_id:payments[i].user});
+                console.log(payment_details[i].user);
+            }
+        }
         var room = await Rooms.findOne({ user: req.user.id, _id: req.params.id });
         var details = room.toJSON();
         details.interested_people = await User.find({ _id: { "$in": room.interested_people } }).select(["name", "email", "_id"]);
@@ -121,7 +130,7 @@ router.get("/ownerRoom/:id", auth, async (req, res) => {
         }
         details.occupants = await User.find({ _id: { "$in": person_details } }).select(["name", "email", "-_id"]);
         // console.log(details);
-        res.json({ "details": details, "payments": payments });
+        res.json({ "details": details, "payments": payment_details });
     }
     res.status(400).json({ error: "User is not authorized" });
 });

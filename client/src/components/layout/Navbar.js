@@ -13,6 +13,9 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
   const authLinks = user && user.isOwner ? (
     <ul id="nav-mobile" className="right">
       <li>
+        <Link to="/dashboard" >Dashboard</Link>
+      </li>
+      <li>
         <Link to="/details/1" >Create Room</Link>
       </li>
       <li>
@@ -23,12 +26,15 @@ const Navbar = ({auth: { isAuthenticated, loading, user }, logout}) => {
         {/* <a onClick={logout} href='#!'> */}
         <a onClick={logout} href='/home'>
           <i className='fas fa-sign-out-alt' />{' '}
-          <span className='hide-sm'>logout</span>
+          <span className='hide-sm'>Logout</span>
         </a>
       </li>
     </ul>
   ) : (
     <ul id="nav-mobile" className="right">
+        <li>
+          <Link to="/dashboard" >Dashboard</Link>
+        </li>
         <li>
           <Link to= "/yourRoom">Your Room</Link>
         </li>

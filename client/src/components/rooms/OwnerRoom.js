@@ -51,11 +51,11 @@ class OwnerRoom extends Component {
         })
     }
      
-    AddUser1 = (mail) => {
+    AddUser1 = (person) => {
        // event.preventDefault()
         // console.log(event.target.email.value);
         let room_id = this.props.match.params.room_id;
-        let email_id = mail;
+        let email_id = person.mail;
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -123,7 +123,8 @@ class OwnerRoom extends Component {
                    <p class="hobbies">
                        playing cricket ,badminton,watching animes
                    </p>
-                        {(person.hobby && person.hobby.length > 0) ? (
+
+                 {  (person.hobby && person.hobby.length > 0) ? (
             this.state.room.occupants.map(hobby => {
                 return (<p class="hobbies">
                 playing cricket ,badminton,watching animes  </p> )})) : <span>-</span>
@@ -135,12 +136,16 @@ class OwnerRoom extends Component {
         let occupant_data = (this.state.room.occupants && this.state.room.occupants.length > 0) ? (
             this.state.room.occupants.map(person => {
                 return (
-                    <div>
-                        <ul>
-                            <li>{person.name}</li>
-                            <li>{person.email}</li>
-                            <Link to={'/removeUser/' + person.email}>Remove User</Link>
-                        </ul>
+                    <div className="usercard">
+                         <div class="user-name">
+                            
+                            <h5> <i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>{person.name}</h5>
+
+                        </div>
+                        <h6> <i style={{ marginLeft: "30px", marginRight: "10px" }} class="fa fa-envelope" aria-hidden="true"></i>{person.email}</h6>
+                           
+                            <Link to={'/removeUser/' + person.email}><span className="exploreButton1">Remove User</span></Link>
+                        
                     </div>
                 )
             })
@@ -152,18 +157,16 @@ class OwnerRoom extends Component {
             this.state.room.interested_people.map(person=>{
                 return (
 
-                    <div class="usercard">
+                    <div className="usercard">
                     <div class="user-name">		 
                     
-                   <h5>{person.name}</h5> 
+                   <h5><i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>
+                   {person.name}</h5> 
                    
                       </div>
-                   <h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
-                   <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
-                   <h6>Hobbies</h6>
-                   <p class="hobbies">
-                       playing cricket ,badminton, chess
-                   </p>
+                   <h6 style={{fontStyle: "italic"}}> {person.proffesion} </h6>
+                   <h6> <i style={{marginLeft:"10px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+                  
                    {/* <div>
                    <button class="exploreButton" onClick={()=>this.AddUser1(person.email)} type="submit" value="Submit" >Add to Room
                    </button>                   </div>  */}
@@ -172,20 +175,26 @@ class OwnerRoom extends Component {
                          <ul>
                              <li><input type="text" name="name" readonly="readonly" hidden="true" value={person.name}/></li>
                              <li><input type="text" name="email" readonly="readonly" hidden="true" value={person.email}/></li>
-                             <li><input type="submit" value = {person.email}/></li>
+                             <li><input class="exploreButton" type="submit" value = "Add User"/></li>
                          </ul>
                      </form>
                     </div>
                 )
             })
         ): (
-            <p>None are Interested</p>
+            <h5 style={{marginLeft:"10%"}} >None are Interested</h5>
         )
         
         let rentHistory = this.state.payments ? (
             this.state.payments.map(payment => {
                 return (
-                    <div>
+                    
+                     <div class="card" style={{padding:"3%"}}>
+                        <div class="user-name">
+                            
+                            <h5> <i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>{payment.user.name}</h5>
+
+                        </div>
                         <ul>
                             <li>Payment id: {payment.payment_id}</li>
                             <li>Order id:  {payment.order_id}</li>
@@ -203,10 +212,10 @@ class OwnerRoom extends Component {
             )
 
         return(
-            <div>
+           
                 <div class="details">
                 <div class="heading" >{this.state.room.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Link to={'/editRoom/' + this.props.match.params.room_id}><span class="exploreButton">Edit Room</span></Link>
+                <Link to={'/editRoom/' + this.props.match.params.room_id}><span class="exploreButton1">Edit Room</span></Link>
                 </div> 
                 
                 {myimage}
@@ -240,6 +249,7 @@ class OwnerRoom extends Component {
                    
                     
                         {/* <button type="button" class="exploreBtn">Apply 7 day-trail</button>  */}
+                        {room.trial === "Yes" ? (<div>7-day Trail :<span>Available</span></div>) : (<div>7-day Trial :<span>Not Available</span></div>)} 
                         {room.parking == "Four Wheeler" ? <div ><i class="fa fa-car"  aria-hidden="true"></i>  Four Wheeler Parking</div> : <span></span>}
                         {room.parking == "Two Wheeler"  ?  <div><i class="fa fa-motorcycle" aria-hidden="true"></i>  Two Wheeler Parking </div>: <span></span>}
                         {room.parking == "Both"  ? <div><i class="fa fa-car" aria-hidden="true"></i> Four Wheeler Parking </div> : <span></span>}
@@ -250,16 +260,16 @@ class OwnerRoom extends Component {
                        
                        
                     </div>
-                 </div>    
+                    
 
                  
                  <div class="card">
-                <div class="title">Regulations</div>  
-                     
+                <div class="title">Tenants</div>  
+                      {occupant_data}
                 </div>
 
-                {occupant_data}
-        <div class="usercard">
+                {/* {occupant_data} */}
+        {/* <div class="usercard">
          <div class="user-name">		 
          <button class="btn"><i class="fa fa-check-circle" style={{color:"green"}}></i> Rent Paid</button> 
          <button class="btn"> <i class="fa fa-exclamation" style={{color:"red"}}></i>  Due <span>&#8377; 10000</span></button>  
@@ -273,7 +283,7 @@ class OwnerRoom extends Component {
 			playing cricket ,badminton,watching animes
 		</p>
 	
-	     </div>
+	     </div> */}
 
                
             
@@ -281,25 +291,22 @@ class OwnerRoom extends Component {
 
 
 
-                <h3 className="center">Your Room</h3>
-                <h4>{this.state.room.name}</h4>
-                <p>Room rent {this.state.room.rent}</p>
-                <p>Availability {this.state.room.availability}</p>
+               
                 
-                <Link to={'/viewComplains/' + this.props.match.params.room_id}><div class="exploreButton">Your Complains</div></Link>
+                <Link to={'/viewComplains/' + this.props.match.params.room_id}><div class="exploreButton1" 
+                style={{width:"20%"}}>Your Complains</div></Link>
 
-              <p>Occupants</p>
-                {occupant_data}
-                <p>Interested People</p>
+            <div class="card">
+                <div class="title">Interested people</div> 
                 {intersted_data}
                 </div>  
-
-                
-                <p>Rent Details</p>
+            </div>    
+                <div className="card" style={{padding:"3%", backgroundColor:" thistle"}}>
+                <p className="title">Rent Details</p>
                 {rentHistory}
-
-            </div>
-        )
+                </div>
+                </div>             
+                   )
     }
 }
 

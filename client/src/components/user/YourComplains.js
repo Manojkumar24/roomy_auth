@@ -34,11 +34,13 @@ class YourComplains extends Component {
         let complain_data = this.state.complains ? (
             this.state.complains.map(complain => {
                 return (
-                    <ul>
-                        <li>{complain.complain}</li>
-                        <li>{complain.status}</li>
-                        <li>{complain.created_at}</li>
-                    </ul>
+                    <div className="usercard">
+
+                        <div><i style={{ marginLeft: "5px", marginRight: "10px" }} class="fa fa-tag" aria-hidden="true"></i>{complain.complain} </div>
+                        <div style={{ width: "60px", padding: "4px", color: "white", backgroundColor: "rgb(16, 77, 116)", borderRadius: "5px" }}>{complain.status} </div>
+                        <div><i style={{ marginLeft: "5px", marginRight: "10px" }} class="fa fa-calendar" aria-hidden="true"></i>{complain.created_at}</div>
+
+                    </div>
                 )
             })
         ) : (
@@ -47,10 +49,12 @@ class YourComplains extends Component {
         
         return (
             <div>
-                <form onSubmit = {this.handleSubmit}>
+                <div className="card" style={{ width: "70%", padding: "5%", marginLeft: "5%" }}>
+                <form onSubmit = {this.handleSubmit} >
                     Submit a complain<input type="text" name="complain"/>
                     <input type='submit' className='btn btn-primary' value='Submit' />
                 </form>
+                </div>
                 {complain_data}
             </div>
         )

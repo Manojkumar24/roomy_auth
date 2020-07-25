@@ -35,7 +35,7 @@ class ViewRoomReview extends Component {
         let reviews = (this.state.comments && this.state.comments.length > 0) ? (
             this.state.comments.map(review => {
                 return (
-                    <div >
+                    <div className="usercard">
                         <ul>
                             <li>Rent:{review.rent}</li>
                             <li>furnished:{review.furnished}</li>

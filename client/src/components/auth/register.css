@@ -40,7 +40,7 @@ div.myborder {
   div.subhead {
     background-color: rgb(16, 77, 116);
     transform: skew(20deg); /* SKEW */
-    width: 35%;
+    width: 50%;
     height: 15%;
   }
   

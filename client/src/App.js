@@ -95,15 +95,15 @@ const App = () => {
               {/* <PrivateRoute exact path='/profile' component={Profile} /> */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               
-             
+              <PrivateRoute exact path='/profile' component={Profile} />
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
             
             </Switch>
             </section>
-          <section >
-            <PrivateRoute exact path='/profile' component={Profile} />
-          </section>
+          
+            
+          
         </Fragment>
       </Router>
     </Provider>

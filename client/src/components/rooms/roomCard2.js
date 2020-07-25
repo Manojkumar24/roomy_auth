@@ -33,9 +33,9 @@ const RoomCard = ({ room, owner }) => {
                         {/* <button type="button" class="exploreBtn">Apply 7 day-trail</button>  */}
                         {room.parking == "Four Wheeler" ? <i class="fa fa-car" aria-hidden="true"></i>  : <span></span>}
                         {room.parking == "Two Wheeler"  ? <i class="fa fa-motorcycle" aria-hidden="true"></i>  : <span></span>}
-                        {room.parking == "Both"  ? <i class="fa fa-car" aria-hidden="true"></i>   : <span></span>}
+                        {room.parking == "Both"  ? <i class="fa fa-car" aria-hidden="true"></i>   : <span></span>} &nbsp;
                         {room.parking == "Both"  ? <i class="fa fa-motorcycle" aria-hidden="true"></i>   : <span></span>}
-                        {room.parking == "No Parking"  ? <i class="fa fa-motorcycle" aria-hidden="true"></i>  : <span></span>} &nbsp;&nbsp;
+                        {room.parking == "No Parking"  ? <i class="fa fa-motorcycle" aria-hidden="true"></i>  : <span></span>} &nbsp;
                         {room.wifi == "Yes"  ? <i class="fa fa-wifi" aria-hidden="true"></i>   : <span></span>}&nbsp;
                         {room.furnished == "Yes"  ? <i class="fa fa-bed" aria-hidden="true"></i>   : <span></span>}
                        

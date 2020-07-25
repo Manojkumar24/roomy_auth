@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { withRouter } from 'react-router-dom'
+import "./PostRoom.css"
 
 class ReviewOccupant extends Component {
     state = {
@@ -69,30 +70,37 @@ class ReviewOccupant extends Component {
 
     render() {
         return (
-            <div>
-                Your Review
+            <div class="post-room">
+                <h3>Remove Occupant</h3>
+                <div className='myborder'>
+                <div class="subhead">
+                    <p class='lead'>
+                    <i className='fas fa-user'></i>Review Occupant
+                    </p>
+                </div>
                 <form onSubmit = {this.RemoveUser}>
-                    <label>Smoker</label>
+                    <span>Smoker</span>
                     <input type="text" name="smoker" placeholder="smoker" onChange={this.handleChange} />    
 
-                    <label>Early Bird</label>
+                    <span>Early Bird</span>
                     <input type="text" name="earlybird" placeholder="earlybird" onChange={this.handleChange} />    
 
-                    <label>Night Owl</label>
+                    <span>Night Owl</span>
                     <input type="text" name="nightowl" placeholder="nightowl" onChange={this.handleChange} />    
 
-                    <label>Pets</label>
+                    <span>Pets</span>
                     <input type="text" name="pets" placeholder="pets" onChange={this.handleChange} />    
 
-                    <label>Vegetarians</label>
+                    <span>Vegetarians</span>
                     <input type="text" name="vegetarians" placeholder="vegetarians" onChange={this.handleChange} />    
 
-                    <label>Your Comments</label>
+                    <span>Your Comments</span>
                     <input type="text" name="review_text" placeholder="write your comments" onChange={this.handleChange} />    
 
-                    <input type="submit" value = "Submit and Remove User" />    
+                    <input type="submit" className="exploreButton1" value = "Submit and Remove User" />    
                 </form>
             </div>
+        </div>
         )
     }
 }

@@ -58,10 +58,15 @@ class YourRoom extends Component {
         let occupant_data = (this.state.room && this.state.room.occupants) ? (
             this.state.room.occupants.map(person => {
                 return (
-                    <ul>
-                        <li>{person.name}</li>
-                        <li>{person.email}</li>
-                    </ul>
+                    <div className="usercard">
+                        <div class="user-name">
+
+                            <h5> <i style={{ marginLeft: "5px", marginRight: "10px" }} class="fa fa-user" aria-hidden="true"></i>{person.name}</h5>
+
+                        </div>
+                        <h6> <i style={{ marginLeft: "30px", marginRight: "10px" }} class="fa fa-envelope" aria-hidden="true"></i>{person.email}</h6>
+
+                    </div>
                 )
             })
         ) : (
@@ -73,10 +78,6 @@ class YourRoom extends Component {
                 <h4>{this.state.room.name}</h4>
                 <p>Room rent {this.state.room.rent}</p>
                 <p>Availability {this.state.room.availability}</p>
-                {this.state.paidRent ? (
-                    <p>Rent Paid on {this.state.rent_pay_date}</p>
-                ): (<Link to = '/payment'>Pay Rent</Link>)}
-                
                 <p>Occupants</p>
                 {occupant_data}
                     <Link to='/yourComplains'>Your Complains </Link>
@@ -143,25 +144,13 @@ class YourRoom extends Component {
                  
                  <div class="card">
                 <div class="title">Regulations</div>  
-                     
+                    {this.state.paidRent ? (
+                        <p>Rent Paid on {this.state.rent_pay_date}</p>
+                    ) : (<Link to='/payment'><span className="exploreButton1">View Transaction History </span></Link>)}
+
                 </div>
-
+                <Link to='/yourComplains'><span className="exploreButton1">Your Complains </span></Link>
                 {occupant_data}
-        <div class="usercard">
-         <div class="user-name">		 
-          
-         <h5>Abhiram Maddipudi</h5> 
-        
-           </div>
-		<h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
-        <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
-		<h6>Hobbies</h6>
-		<p class="hobbies">
-			playing cricket ,badminton,watching animes
-		</p>
-	
-	           </div>
-
                 
             </div>
 
@@ -169,7 +158,8 @@ class YourRoom extends Component {
         return (
             <div>
                         {room_data}
-                        <div style={{marginLeft:"10%"}}>
+                        <div style={{marginLeft:"10%",marginTop:"20%"}}>
+                          {/* <a href="/reviewPastRoom">click here</a> */}
                           <Link to='/reviewPastRoom'><span className="exploreButton1">Review Past Room </span></Link>
                           </div>
             </div>

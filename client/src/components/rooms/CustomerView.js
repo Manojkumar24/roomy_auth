@@ -119,9 +119,8 @@ class CustomerView extends Component {
                     <Link to={'/viewUserReview/'+person.user}>
                     <div class="usercard">
                         <div class="user-name">
-                            <button class="btn"><i class="fa fa-check-circle"></i> Rent Paid</button>
-                            <button class="btn"> Due <span>&#8377; 10000</span></button>
-                            <h5>{person.name}</h5>
+                            
+                            <h5> <i style={{marginLeft:"5px",marginRight:"10px"}} class="fa fa-user"  aria-hidden="true"></i>{person.name}</h5>
 
                         </div>
                         <h6 style={{ fontStyle: "italic" }}>{person.profession ? (
@@ -134,7 +133,7 @@ class CustomerView extends Component {
                             </div>
                         )} </h6>
                         <h6> <i style={{ marginLeft: "30px", marginRight: "10px" }} class="fa fa-envelope" aria-hidden="true"></i>{person.email}</h6>
-                        {person.hobbies ? (
+                        {person.hobbies && person.hobbies.hobbies1? (
                             <div>
                                 <h6>Hobbies</h6>
                                 <p class="hobbies">
@@ -143,7 +142,8 @@ class CustomerView extends Component {
                             </div>
                             ) : (
                             <div>
-                                    <p>No hobbies added</p>
+                                     <h6>Hobbies</h6>
+                                    <p class="hobbies">No hobbies added</p>
                             </div>
                         )}
                         
@@ -153,7 +153,7 @@ class CustomerView extends Component {
                 )
             })
         ) : (
-                <p>There are currently no occupants</p>
+                <p style={{marginLeft:"5%"}}>There are currently no occupants</p>
             )
         return (
 
@@ -203,13 +203,13 @@ class CustomerView extends Component {
                 </div>
 
 
-                <div class="card">
-                    <div class="title">Regulations</div>
-
+                <div class="card" >
+                    <div class="title">Tenants Details</div>
+                    {occupant_data}
                 </div>
-
-                {occupant_data}
-        <div class="usercard">
+                
+               
+        {/* <div class="usercard">
          <div class="user-name">		 
           
          <h5>Abhiram Maddipudi</h5> 
@@ -222,7 +222,7 @@ class CustomerView extends Component {
 			playing cricket ,badminton,watching animes
 		</p>
 	
-	           </div>
+	           </div> */}
                
                 {this.state.interested ? (
                     <form onSubmit={this.markUnInterested}>
@@ -233,9 +233,10 @@ class CustomerView extends Component {
                             <input type='submit' className='btn btn-primary' value='Mark as Interested' />
                         </form>
                     )}
-
+            <br></br>
                 <Link to={"/viewRoomReview/" + this.props.match.params.room_id}>
                     <button className="exploreButton">View Reviews</button></Link>
+                    
             </div>
 
             
