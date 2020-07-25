@@ -64,5 +64,45 @@
   .edit-profile{
     width:150%;
     margin-right:25%;
+    
   }
   
+
+  .exploreButton1
+    {
+      
+      padding: 1%;
+      font-size: 15px;
+      background:transparent;
+      border:2px solid rgb(16, 77, 116);
+      color:rgb(16, 77, 116);
+    }
+    .exploreButton1:hover
+    {
+     
+     padding: 1%;
+      font-size: 15px;
+      background:rgb(16, 77, 116);
+      border:2px solid rgb(16, 77, 116);
+      color:#fff;
+    }
+    .review-room{
+      width:90%;
+    align-content: center;
+    padding-right: 20%;
+    flex-wrap: wrap;
+   
+      position: absolute;
+    top: 10%;
+    }
+    .bg-img{
+      background-image: url("https://i.pinimg.com/originals/c6/60/24/c66024ea79527d9bbafe79ed171558b9.jpg"); 
+       background-position: center;
+       background-repeat: no-repeat;
+    
+       filter: blur(4px);
+       background-size: cover;
+       position: absolute;
+       width: 100%;
+       height: 200%;
+    }

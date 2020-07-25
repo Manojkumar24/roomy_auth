@@ -79,7 +79,7 @@ class PostRoomThree extends Component{
                                     <span class="span">Not sure</span>
                                 </label>
                         </div>
-                        <hr></hr>
+                       
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Early Bird<br></br></span>
                                 <label>    
@@ -96,7 +96,7 @@ class PostRoomThree extends Component{
                             </label>
                             
                         </div>
-                        <hr></hr>
+                       
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Night Owl<br></br> </span>
                                 <label>
@@ -112,7 +112,7 @@ class PostRoomThree extends Component{
                                     <span class="span">Not sure</span>
                                 </label>
                         </div>
-                        <hr></hr>
+                       
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Pets <br></br></span>
                                 <label>
@@ -140,7 +140,7 @@ class PostRoomThree extends Component{
                                 <span class="span">Not sure</span>
                             </label>
                         </div>
-                        <hr></hr>
+                      
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Vegetarian<br></br> </span>
                             <label>
@@ -156,7 +156,7 @@ class PostRoomThree extends Component{
                                 <span class="span">Not sure</span>
                             </label>
                         </div>
-                        <hr></hr>
+                       
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Furnished<br></br> </span>
                             <label>
@@ -172,7 +172,7 @@ class PostRoomThree extends Component{
                                 <span >Not Furnished</span>
                             </label>
                         </div>
-                        <hr></hr>
+                      
                         <div onChange={this.handleChange.bind(this)}>
                             <span class="tag">Wifi<br></br> </span>
                             <label>
@@ -184,7 +184,7 @@ class PostRoomThree extends Component{
                                 <span  class="span">No</span>
                             </label>
                         </div>
-                        <hr></hr>
+                      
                         <div onChange={this.handleChange.bind(this)}>
                             <span>Parking<br></br> </span>
                             <label>

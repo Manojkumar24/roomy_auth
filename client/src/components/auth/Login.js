@@ -30,9 +30,12 @@
 
     return (
       <Fragment>
+
+      <div >
+      <div class="bg-img"></div>
         <div class="login">
         
-        <h1 className='large text-primary'>Sign In</h1>
+        <h1 className='large text-primary' style={{color:"white"}}>Sign In</h1>
         <div className='myborder'>
             <div className="subhead">
             <p className='lead'>
@@ -40,8 +43,9 @@
             </p>
             </div>
             <div>  </div>
-            <form className='form' onSubmit={e => onSubmit(e)}>
-              <div className='form-group'>
+            <form className='' onSubmit={e => onSubmit(e)}>
+              <div className=''>
+                <span>Email Address</span>
                 <input
                   type='email'
                   placeholder='Email Address'
@@ -51,7 +55,8 @@
                   required
                 />
               </div>
-              <div className='form-group'>
+              <div className=''>
+              <span>Password</span>
                 <input
                   type='password'
                   placeholder='Password'
@@ -61,17 +66,19 @@
                   onChange={e => onChange(e)}
                 />
               </div>
-              <input type='submit' className='btn btn-primary' value='Login' />
+              <input style={{backgroundColor:"rgb(16, 77, 116)",color:"white",width:"150px",height:"40px"}} type='submit'  value='Login' />
             </form>
             
             <p className='my-1'>
               Donot have an account? <Link to='/register'>Sign Up</Link>
             </p>
-            </div> 
             <p className='my-2'>
             <Link to='/fg_mail'>Forgot your password? </Link>
             </p>
+            </div> 
+           
 
+            </div>
             </div>
       </Fragment>
     );

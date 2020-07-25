@@ -209,7 +209,21 @@ class CustomerView extends Component {
                 </div>
 
                 {occupant_data}
-
+        <div class="usercard">
+         <div class="user-name">		 
+          
+         <h5>Abhiram Maddipudi</h5> 
+        
+           </div>
+		<h6 style={{fontStyle: "italic"}}> CSE Grad | software developer </h6>
+        <h6> <i style={{marginLeft:"30px",marginRight:"10px"}} class="fa fa-envelope"  aria-hidden="true"></i>abhiram@gmail.com</h6>
+		<h6>Hobbies</h6>
+		<p class="hobbies">
+			playing cricket ,badminton,watching animes
+		</p>
+	
+	           </div>
+               
                 {this.state.interested ? (
                     <form onSubmit={this.markUnInterested}>
                         <input type='submit' className='btn btn-primary' value='Mark as Uninterested' />
@@ -220,7 +234,8 @@ class CustomerView extends Component {
                         </form>
                     )}
 
-                <Link to={"/viewRoomReview/" + this.props.match.params.room_id}>View Reviews</Link>
+                <Link to={"/viewRoomReview/" + this.props.match.params.room_id}>
+                    <button className="exploreButton">View Reviews</button></Link>
             </div>
 
             

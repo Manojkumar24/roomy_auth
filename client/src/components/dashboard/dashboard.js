@@ -39,9 +39,9 @@ class dashboard extends Component {
 }
 
 handleSubmit =(event)=>{
-  // event.preventDefault()
+   //event.preventDefault()
   let form_data = {}
-  console.log(this.state.pincode,this.state.pincode.length);
+  //console.log(this.state.pincode,this.state.pincode.length);
   
     if (this.state.pincode && (this.state.pincode > 999999 || this.state.pincode < 111111)){
       window.alert('Enter a valid pincode of 6 digits!')
@@ -201,6 +201,7 @@ handleChangeiswifi = (value) => {
   }
   render(){
     let { auth: { user } }= this.props; 
+    
     if(user){
     localStorage.setItem("user_name",user.name)
     }
@@ -220,7 +221,7 @@ handleChangeiswifi = (value) => {
           // console.log(this.state.rooms);
           
           return (
-            <div class="room-list" style={{width:"45%",backgroundColor:"green"}}>
+            <div class="room-list" style={{width:"45%"}}>
               <Link to={'/userRoomView/' + room._id}>
               <RoomCard room={room} owner={this.state.rooms.user} />
               </Link>
@@ -230,18 +231,21 @@ handleChangeiswifi = (value) => {
       )
     ) : (<Redirect to='/dashboard' />)
     return (
-      
-      <div class="dashboard">
-        <div class="containerOne">
-      { data }
-        {/* <div style={{width:"45%",backgroundColor:"green"}}>hi</div>
-        <div style={{width:"45%",backgroundColor:"red"}}>hi</div> */}
-      </div>
+      <div>
+      <div class="bg-img">    </div>  <div class="dashboard">
+        { user? ( user.isOwner)?
+        <div class="containerOne" style={{marginLeft:"15%"}}>
+      { data }  </div> :
+       <div class="containerOne" >
+       { data }  </div> :
+       <span></span> }
+     
         { user? ( user.isOwner)? <a></a> :
         <div class="filter">
         <form onSubmit={this.handleSubmit}>
+        
         <div class="submit">
-          
+                <button class="button button1" type="submit">Apply & Save Preferences </button> 
         </div>
 
         <div class="address">
@@ -256,7 +260,7 @@ handleChangeiswifi = (value) => {
 
           </div>
           </div>
-          <hr></hr>
+        
         <div className='slider-horizontal'>
 
 
@@ -422,13 +426,11 @@ handleChangeiswifi = (value) => {
                           </label>
                       </div>
 
-                        <div class="submit">
-                <button class="button button1" type="submit">Apply & Save Preferences </button> 
-        </div>
          </form>
         </div> :<span></span> }
       
-      
+        </div>
+
       </div>
       
     )

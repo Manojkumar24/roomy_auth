@@ -515,7 +515,7 @@ router.get("/markUnInterested/:id", auth, async (req, res) => {
 
 
 router.post("/filters", auth, async (req, res) => {
-    console.log(req.body);
+    console.log("fdfgjhkhkkhkh",req.body);
     try {
         let preferences = await Preferences.findOne({user:req.user.id});
         if(preferences){

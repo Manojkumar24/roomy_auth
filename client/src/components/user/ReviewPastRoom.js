@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom'
+import './Review.css';
 
 class ReviewPastRoom extends Component {
     state = {
@@ -113,28 +114,36 @@ class ReviewPastRoom extends Component {
             <p> No room mates </p>
         )
         return (
-            <div>
-                Your Review
+            <div class="review-room">
+               <h3 style={{color:"rgb(16, 77, 116)"}}> Your Review </h3>
+                <div className='myborder'>
+                <div class="subhead">
+                    <p class='lead'>
+                    <i className='fas fa-comments-o'></i>Review Room Details
+                    </p>
+                </div>
                 <form onSubmit={this.reviewRoom}>
-                    <label>Furnished</label>
+                    <span>Furnished</span>
                     <input type="text" name="furnished" placeholder="furnished" value={this.state.furnished} onChange={this.handleChange} />
 
-                    <label>Wifi</label>
+                    <span>Wifi</span>
                     <input type="text" name="wifi" placeholder="wifi" value={this.state.wifi} onChange={this.handleChange} />
 
-                    <label>Parking</label>
+                    <span>Parking</span>
                     <input type="text" name="parking" placeholder="parking" value={this.state.parking} onChange={this.handleChange} />
 
-                    <label>Owner</label>
+                    <span>Owner</span>
                     <input type="text" name="owner" placeholder="owner" value={this.state.owner} onChange={this.handleChange} />
 
-                    <label>Your Comments</label>
+                    <span>Your Comments</span>
                     <input type="text" name="review_text" placeholder="write your comments" value={this.state.review_text} onChange={this.handleChange} />
-
-                    <input type="submit" value="Submit" />
+                   <div>
+                    <input  class="exploreButton" type="submit" value="Submit" />
+                    </div>
                 </form>
                 {roommate_data}
             </div>
+           </div> 
         )
     }
 }

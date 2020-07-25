@@ -1,3 +1,14 @@
+.bg-img{
+    background-image: url("https://i.pinimg.com/originals/c6/60/24/c66024ea79527d9bbafe79ed171558b9.jpg"); 
+     background-position: center;
+     background-repeat: no-repeat;
+  
+     filter: blur(4px);
+     background-size: cover;
+     position: absolute;
+     width: 100%;
+     height: 200%;
+  }
 .itemDisplayDetailLines
 {
   height: 70px;
@@ -97,6 +108,7 @@
 
 
 .usercard{
+    margin: 2%;
     flex-direction: row;padding: 2%;
     width: 350px;
     border-width: 2px;
@@ -104,4 +116,21 @@
     border-color:black;
     flex-wrap: wrap;
 }
-.h3{}
+
+
+    .exploreButton
+    {
+      font-size: 20px;
+        width:170px;
+      height: 45px;
+      
+    }
+    .exploreButton:hover
+    {
+      
+      width:150px;
+      height: 45px;
+      background:rgb(16, 77, 116);
+      border:2px solid rgb(16, 77, 116);
+      color:#fff;
+    }

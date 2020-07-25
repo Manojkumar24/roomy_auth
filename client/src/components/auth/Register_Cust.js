@@ -31,8 +31,10 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
   }
   return (
     <Fragment className="bg-mypale">
-      
-        <h1 className='large text-primary'>Customer Sign Up</h1>
+      <div >
+      <div class="bg-img"></div>
+       <div class="register">
+        <h1 className='large text-primary' style={{color:"white"}}>Customer Sign Up</h1>
       
       <div className='myborder'>
         <div className="subhead">
@@ -42,8 +44,9 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
             
           </p>
           </div>
-          <form className='form' onSubmit={e => onSubmit(e)}>
-            <div className='form-group'>
+          <form className='' onSubmit={e => onSubmit(e)}>
+            <div className=''>
+            <span>User Name</span>
               <input
                 type='text'
                 placeholder='Name'
@@ -52,7 +55,8 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
                 onChange={e => onChange(e)}
               />
             </div>
-            <div className='form-group'>
+            <div className=''>
+            <span>Email Address</span>
               <input
                 type='email'
                 placeholder='Email Address'
@@ -61,7 +65,8 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
                 onChange={e => onChange(e)}
               />
             </div>
-            <div className='form-group'>
+            <div className=''>
+              <span>Password</span>
               <input
                 type='password'
                 placeholder='Password'
@@ -70,7 +75,8 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
                 onChange={e => onChange(e)}
               />
             </div>
-            <div className='form-group'>
+            <div className=''>
+              <span>Confirm Password</span>
               <input
                 type='password'
                 placeholder='Confirm Password'
@@ -81,10 +87,13 @@ const Register_Cust = ({ setAlert, register_cust, isAuthenticated }) => {
             </div>
             <input type='submit' className='btn btn-primary' value='Customer Register' />
           </form>
-        </div>
-      <p className='my-1'>
+          <p className='my-1'>
         Already have an account? <Link to='/login_cust'>Sign In</Link>
       </p>
+        </div>
+      
+      </div>
+      </div>
     </Fragment>
   );
 };

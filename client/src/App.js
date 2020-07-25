@@ -60,9 +60,9 @@ const App = () => {
           <Navbar />
           
           <Route exact path='/' component={Landing} />
-          <section>
+          <section >
             <Alert />
-            <Switch>
+            <Switch >
               
               <Route exact path="/home" component={Landing} />
               <Route exact path="/details/1" component={PostRoomOne} />
@@ -94,12 +94,14 @@ const App = () => {
 
               {/* <PrivateRoute exact path='/profile' component={Profile} /> */}
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              
+             
               <PrivateRoute exact path='/empty' component={Dashboard} />
               <PrivateRoute exact path='/posts' component={Posts} />
             
             </Switch>
             </section>
-          <section className="container">
+          <section >
             <PrivateRoute exact path='/profile' component={Profile} />
           </section>
         </Fragment>
